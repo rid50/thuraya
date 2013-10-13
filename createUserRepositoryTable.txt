@@ -1,0 +1,29 @@
+USE mewdesigncomps;
+DROP TABLE IF EXISTS userRepository;
+CREATE TABLE userRepository (
+loginName VARCHAR(32) PRIMARY KEY NOT NULL,
+password VARCHAR(64) NOT NULL,
+upn TEXT NOT NULL,
+displayName TEXT NOT NULL
+);
+
+INSERT INTO userRepository VALUES ('abdalla', 'abdalla', 'abdalla@mewj.gov.kw', 'Abdalla Masri');
+INSERT INTO userRepository VALUES ('ahmed', 'ahmed', 'ahmed@mewj.gov.kw', 'Ahmed Al-Atheri');
+INSERT INTO userRepository VALUES ('ali', 'ali', 'ali@mewj.gov.kw', 'Ali Al-Ghanem');
+INSERT INTO userRepository VALUES ('amr', 'amr', 'amr@mewj.gov.kw', 'Amr Maken');
+INSERT INTO userRepository VALUES ('awatef', 'awatef', 'awatef@mewj.gov.kw', 'Awatef Al-Ali');
+INSERT INTO userRepository VALUES ('bader', 'bader', 'bader@mewj.gov.kw', 'Bader Al-Anazi');
+INSERT INTO userRepository VALUES ('bashar', 'bashar', 'bashar@mewj.gov.kw', 'Bashar Atout');
+INSERT INTO userRepository VALUES ('basma', 'basma', 'basma@mewj.gov.kw', 'Basma Atia');
+INSERT INTO userRepository VALUES ('hesham', 'hesham', 'hesham@mewj.gov.kw', 'Hesham Al-Nouri');
+INSERT INTO userRepository VALUES ('hosam', 'hosam', 'hosam@mewj.gov.kw', 'Hosam Kayali');
+INSERT INTO userRepository VALUES ('husain', 'husain', 'husain@mewj.gov.kw', 'Husain Mairza');
+INSERT INTO userRepository VALUES ('jkmutlaq', 'jkmutlaq', 'jkmutlaq@mewj.gov.kw', 'Jasem Mutlaq');
+INSERT INTO userRepository VALUES ('mansour', 'mansour', 'mansour@mewj.gov.kw', 'Mansour Al-Methen');
+INSERT INTO userRepository VALUES ('maalhaider', 'maalhaider', 'maalhaider@mewj.gov.kw', 'Muneerah Alhaider');
+INSERT INTO userRepository VALUES ('mnsarhan', 'mnsarhan', 'mnsarhan@mewj.gov.kw', 'Mohammed Sharhan');
+INSERT INTO userRepository VALUES ('ridavidenko', 'ridavidenko', 'ridavidenko@mewj.gov.kw', 'Roman Davidenko');
+INSERT INTO userRepository VALUES ('roman', 'roman', 'roman@mewj.gov.kw', 'Roman');
+INSERT INTO userRepository VALUES ('tamalallah', 'tamalallah', 'tamalallah@mewj.gov.kw', 'Talal Malallah');
+INSERT INTO userRepository VALUES ('zjaljadi', 'zjaljadi', 'zjaljadi@mewj.gov.kw', 'Zahraa Aljadi');
+INSERT INTO userRepository VALUES ('zkalbannay', 'zkalbannay', 'zkalbannay@mewj.gov.kw', 'Zainab Albannay');
