@@ -1,0 +1,72 @@
+<department superuser="roman,ridavidenko,maalhaider,zjaljadi,jkmutlaq,tamalallah">
+ <sections>
+  <section id="0" name="Follow up" arName="متابعة">
+   <managers>
+    <manager name="ali">
+    </manager>
+    <manager name="ahmed">
+     <employee>masri</employee>
+     <employee>amr</employee>
+     <employee>abdalla</employee>
+    </manager>
+   </managers>
+  </section>
+  <section id="1" name="AC" arName="تكييف الهواء">
+   <managers>
+    <manager name="bader">
+     <employee>basma</employee>
+    </manager>
+   </managers>
+  </section>
+  <section id="2" name="Electricity" arName="كهرباء">
+   <managers>
+    <manager name="hesham">
+     <employee>husain</employee>
+     <employee>hosam</employee>
+    </manager>
+   </managers>
+  </section>
+  <section id="3" name="Check up" arName="فحص">
+   <managers>
+    <manager name="jkmutlaq">
+    </manager>
+    <manager name="tamalallah">
+    </manager>
+    <manager name="zjaljadi">
+    </manager>
+    <manager name="maalhaider">
+    </manager>
+    <manager name="roman">
+    </manager>
+    <manager name="mnsarhan">
+    </manager>
+    <manager name="ridavidenko">
+    </manager>
+   </managers>
+  </section>
+ </sections>
+ <employees>
+  <employee>abdalla</employee>
+  <employee>ahmed</employee>
+  <employee>amr</employee>
+  <employee>awatef</employee>
+  <employee>bader</employee>
+  <employee>bashar</employee>
+  <employee>basma</employee>
+  <employee>hesham</employee>
+  <employee>husain</employee>
+  <employee>hosam</employee>
+  <employee>mansour</employee>
+  <employee>masri</employee>
+  <employee>ridavidenko</employee>
+  <employee>roman</employee>
+  <employee>tamalallah</employee>
+  <employee>zjaljadi</employee>
+  <employee>nina</employee>
+  <employee>maalhaider</employee>
+  <employee>zkalbannay</employee>
+  <employee>mnsarhan</employee>
+  <employee>ali</employee>
+  <employee>jkmutlaq</employee>
+ </employees>
+</department>
