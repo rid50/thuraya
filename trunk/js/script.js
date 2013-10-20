@@ -1403,17 +1403,18 @@ function applyButtonBorderStyle(itemTemplate) {
 				itemTemplate.find("a:nth-of-type(3)").addClass("approveButton");			//approve button
 			} else {
 				if (itemTemplate.data('empId') != null) {
-					itemTemplate.find("a:nth-of-type(1)").addClass("revokeButton");				//revoke button
+					itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");				//revoke button
 				
 					userInfo.some(function(o) {
 						if (itemTemplate.data('empId') == o.loginName) {
-							itemTemplate.find("a:nth-of-type(1)").text(o.displayName);
+							itemTemplate.find("a:nth-of-type(4)").text(o.displayName);
 							return true;
 						}
 					})
 				
-					itemTemplate.find("a:nth-of-type(1)").css("display", "block");
-					itemTemplate.find("a:nth-of-type(1)").button({ icons: { primary: 'ui-icon-close'} });
+					itemTemplate.find("a:nth-of-type(4)").css("display", "block");
+					itemTemplate.find("a:nth-of-type(4)").button({ icons: { primary: 'ui-icon-close'} });
+					//itemTemplate.find("a:nth-of-type(1)").button({ height: '24px' });
 				} else {
 					itemTemplate.find("a:nth-of-type(2)").addClass("approveButton");			//approve button
 				//if (sectionId != sectionId_enum.followup)
@@ -1604,7 +1605,9 @@ this.commentDialog = function(that, action) {
 			'</div></fieldset>';
 			*/
 		}
-		html += '<textarea name="comment" id="comment" style="width:500px;" rows="4" class="text ui-widget-content ui-corner-all" ></textarea>';
+		
+		if (!(sectionId != sectionId_enum.followup && actor == actor_enum.manager))
+			html += '<textarea name="comment" id="comment" style="width:500px;" rows="4" class="text ui-widget-content ui-corner-all" ></textarea>';
 	}
 
 	var form = $("#dialog-form-comments");
@@ -1614,10 +1617,11 @@ this.commentDialog = function(that, action) {
     form.dialog({
         title:jQuery.i18n.prop('Comment'),
 		dialogClass: "no-close",
-        height: 640,
+        height: "auto", //640,
         width: 600,
         modal: true,
 		autoOpen: true,
+		resizable: false,
 /*		
         buttons: { 
 			Ok: function() {
@@ -1639,6 +1643,7 @@ this.commentDialog = function(that, action) {
 */		
 		open: function( event, ui ) {
 			$("#radio").buttonset();
+			$("#comment").focus();
 			//this.firstChild.scrollTop = this.firstChild.scrollHeight;
 			//$('input:radio[name=radiogroup]:nth(' + (checked_idx - 1) + ')').prop('checked',true);
 			//$('input:radio[name=radio]')[checked_idx - 1].checked = true;				
@@ -1711,24 +1716,25 @@ function revoke(docFileNumber) {
 }
 
 function approve_reject_revoke(docComment, docFileNumber, forwardTo, status) {
-	var currentComment;
-	var obj = $("#dialog-form-comments");
-	if (obj && obj.dialog( "isOpen" )) {
-		currentComment = obj.find('#comment').val();
-		obj.dialog('close');
-	//	alert(comment);
+	var currentComment = "";
+	
+	if (status != status_enum.revoke) {
+		var obj = $("#dialog-form-comments");
+		if (obj && obj.dialog( "isOpen" )) {
+			currentComment = obj.find('#comment').val();
+			obj.dialog('close');
+		//	alert(comment);
+		}
 	}
-
+	
 	//return;
-
-
 	//var selectTag = $(that).siblings('select');
 	
 	//var signature;
 	var dt = getDate();
 	//var signature = 'Approved \&nbsp;' + dt + ' by ' + userInfo[0].displayName;
 	var signature = dt + ' ' + userInfo[0].displayName;
-	if (approve)
+	if (status == status_enum.approve)
 		signature = 'Approved \&nbsp;' + dt + ' ' + userInfo[0].displayName;
 	else
 		signature = 'Rejected \&nbsp;' + dt + ' ' + userInfo[0].displayName;
