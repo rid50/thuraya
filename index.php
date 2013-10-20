@@ -239,6 +239,7 @@ if ($idp == "SAML") {
 			<a href="#" class="docButtons floatRight" title="Reject"></a>
 			<a href="#" class="docButtons floatRight" title="Approve"></a>
 			<a href="#" class="docButtons floatRight" title="Edit"></a>
+			<a href="#" class="docButtons floatRight tagButton" title="Revoke"></a>
 
 			<div class="customClear"></div>
 			<div class='docAddress floatLeft'>
@@ -251,6 +252,7 @@ if ($idp == "SAML") {
 				<div style="float:inherit;"><strong>PACI#:&nbsp;</strong></div>
 				<span/>
 			</div>
+
 		</div>
 	</li>
 </ul>		
