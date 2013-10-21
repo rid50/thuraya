@@ -1418,7 +1418,7 @@ function applyButtonBorderStyle(itemTemplate) {
 				} else {
 					itemTemplate.find("a:nth-of-type(2)").addClass("approveButton");			//approve button
 				//if (sectionId != sectionId_enum.followup)
-					itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");			//reject button
+					//itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");			//reject button
 				}
 			}
 		}
