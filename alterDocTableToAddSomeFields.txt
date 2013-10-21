@@ -1,0 +1,4 @@
+-- USE yarussor_ctc;
+USE mewdesigncomps;
+ALTER TABLE doc ADD sectionId TINYINT(1) NOT NULL DEFAULT 0 AFTER docComment;
+ALTER TABLE doc ADD employeeId VARCHAR(20) NULL DEFAULT NULL AFTER sectionId;
