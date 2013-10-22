@@ -14,7 +14,7 @@ CREATE TABLE `doc` (
 `docPACINumber` INT( 8 ),
 `docTitle` VARCHAR( 255 ) NOT NULL,
 `docComment` VARCHAR( 20000 ),
-`sectionId` TINYINT(1),
+`sectionId` TINYINT(1) DEFAULT 0,
 `employeeId` VARCHAR( 20 ),
 `time` TIMESTAMP
 );
