@@ -412,8 +412,8 @@ class DatabaseRepository {
 				$stDoc = $dbh->query("SELECT COUNT(*) FROM docHistory WHERE docFileNumber = $param[docFileNumber]");
 
 				//throw new Exception('Number of columns: ' . $stDoc->fetchColumn());
-				if($stDoc->fetchColumn() == 0 ||
-					($param[docFileNumber] == $param[originFileNumber] && $param["udateIfExists"] == true))
+				$udateIfExists = $param[docFileNumber] == $param[originFileNumber] && $param["udateIfExists"] == true;
+				if($stDoc->fetchColumn() == 0 || $udateIfExists)
 				{
 					if ($param[originFileNumber] == null) {
 						//$aa = " - In - ";
@@ -421,8 +421,12 @@ class DatabaseRepository {
 							VALUES (:docFileNumber, :docDate, :docApprover, :docArea, :docBlock, :docStreet, :docBuilding, :docPACINumber, :docTitle)";
 					} else {
 						//$aa = " - Up - ";
-						$st = "UPDATE doc SET docFileNumber=:docFileNumber, docDate=:docDate, docApprover=:docApprover, docArea=:docArea, docBlock=:docBlock, docStreet=:docStreet, docBuilding=:docBuilding, docPACINumber=:docPACINumber, docTitle=:docTitle
-							WHERE docFileNumber = $param[originFileNumber]";
+						if($udateIfExists)
+							$st = "UPDATE doc SET docFileNumber=:docFileNumber, docArea=:docArea, docBlock=:docBlock, docStreet=:docStreet, docBuilding=:docBuilding, docPACINumber=:docPACINumber, docTitle=:docTitle
+								WHERE docFileNumber = $param[originFileNumber]";
+						else
+							$st = "UPDATE doc SET docFileNumber=:docFileNumber, docDate=:docDate, docApprover=:docApprover, docArea=:docArea, docBlock=:docBlock, docStreet=:docStreet, docBuilding=:docBuilding, docPACINumber=:docPACINumber, docTitle=:docTitle
+								WHERE docFileNumber = $param[originFileNumber]";
 					}
 					
 					// $st = "INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle)
@@ -432,19 +436,32 @@ class DatabaseRepository {
 					
 					$stDoc = $dbh->prepare($st);
 					
-					$dt = date_create_from_format('d/m/Y', $param[docDate]);
+					if($udateIfExists) {
+						$ar = array(
+							'docFileNumber' => $param[docFileNumber],
+							'docArea' => $param[docArea],
+							'docBlock' => $param[docBlock],
+							'docStreet' => $param[docStreet],
+							'docBuilding' => $param[docBuilding],
+							'docPACINumber' => $param[docPACINumber],
+							'docTitle' => $param[docTitle],
+						);
+					} else {
+						$dt = date_create_from_format('d/m/Y', $param[docDate]);
+						$ar = array(
+							'docFileNumber' => $param[docFileNumber],
+							'docDate' => date_format($dt, "Y-m-d"),
+							'docApprover' => $param[docApprover],
+							'docArea' => $param[docArea],
+							'docBlock' => $param[docBlock],
+							'docStreet' => $param[docStreet],
+							'docBuilding' => $param[docBuilding],
+							'docPACINumber' => $param[docPACINumber],
+							'docTitle' => $param[docTitle],
+						);
+					}
 					
-					$stDoc->execute(array(
-						'docFileNumber' => $param[docFileNumber],
-						'docDate' => date_format($dt, "Y-m-d"),
-						'docApprover' => $param[docApprover],
-						'docArea' => $param[docArea],
-						'docBlock' => $param[docBlock],
-						'docStreet' => $param[docStreet],
-						'docBuilding' => $param[docBuilding],
-						'docPACINumber' => $param[docPACINumber],
-						'docTitle' => $param[docTitle],
-					));
+					$stDoc->execute($ar);
 				} else
 					throw new Exception("1003"); 	//"The document $param[docFileNumber] has been already approved, it cannot be modified"
 				
@@ -518,8 +535,7 @@ class DatabaseRepository {
 			$stDoc = $dbh->query("SELECT COUNT(*) FROM docHistory WHERE docFileNumber = $param[docFileNumber]");
 
 			//throw new Exception('Number of columns: ' . $stDoc->fetchColumn());
-			if($stDoc->fetchColumn() == 0 ||
-				($param[docFileNumber] == $param[originFileNumber] && $param["deleteIfExists"] == true)) {
+			if($stDoc->fetchColumn() == 0 || $param["deleteIfExists"] == true) {
 				$st = "DELETE FROM doc WHERE docFileNumber = $param[docFileNumber]";
 				$stDoc = $dbh->exec($st);
 			} else
