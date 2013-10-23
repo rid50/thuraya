@@ -2152,6 +2152,9 @@ function resetForm() {
 		$('#validateTips').html(jQuery.i18n.prop('ValidateTips'));
 		allFields.removeClass( "ui-state-error" );
 	}
+
+	$("#newForm").data('originFileNumber', null);
+	
 	//$(form.children("form").get())[0].reset();
 	//form.reset();
 	//form.find("#file_number").removeAttr("readonly");
@@ -2233,9 +2236,11 @@ $(function() {
 	});
 	
 	$(document).on("click", "#saveButton", function(){
-		saveForm(this);
-		$("#newForm").dialog('close');	//close is just to activate a "close" event
-		$("#newForm").dialog('destroy');
+		var newDoc = saveForm(this);
+		if (!newDoc) {
+			$("#newForm").dialog('close');	//close is just to activate a "close" event
+			$("#newForm").dialog('destroy');
+		}
 	});
 	
 	$(document).on("click", "#cancelButton", function(){
@@ -2518,7 +2523,7 @@ $(function() {
 			});
 			
 			if (errorFound) {
-				return;
+				return newDoc;
 			}
 			
 			//var xmlNode = $(rootDoc).find("doc>docFileNumber:contains('" + file_number.val() + "')");
@@ -2629,84 +2634,9 @@ $(function() {
 					rootDoc[0].docs.push({"doc": doc});
 				}
 			}
-/*
-			var url, data;
-			if (documentSource == "XML") {
-				url = "xml-write.php";
-				data = {'fileName': 'docs.xml', 'xml' : $.xml(rootDoc)};
-				//dataType = "text";
-			} else {
-				url = "json_db_crud_pdo.php";
-				data = {"func":"createUpdate",
-					"param":{
-						docFileNumber:file_number.val(),
-						docApprover:userInfo[0].displayName,
-						docDate:getDate(),
-						docArea:area.val(),
-						docBlock:block.val(),
-						docStreet:street.val(),
-						docBuilding: building.val(),
-						docPACINumber:paci_number.val(),
-						docTitle:title.val(),
-					}};
-				//dataType = "json";
-			}
-
-			var errorFound = false;
-			$.post(url, data)
-			.done(function(data){
-				//if (data.error) {
-				//	alert("Data: " + data + "\nStatus: " + status);
-				//}
-				if (data && data.constructor == Array) {
-					if (data[0].error != undefined) {
-						errorFound = true;
-						if (data[0].error == "1003")
-							alert(($.i18n.prop("ApprovedCannotBeModified")).format(file_number.val()));
-						else
-							alert(data[0].error);
-					}
-				} else {
-					var areas = $(rootAreas).find("areas");
-					if (areas.attr("dirty") == "yes") {
-						areas.removeAttr("dirty");
-						$.post("xml-write.php", {'fileName': 'areas.xml', 'xml' : $.xml(rootAreas)},
-						function(data, status){
-							if (data.error) {
-								errorFound = true;
-								alert("Data: " + data + "\nStatus: " + status);
-							}
-						}, "text");
-					}
-				}
-			})
-			.fail(function(jqXHR, textStatus, errorThrown) {
-				errorFound = true;
-				alert("saveDocs - error: " + errorThrown);
-			})
-			.always(function() {
-			});
-			
-			if (!errorFound) {
-			}
-*/			
-//			if (newDoc) {
-				//selectXmlNodes(status_enum.approve);
-/*
-				//var emailToVal = "ridavidenko@mewj.gov.kw";
-				var emailToVal = "rid50@hotmail.com";
-				//var emailFromVal = "ridavidenko@mewj.gov.kw";
-				var emailFromVal = "rdavidenko@gmail.com";
-				//var emailFromVal = "rid50@mail.ru";
-				var subjectVal = "Your attention is required (" + paci_number.val() + ")";
-				var messageVal = "You are assigned for an approval of the document N " + paci_number.val() + " ( http://mewdesigncomps )";
-				$.post("sendEmail.php",
-					{ emailTo: emailToVal, emailFrom: emailFromVal, subject: subjectVal, message: messageVal },
-					function(data){}
-				); 
-				//$( this ).dialog( "close" );
-*/				
-//			}
+			return newDoc;
+		} else {
+			return true;	// true - do not close dialog
 		}
 	}
 /*				
