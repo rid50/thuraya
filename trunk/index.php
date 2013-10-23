@@ -100,29 +100,33 @@ if ($idp == "SAML") {
 		<div class="customMiddleSide floatLeft ui-corner-all">
 			<div id="tabs" class="tabs-bottom">
 				<ul>
-					<li><a href="#tabs-0"></a></li>
-					<li><a href="#tabs-1"></a></li>
-					<li><a href="#tabs-2"></a></li>
-					<li><a href="#tabs-3"></a></li>
-					<li><a href="#tabs-4"><div id="newButtonTab"></div><span style="margin-left:20px"></span></a></li>
-					<li><a href="#tabs-5"><div id="newButtonTab"></div><span style="margin-left:20px"></span></a></li>
+					<li><a href="#tab-pending"></a></li>
+					<li><a href="#tab-inprocess"></a></li>
+					<li><a href="#tab-complete"></a></li>
+					<li><a href="#tab-rejected"></a></li>
+					<li><a href="#tab-edafat"></a></li>
+					<li><a href="#tab-edit"><div id="newButtonTab"></div><span style="margin-left:20px"></span></a></li>
+					<li><a href="#tab-users"></a></li>
 				</ul>
 				<div class="tabs-spacer"></div>
-				<div id="tabs-0">
+				<div id="tab-pending">
 					<ul id="docs"></ul>
 				</div>
-				<div id="tabs-1">
+				<div id="tab-inprocess">
 					<ul id="inProcessDocs"></ul>
 				</div>
-				<div id="tabs-2">
+				<div id="tab-complete">
 					<ul id="completeDocs"></ul>
 				</div>
-				<div id="tabs-3">
+				<div id="tab-rejected">
 					<ul id="rejectedDocs"></ul>
 				</div>
-				<div id="tabs-4">
+				<div id="tab-edafat">
+					<ul id="edafatDocs"></ul>
 				</div>
-				<div id="tabs-5">
+				<div id="tab-edit">
+				</div>
+				<div id="tab-users">
 				</div>
 			</div>
 		</div>
@@ -301,6 +305,7 @@ if ($idp == "SAML") {
 			<p><br/>
 				<button id="saveButton" title="Insert new or update document">Save</button>
 				<button id="resetButton" title="Set fields empty">Reset</button>
+				<button id="cancelButton" style="display:none" title="Cancel">Cancel</button>
 			</p>
 		</fieldset>
 	</form>

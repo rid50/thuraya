@@ -1,22 +1,24 @@
 <department superuser="roman,ridavidenko,maalhaider,zjaljadi,jkmutlaq,tamalallah">
  <sections>
-  <section name="Follow Up">
+  <section id="0" name="Follow up" arName="متابعة">
    <managers>
     <manager name="ali">
     </manager>
     <manager name="ahmed">
+     <employee>masri</employee>
+     <employee>amr</employee>
      <employee>abdalla</employee>
     </manager>
    </managers>
   </section>
-  <section name="AC">
+  <section id="1" name="AC" arName="تكييف الهواء">
    <managers>
     <manager name="bader">
      <employee>basma</employee>
     </manager>
    </managers>
   </section>
-  <section name="كهرباء">
+  <section id="2" name="Electricity" arName="كهرباء">
    <managers>
     <manager name="hesham">
      <employee>husain</employee>
@@ -24,7 +26,7 @@
     </manager>
    </managers>
   </section>
-  <section name="CheckUp">
+  <section id="3" name="Check up" arName="فحص">
    <managers>
     <manager name="jkmutlaq">
     </manager>

@@ -5,6 +5,7 @@
     <manager name="ali">
     </manager>
     <manager name="ahmed">
+     <employee>awatef</employee>
      <employee>masri</employee>
      <employee>amr</employee>
      <employee>abdalla</employee>
@@ -41,6 +42,12 @@
     <manager name="mnsarhan">
     </manager>
     <manager name="ridavidenko">
+    </manager>
+   </managers>
+  </section>
+  <section id="4" name="Edafat" arName="Edafat">
+   <managers>
+    <manager name="mansour">
     </manager>
    </managers>
   </section>
