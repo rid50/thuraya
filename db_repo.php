@@ -412,7 +412,8 @@ class DatabaseRepository {
 				$stDoc = $dbh->query("SELECT COUNT(*) FROM docHistory WHERE docFileNumber = $param[docFileNumber]");
 
 				//throw new Exception('Number of columns: ' . $stDoc->fetchColumn());
-				if($stDoc->fetchColumn() == 0)
+				if($stDoc->fetchColumn() == 0 ||
+					($param[docFileNumber] == $param[originFileNumber] && $param["udateIfExists"] == true))
 				{
 					if ($param[originFileNumber] == null) {
 						//$aa = " - In - ";
@@ -514,8 +515,15 @@ class DatabaseRepository {
 		$dbh = $this->connect();
 
 		try {
-			$st = "DELETE FROM doc WHERE docFileNumber = $param[docFileNumber]";
-			$stDoc = $dbh->exec($st);
+			$stDoc = $dbh->query("SELECT COUNT(*) FROM docHistory WHERE docFileNumber = $param[docFileNumber]");
+
+			//throw new Exception('Number of columns: ' . $stDoc->fetchColumn());
+			if($stDoc->fetchColumn() == 0 ||
+				($param[docFileNumber] == $param[originFileNumber] && $param["deleteIfExists"] == true)) {
+				$st = "DELETE FROM doc WHERE docFileNumber = $param[docFileNumber]";
+				$stDoc = $dbh->exec($st);
+			} else
+				throw new Exception("1003"); 	//"The document $param[docFileNumber] has been already approved, it cannot be deleted"
 		} catch (PDOException $e) {
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
 		}
