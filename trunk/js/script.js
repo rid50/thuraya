@@ -548,7 +548,7 @@ function getUserIdentities(url, json, func) {
 		contentType = "application/json; charset=utf-8";
 		url = "ASPNetWebService.asmx/" + url;
 		data = "{\"loginNames\":" + JSON.stringify(json) + "}";
-	} else {
+	} else if (idp == "SAML") {
 		//url = "get_user_attributes.php";
 		contentType = "application/x-www-form-urlencoded; charset=UTF-8";
 		//data = {loginNames:JSON.stringify(json)};
@@ -557,7 +557,11 @@ function getUserIdentities(url, json, func) {
 		data = {"func":"getUserAttributes",
 			"param":{loginNames:JSON.stringify(json)}
 		};
+	} else {
+		alert("Unknown user repository");
+		return;
 	}
+	
 	//url = "simpleSAMLSP.php";
 	//var type = "GET";
 	//var	data = "loginNames=" + JSON.stringify(json);
@@ -722,6 +726,8 @@ function getSearchFilter() {
 		secId = 12;
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.complete)	// complete
 		secId = 3;
+	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat)	// edafat
+		secId = 4;
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected)	// rejected
 		secId = -1;
 		
@@ -1389,30 +1395,17 @@ function applyButtonBorderStyle(itemTemplate) {
 	
 	
 	//if (actor == actor_enum.employee && actorSectionNumber == 0) {
-	if (actor == actor_enum.employee && sectionId == sectionId_enum.followup) {
-		itemTemplate.find("a:nth-of-type(3)").addClass("editButton");			//edit button
-		itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");			//reject button
-	} else if (actor == actor_enum.employee && sectionId != sectionId_enum.followup) {
-		itemTemplate.find("a:nth-of-type(2)").addClass("approveButton");		//approve button
-		itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");			//reject button
+	if (actor == actor_enum.employee) {
+		if (sectionId == sectionId_enum.followup) {
+			itemTemplate.find("a:nth-of-type(3)").addClass("editButton");			//edit button
+			itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");			//reject button
+		} else if (sectionId == sectionId_enum.ac || sectionId == sectionId_enum.electricity) {
+			itemTemplate.find("a:nth-of-type(2)").addClass("approveButton");		//approve button
+			itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");			//reject button
+		}
 	} else {
 		if (actor == actor_enum.manager) {
-			//if (actorSectionNumber == 3 || actorSectionNumber == 0 && $("#tabs").tabs( "option", "active" ) != 0)
-			if (sectionId == sectionId_enum.checkup ||
-				sectionId == sectionId_enum.followup && $("#tabs").tabs( "option", "active" ) == activeTab_enum.complete) //complete
-			{
-				var a_tag;
-				if ($("body[dir='ltr']").length) {
-					a_tag = $('<a href="#" class="docPrintAnchor floatRight">' + jQuery.i18n.prop('Print') + '</a>');
-					a2_tag = $('<a href="#" class="docCommentAnchor floatRight">' + jQuery.i18n.prop('Comment') + '</a>');
-				} else {
-					a_tag = $('<a href="#" class="docPrintAnchor floatLeft">' + jQuery.i18n.prop('Print') + '</a>');
-					a2_tag = $('<a href="#" class="docCommentAnchor floatLeft">' + jQuery.i18n.prop('Comment') + '</a>');
-				}
-				
-				itemTemplate.find(".docDetailDiv").prepend(a2_tag);
-				itemTemplate.find(".docDetailDiv").prepend(a_tag);
-			} else if (sectionId == sectionId_enum.followup) {
+			if (sectionId == sectionId_enum.followup) {
 				if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.pending || 
 					$("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected ) {
 					itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");				//reject button
@@ -1420,6 +1413,7 @@ function applyButtonBorderStyle(itemTemplate) {
 					itemTemplate.find("a:nth-of-type(3)").addClass("approveButton");			//approve button
 				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess) {
 					if (itemTemplate.data('empId') != null) {
+						//itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");				//revoke button
 					
 						userInfo.some(function(o) {
 							if (itemTemplate.data('empId') == o.loginName) {
@@ -1431,11 +1425,18 @@ function applyButtonBorderStyle(itemTemplate) {
 						itemTemplate.find("a:nth-of-type(4)").css("display", "block");
 						itemTemplate.find("a:nth-of-type(4)").button({ icons: { primary: 'ui-icon-person'} });
 						itemTemplate.find("a:nth-of-type(4)").button({ disabled: 'true' });
-					} else {
-						itemTemplate.find("a:nth-of-type(2)").addClass("approveButton");			//approve button
+						itemTemplate.find("a:nth-of-type(4)").css({ bottom: '6px' });
+						itemTemplate.find("a:nth-of-type(4)").css({ color: 'black' });
 					}
+					setPrintCommentLinks(itemTemplate);
+				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.complete) {
+						setPrintCommentLinks(itemTemplate);
+				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat) {
+						setPrintCommentLinks(itemTemplate);
 				}
-			} else {
+			} else if (sectionId == sectionId_enum.checkup) {
+				setPrintCommentLinks(itemTemplate);
+			} else if (sectionId == sectionId_enum.ac || sectionId == sectionId_enum.electricity) {
 				if (itemTemplate.data('empId') != null) {
 					itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");				//revoke button
 				
@@ -1450,15 +1451,33 @@ function applyButtonBorderStyle(itemTemplate) {
 					itemTemplate.find("a:nth-of-type(4)").button({ icons: { primary: 'ui-icon-close'} });
 				} else {
 					itemTemplate.find("a:nth-of-type(2)").addClass("approveButton");			//approve button
-				//if (sectionId != sectionId_enum.followup)
-					//itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");			//reject button
 				}
 			}
 		}
 	}
 }
 
+function setPrintCommentLinks(itemTemplate) {
+	var a_tag, a2_tag;
+	if ($("body[dir='ltr']").length) {
+		a_tag = $('<a href="#" class="docPrintAnchor floatRight">' + jQuery.i18n.prop('Print') + '</a>');
+		a2_tag = $('<a href="#" class="docCommentAnchor floatRight">' + jQuery.i18n.prop('Comment') + '</a>');
+	} else {
+		a_tag = $('<a href="#" class="docPrintAnchor floatLeft">' + jQuery.i18n.prop('Print') + '</a>');
+		a2_tag = $('<a href="#" class="docCommentAnchor floatLeft">' + jQuery.i18n.prop('Comment') + '</a>');
+	}
+	
+	itemTemplate.find(".docDetailDiv").prepend(a2_tag);
+	itemTemplate.find(".docDetailDiv").prepend(a_tag);
+}
+
 $(document).on("click", ".revokeButton", function(e, data) {
+	//if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess) {
+	//	e.preventDefault();
+	//	e.stopPropagation();
+	//	return;
+	//}
+	
 	var fn = $(this).closest("div").find(".docFileNumber span").text();
 	revoke(fn);
 })
@@ -1511,7 +1530,7 @@ function deleteDocument(fileNumber) {
 			if (data && data.constructor == Array) {
 				if (data[0].error != undefined) {
 					if (data[0].error == "1003")
-						alert(($.i18n.prop("ApprovedCannotBeDeleted")).format(file_number.val()));
+						alert(($.i18n.prop("ApprovedCannotBeDeleted")).format(fileNumber));
 					else
 						alert(data[0].error);
 				}
@@ -2507,15 +2526,17 @@ $(function() {
 				//var itemList = $("#newForm").data("currentItem");			// current doc context
 
 				var item = $('#docs').find(".docFileNumber:contains('" + file_number.val() + "')").parent();
-				
-				var selTag = item.find('select');
-				//xmlNode.find("docHistory>docApprover").text();
-				//var nam = 'Submitted ' + getDate() + ' by ' + userInfo[0].displayName;
-				var nam = getDate() + ' ' + userInfo[0].displayName;
-				var html = '<option selected="selected" disabled="disabled" value="0">' + nam + '</option>';
-				selTag.children("option").remove();
-				selTag.append(html);
-				
+				/*
+				//if (udateIfExists == 0) {
+					var selTag = item.find('select');
+					//xmlNode.find("docHistory>docApprover").text();
+					//var nam = 'Submitted ' + getDate() + ' by ' + userInfo[0].displayName;
+					var nam = getDate() + ' ' + userInfo[0].displayName;
+					var html = '<option selected="selected" disabled="disabled" value="0">' + nam + '</option>';
+					selTag.children("option").remove();
+					selTag.append(html);
+				//}
+				*/
 				var address = area.val() + "; " + 
 						$.i18n.prop('Block') + ": " + block.val() + "; " + 
 						$.i18n.prop('Street') + ": " + street.val() + "; " + 
@@ -2526,10 +2547,12 @@ $(function() {
 			
 				if (rootDoc.constructor == XMLDocument) {
 					docNode = docNode.parent();
-					docNode.find("docHistory>docDate").text(getDate());
 					//xmlNode.find("docHistory>docApprover").text(userInfo[0].loginName);
 					docNode.children("docFileNumber").text(file_number.val());
-					docNode.find("docHistory>docApprover").text(userInfo[0].displayName);
+					if (udateIfExists == 0) {
+						docNode.find("docHistory>docDate").text(getDate());
+						docNode.find("docHistory>docApprover").text(userInfo[0].displayName);
+					}
 					docNode.children("docArea").text(area.val());
 					docNode.children("docBlock").text(block.val());
 					docNode.children("docStreet").text(street.val());
@@ -2538,9 +2561,10 @@ $(function() {
 					docNode.children("docTitle").text(title.val());
 					selectXmlNodes();
 				} else {
-					var o = [{"docDate": getDate(), "docApprover": userInfo[0].displayName}];
+					//var o = [{"docDate": getDate(), "docApprover": userInfo[0].displayName}];
+					if (udateIfExists == 0)
+						docNode.docHistory = [{"docDate": getDate(), "docApprover": userInfo[0].displayName}];
 					docNode.docFileNumber = file_number.val();
-					docNode.docHistory = o;
 					docNode.docArea = area.val();
 					docNode.docBlock = block.val();
 					docNode.docStreet = street.val();
