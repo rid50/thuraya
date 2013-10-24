@@ -195,8 +195,8 @@ class DatabaseRepository {
 					if ($param[filter][street] != null)
 						$where .= " AND doc.docStreet = '{$param[filter][street]}'";
 					if ($param[filter][sectionId] != null) {
-						if ($param[filter][sectionId] == 12)
-							$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2)";
+						if ($param[filter][sectionId] == 123)
+							$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2 OR doc.sectionId = 3)";
 						else
 							$where .= " AND doc.sectionId = '{$param[filter][sectionId]}'";
 					}

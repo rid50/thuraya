@@ -1,6 +1,6 @@
 <?php
 session_start();
-//require_once('c:/simplesaml/lib/_autoload.php');
+require_once('c:/simplesaml/lib/_autoload.php');
 //require_once('/home/yarussor/public_html/simplesamlphp/lib/_autoload.php');
 
 //$url = 'http://mewdesigncomps/index.html';
@@ -27,14 +27,17 @@ if ($idp == "SAML") {
     
 	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="favicon.ico" />
 
-	<link rel="stylesheet" media="all" href="themes/smoothness/jquery-ui-1.10.2.custom.min.css" />	
+	<!--link rel="stylesheet" media="all" href="themes/smoothness/jquery-ui-1.10.2.custom.min.css" /-->
+	<link rel="stylesheet" media="all" href="themes/smoothness/jquery-ui-1.10.3.custom.min.css" />	
     <link rel="stylesheet" media="screen" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" media="print" type="text/css" href="css/style.css"/>
-    <script src="js/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <!--script src="js/jquery-1.9.1.min.js" type="text/javascript"></script-->
+    <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="js/jquery.blockUI.js" type="text/javascript"></script>
     <script src="js/jquery.hotkeys.js" type="text/javascript"></script>
 	<script src="js/jquery.jstree.js" type="text/javascript"></script>
-	<script src="js/jquery-ui-1.10.2.custom.min.js" type="text/javascript"></script>
+	<!--script src="js/jquery-ui-1.10.2.custom.min.js" type="text/javascript"></script-->
+	<script src="js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
 	<script src="js/jquery.ui.datepicker-ar.js" type="text/javascript"></script>
 	<script src="js/jquery.i18n.properties-min-1.0.9.js" type="text/javascript"></script>
 	<script src="js/printThis.js" type="text/javascript"></script>
@@ -102,7 +105,7 @@ if ($idp == "SAML") {
 				<ul>
 					<li><a href="#tab-pending"></a></li>
 					<li><a href="#tab-inprocess"></a></li>
-					<li><a href="#tab-complete"></a></li>
+					<li><a href="#tab-checkup"></a></li>
 					<li><a href="#tab-rejected"></a></li>
 					<li><a href="#tab-edafat"></a></li>
 					<li><a href="#tab-edit"><div id="newButtonTab"></div><span style="margin-left:20px"></span></a></li>
@@ -115,8 +118,8 @@ if ($idp == "SAML") {
 				<div id="tab-inprocess">
 					<ul id="inProcessDocs"></ul>
 				</div>
-				<div id="tab-complete">
-					<ul id="completeDocs"></ul>
+				<div id="tab-checkup">
+					<ul id="checkupDocs"></ul>
 				</div>
 				<div id="tab-rejected">
 					<ul id="rejectedDocs"></ul>
@@ -240,10 +243,10 @@ if ($idp == "SAML") {
 
 			<select class="floatLeft"></select>
 
-			<a href="#" class="docButtons floatRight" title="Reject"></a>
-			<a href="#" class="docButtons floatRight" title="Approve"></a>
-			<a href="#" class="docButtons floatRight" title="Edit"></a>
-			<a href="#" class="docButtons floatRight tagButton" title="Revoke"></a>
+			<a href="#" class="docButtons floatRight"></a>
+			<a href="#" class="docButtons floatRight"></a>
+			<a href="#" class="docButtons floatRight"></a>
+			<a href="#" class="docButtons floatRight tagButton"></a>
 
 			<div class="customClear"></div>
 			<div class='docAddress floatLeft'>
