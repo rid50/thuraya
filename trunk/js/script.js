@@ -3,7 +3,7 @@ var status_enum = {
 	approve: "approve",
 	reject: "reject",
 	revoke: "revoke",
-	complete: "complete",
+	checkup: "checkup",
 	readonly: "readonly",
 	all: "all"
 };
@@ -24,7 +24,7 @@ var sectionId_enum = {
 var activeTab_enum = {
 	pending: 0,
 	inprocess: 1,
-	complete: 2,
+	checkup: 2,
 	rejected: 3,
 	edafat: 4,
 	edit: 5,
@@ -723,8 +723,8 @@ function getSearchFilter() {
 	var secId = sectionId, empId = null;
 	//if (rejected != undefined)
 	if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess)		// in process
-		secId = 12;
-	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.complete)	// complete
+		secId = 123;
+	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.checkup)	// checkup
 		secId = 3;
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat)	// edafat
 		secId = 4;
@@ -759,7 +759,7 @@ function initTabs() {
 
 		$("#tabs>ul>li").find('a[href="#tab-pending"]').text(jQuery.i18n.prop("PendingDocsListTab"));
 		$("#tabs>ul>li").find('a[href="#tab-inprocess"]').text(jQuery.i18n.prop("InProcessDocsListTab"));
-		$("#tabs>ul>li").find('a[href="#tab-complete"]').text(jQuery.i18n.prop("CompleteDocsListTab"));
+		$("#tabs>ul>li").find('a[href="#tab-checkup"]').text(jQuery.i18n.prop("CheckupDocsListTab"));
 		$("#tabs>ul>li").find('a[href="#tab-rejected"]').text(jQuery.i18n.prop("RejectedDocsListTab"));
 		$("#tabs>ul>li").find('a[href="#tab-edafat"]').text(jQuery.i18n.prop("EdafatTab"));
 		$("#tabs>ul>li").find('a[href="#tab-edit"] span').text(jQuery.i18n.prop("CreateUpdateDocumentTab"));
@@ -831,8 +831,8 @@ function initTabs() {
 
 	$("#tabs").tabs( "disable", activeTab_enum.inprocess );
 	$("#tabs>ul>li").find('a[href="#tab-inprocess"]').parent().hide();
-	$("#tabs").tabs( "disable", activeTab_enum.complete );
-	$("#tabs>ul>li").find('a[href="#tab-complete"]').parent().hide();
+	$("#tabs").tabs( "disable", activeTab_enum.checkup );
+	$("#tabs>ul>li").find('a[href="#tab-checkup"]').parent().hide();
 	$("#tabs").tabs( "disable", activeTab_enum.rejected );
 	$("#tabs>ul>li").find('a[href="#tab-rejected"]').parent().hide();
 	$("#tabs").tabs( "disable", activeTab_enum.edafat );
@@ -849,8 +849,8 @@ function initTabs() {
 			if (actor == actor_enum.manager) {
 				$("#tabs").tabs( "enable", activeTab_enum.inprocess );
 				$("#tabs>ul>li").find('a[href="#tab-inprocess"]').parent().show();
-				$("#tabs").tabs( "enable", activeTab_enum.complete );
-				$("#tabs>ul>li").find('a[href="#tab-complete"]').parent().show();
+				$("#tabs").tabs( "enable", activeTab_enum.checkup );
+				$("#tabs>ul>li").find('a[href="#tab-checkup"]').parent().show();
 				$("#tabs").tabs( "enable", activeTab_enum.rejected );
 				$("#tabs>ul>li").find('a[href="#tab-rejected"]').parent().show();
 				$("#tabs").tabs( "enable", activeTab_enum.edafat );
@@ -1191,7 +1191,7 @@ function selectXmlNodes() {
 function cleanDocTabs() {
 	$("#docs").empty();
 	$("#inProcessDocs").empty();
-	$("#completeDocs").empty();
+	$("#checkupDocs").empty();
 	$("#rejectedDocs").empty();
 	$("#edafatDocs").empty();
 }
@@ -1215,8 +1215,8 @@ function selectJsonNodes() {
 		docListSelector = $("#docs");
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess)	// in process
 		docListSelector = $("#inProcessDocs");
-	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.complete)	// complete
-		docListSelector = $("#completeDocs");
+	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.checkup)	// checkup
+		docListSelector = $("#checkupDocs");
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected)	// rejected
 		docListSelector = $("#rejectedDocs");
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat)	// edafat
@@ -1350,6 +1350,8 @@ function applyButtonBorderStyle(itemTemplate) {
 		//else if (itemTemplate.find('.docDetailDiv select').children().length == 3)
 		else if (itemTemplate.data('secId') == 2)
 			itemTemplate.addClass("blueBorder");
+		else if (itemTemplate.data('secId') == 3)
+			itemTemplate.addClass("greenBorder");
 		
 
 		//i = key.doc.docHistory.length;  			// the value is always a multiple of 2 
@@ -1397,20 +1399,33 @@ function applyButtonBorderStyle(itemTemplate) {
 	//if (actor == actor_enum.employee && actorSectionNumber == 0) {
 	if (actor == actor_enum.employee) {
 		if (sectionId == sectionId_enum.followup) {
-			itemTemplate.find("a:nth-of-type(3)").addClass("editButton");			//edit button
-			itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");			//reject button
+			itemTemplate.find("a:nth-of-type(2)").addClass("editButton");
+			itemTemplate.find("a:nth-of-type(2)").attr('title', $.i18n.prop('Edit'));
+			itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");
+			itemTemplate.find("a:nth-of-type(1)").attr('title', $.i18n.prop('Reject'));
 		} else if (sectionId == sectionId_enum.ac || sectionId == sectionId_enum.electricity) {
-			itemTemplate.find("a:nth-of-type(2)").addClass("approveButton");		//approve button
-			itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");			//reject button
+			itemTemplate.find("a:nth-of-type(2)").addClass("approveButton");
+			itemTemplate.find("a:nth-of-type(2)").attr('title', $.i18n.prop('Approve'));
+			itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");
+			itemTemplate.find("a:nth-of-type(1)").attr('title', $.i18n.prop('Reject'));
 		}
 	} else {
 		if (actor == actor_enum.manager) {
 			if (sectionId == sectionId_enum.followup) {
-				if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.pending || 
-					$("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected ) {
-					itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");				//reject button
-					itemTemplate.find("a:nth-of-type(2)").addClass("editButton");				//edit button
-					itemTemplate.find("a:nth-of-type(3)").addClass("approveButton");			//approve button
+				if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.pending) { 
+					itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");
+					itemTemplate.find("a:nth-of-type(1)").attr('title', $.i18n.prop('Delete'));
+					itemTemplate.find("a:nth-of-type(2)").addClass("editButton");
+					itemTemplate.find("a:nth-of-type(2)").attr('title', $.i18n.prop('Edit'));
+					itemTemplate.find("a:nth-of-type(3)").addClass("approveButton");
+					itemTemplate.find("a:nth-of-type(3)").attr('title', $.i18n.prop('Approve'));
+				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected) {
+					itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");
+					itemTemplate.find("a:nth-of-type(1)").attr('title', $.i18n.prop('Delete'));
+					itemTemplate.find("a:nth-of-type(2)").addClass("editButton");
+					itemTemplate.find("a:nth-of-type(2)").attr('title', $.i18n.prop('Edit'));
+					itemTemplate.find("a:nth-of-type(3)").addClass("forwardbackButton");
+					itemTemplate.find("a:nth-of-type(3)").attr('title', $.i18n.prop('ForwardBack'));
 				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess) {
 					if (itemTemplate.data('empId') != null) {
 						//itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");				//revoke button
@@ -1429,7 +1444,7 @@ function applyButtonBorderStyle(itemTemplate) {
 						itemTemplate.find("a:nth-of-type(4)").css({ color: 'black' });
 					}
 					setPrintCommentLinks(itemTemplate);
-				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.complete) {
+				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.checkup) {
 						setPrintCommentLinks(itemTemplate);
 				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat) {
 						setPrintCommentLinks(itemTemplate);
@@ -1438,7 +1453,7 @@ function applyButtonBorderStyle(itemTemplate) {
 				setPrintCommentLinks(itemTemplate);
 			} else if (sectionId == sectionId_enum.ac || sectionId == sectionId_enum.electricity) {
 				if (itemTemplate.data('empId') != null) {
-					itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");				//revoke button
+					itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");	
 				
 					userInfo.some(function(o) {
 						if (itemTemplate.data('empId') == o.loginName) {
@@ -1447,10 +1462,12 @@ function applyButtonBorderStyle(itemTemplate) {
 						}
 					})
 				
+					itemTemplate.find("a:nth-of-type(4)").attr('title', $.i18n.prop('Revoke'));
 					itemTemplate.find("a:nth-of-type(4)").css("display", "block");
 					itemTemplate.find("a:nth-of-type(4)").button({ icons: { primary: 'ui-icon-close'} });
 				} else {
-					itemTemplate.find("a:nth-of-type(2)").addClass("approveButton");			//approve button
+					itemTemplate.find("a:nth-of-type(1)").addClass("forwardButton");
+					itemTemplate.find("a:nth-of-type(1)").attr('title', $.i18n.prop('Forward'));
 				}
 			}
 		}
@@ -1483,6 +1500,14 @@ $(document).on("click", ".revokeButton", function(e, data) {
 })
 
 $(document).on("click", ".approveButton", function() {
+	commentDialog(this, status_enum.approve);
+})
+
+$(document).on("click", ".forwardButton", function() {
+	commentDialog(this, status_enum.approve);
+})
+
+$(document).on("click", ".forwardbackButton", function() {
 	commentDialog(this, status_enum.approve);
 })
 
@@ -1794,9 +1819,9 @@ function approve_reject_revoke(docComment, docFileNumber, forwardTo, status) {
 	//var signature = 'Approved \&nbsp;' + dt + ' by ' + userInfo[0].displayName;
 	var signature = dt + ' ' + userInfo[0].displayName;
 	if (status == status_enum.approve)
-		signature = 'Approved \&nbsp;' + dt + ' ' + userInfo[0].displayName;
+		signature = $.i18n.prop('Approved') + ' \&nbsp;' + dt + ' ' + userInfo[0].displayName;
 	else
-		signature = 'Rejected \&nbsp;' + dt + ' ' + userInfo[0].displayName;
+		signature = $.i18n.prop('Rejected') + ' \&nbsp;' + dt + ' ' + userInfo[0].displayName;
 
 	//var html = '<option selected="selected" value="' + selectTag.children().length + '">' + signature + '</option>';
 	//selectTag.append(html);
@@ -3166,15 +3191,15 @@ function toggleLanguage(lang, dir) {
 			$('#TrainingProgram').text(jQuery.i18n.prop('TrainingProgram'));
 			$('#PrivacyPolicy').text(jQuery.i18n.prop('PrivacyPolicy'));
 			
-			$('#LogIn').text(jQuery.i18n.prop('LogIn'));
+			//$('#LogIn').text(jQuery.i18n.prop('LogIn'));
 			//$('#status').text(jQuery.i18n.prop('Status'));
-			$('#reject').text(jQuery.i18n.prop('Rejected'));
-			$('#approve').text(jQuery.i18n.prop('InProgress'));
-			$('#complete').text(jQuery.i18n.prop('Completed'));
+			//$('#reject').text(jQuery.i18n.prop('Rejected'));
+			//$('#approve').text(jQuery.i18n.prop('InProgress'));
+			//$('#complete').text(jQuery.i18n.prop('Completed'));
 			
 			$("#tabs>ul>li").find('a[href="#tab-pending"]').text(jQuery.i18n.prop("PendingDocsListTab"));
 			$("#tabs>ul>li").find('a[href="#tab-inprocess"]').text(jQuery.i18n.prop("InProcessDocsListTab"));
-			$("#tabs>ul>li").find('a[href="#tab-complete"]').text(jQuery.i18n.prop("CompleteDocsListTab"));
+			$("#tabs>ul>li").find('a[href="#tab-checkup"]').text(jQuery.i18n.prop("CheckupDocsListTab"));
 			$("#tabs>ul>li").find('a[href="#tab-rejected"]').text(jQuery.i18n.prop("RejectedDocsListTab"));
 			$("#tabs>ul>li").find('a[href="#tab-edafat"]').text(jQuery.i18n.prop("EdafatTab"));
 			//if (actor == actor_enum.manager)
