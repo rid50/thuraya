@@ -105,7 +105,7 @@ if ($idp == "SAML") {
 				<ul>
 					<li><a href="#tab-pending"></a></li>
 					<li><a href="#tab-inprocess"></a></li>
-					<li><a href="#tab-checkup"></a></li>
+					<li><a href="#tab-vault"></a></li>
 					<li><a href="#tab-rejected"></a></li>
 					<li><a href="#tab-edafat"></a></li>
 					<li><a href="#tab-edit"><div id="newButtonTab"></div><span style="margin-left:20px"></span></a></li>
@@ -118,8 +118,8 @@ if ($idp == "SAML") {
 				<div id="tab-inprocess">
 					<ul id="inProcessDocs"></ul>
 				</div>
-				<div id="tab-checkup">
-					<ul id="checkupDocs"></ul>
+				<div id="tab-vault">
+					<ul id="vaultDocs"></ul>
 				</div>
 				<div id="tab-rejected">
 					<ul id="rejectedDocs"></ul>
@@ -246,7 +246,8 @@ if ($idp == "SAML") {
 			<a href="#" class="docButtons floatRight"></a>
 			<a href="#" class="docButtons floatRight"></a>
 			<a href="#" class="docButtons floatRight"></a>
-			<a href="#" class="docButtons floatRight tagButton"></a>
+			<!--div class="floatRight" style="border: 1px solid red"><a href="#" class="tagButton"></a></div-->
+			<a href="#" class="tagButton floatRight"></a>
 
 			<div class="customClear"></div>
 			<div class='docAddress floatLeft'>

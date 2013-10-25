@@ -428,20 +428,30 @@ a:hover {
 
 .docButtons {
 	display:none;
-	//float:right;
-	//margin-top:2px;
 	margin: 0 5px;
 	box-shadow : 2px 2px 2px #999;
 	border: 1px solid #999;
 	border-radius: 4px;
 	position:relative;
-	//top: 30px;
 }
-
+/*
 .tagButton {
 	position:absolute;
 	//bottom: 0px;
-	right: 0px;
+	right: 4px;
+}
+*/
+
+.tagButton {
+	display:none;
+	margin: 0 5px;
+	box-shadow : 2px 2px 2px #999;
+	border: 1px solid #999;
+	border-radius: 4px;
+	//position:absolute;	// works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
+	right: 2px;
+	//top: 2px;
+	//bottom: 10px;
 }
 
 //.clip   { position: absolute; top: 0; left: 0; }
