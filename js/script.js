@@ -1,11 +1,11 @@
 var status_enum = {
-	submit: "submit",
+	//submit: "submit",
 	approve: "approve",
 	reject: "reject",
 	revoke: "revoke",
-	checkup: "checkup",
+	//checkup: "checkup",
 	readonly: "readonly",
-	all: "all"
+	//all: "all"
 };
 
 var actor_enum = {
@@ -24,7 +24,7 @@ var sectionId_enum = {
 var activeTab_enum = {
 	pending: 0,
 	inprocess: 1,
-	checkup: 2,
+	vault: 2,
 	rejected: 3,
 	edafat: 4,
 	edit: 5,
@@ -724,13 +724,13 @@ function getSearchFilter() {
 	//if (rejected != undefined)
 	if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess)		// in process
 		secId = 123;
-	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.checkup)	// checkup
-		secId = 3;
+	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.vault)		// return
+		secId = -20;
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat)	// edafat
 		secId = 4;
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected)	// rejected
-		secId = -1;
-		
+		secId = -10;
+
 	if (sectionId != sectionId_enum.followup && actor == actor_enum.employee) {
 		empId = userInfo[0].loginName;
 	}
@@ -759,7 +759,7 @@ function initTabs() {
 
 		$("#tabs>ul>li").find('a[href="#tab-pending"]').text(jQuery.i18n.prop("PendingDocsListTab"));
 		$("#tabs>ul>li").find('a[href="#tab-inprocess"]').text(jQuery.i18n.prop("InProcessDocsListTab"));
-		$("#tabs>ul>li").find('a[href="#tab-checkup"]').text(jQuery.i18n.prop("CheckupDocsListTab"));
+		$("#tabs>ul>li").find('a[href="#tab-vault"]').text(jQuery.i18n.prop("VaultDocsListTab"));
 		$("#tabs>ul>li").find('a[href="#tab-rejected"]').text(jQuery.i18n.prop("RejectedDocsListTab"));
 		$("#tabs>ul>li").find('a[href="#tab-edafat"]').text(jQuery.i18n.prop("EdafatTab"));
 		$("#tabs>ul>li").find('a[href="#tab-edit"] span').text(jQuery.i18n.prop("CreateUpdateDocumentTab"));
@@ -831,8 +831,8 @@ function initTabs() {
 
 	$("#tabs").tabs( "disable", activeTab_enum.inprocess );
 	$("#tabs>ul>li").find('a[href="#tab-inprocess"]').parent().hide();
-	$("#tabs").tabs( "disable", activeTab_enum.checkup );
-	$("#tabs>ul>li").find('a[href="#tab-checkup"]').parent().hide();
+	$("#tabs").tabs( "disable", activeTab_enum.vault );
+	$("#tabs>ul>li").find('a[href="#tab-vault"]').parent().hide();
 	$("#tabs").tabs( "disable", activeTab_enum.rejected );
 	$("#tabs>ul>li").find('a[href="#tab-rejected"]').parent().hide();
 	$("#tabs").tabs( "disable", activeTab_enum.edafat );
@@ -849,8 +849,8 @@ function initTabs() {
 			if (actor == actor_enum.manager) {
 				$("#tabs").tabs( "enable", activeTab_enum.inprocess );
 				$("#tabs>ul>li").find('a[href="#tab-inprocess"]').parent().show();
-				$("#tabs").tabs( "enable", activeTab_enum.checkup );
-				$("#tabs>ul>li").find('a[href="#tab-checkup"]').parent().show();
+				$("#tabs").tabs( "enable", activeTab_enum.vault );
+				$("#tabs>ul>li").find('a[href="#tab-vault"]').parent().show();
 				$("#tabs").tabs( "enable", activeTab_enum.rejected );
 				$("#tabs>ul>li").find('a[href="#tab-rejected"]').parent().show();
 				$("#tabs").tabs( "enable", activeTab_enum.edafat );
@@ -861,7 +861,7 @@ function initTabs() {
 			break;
 		case sectionId_enum.ac:
 		case sectionId_enum.electricity:
-		case sectionId_enum.checkup:
+		case sectionId_enum.vault:
 		case sectionId_enum.edafat:
 			if (actor == actor_enum.manager) {
 				$("#tabs").tabs( "enable", activeTab_enum.users );
@@ -1191,7 +1191,7 @@ function selectXmlNodes() {
 function cleanDocTabs() {
 	$("#docs").empty();
 	$("#inProcessDocs").empty();
-	$("#checkupDocs").empty();
+	$("#vaultDocs").empty();
 	$("#rejectedDocs").empty();
 	$("#edafatDocs").empty();
 }
@@ -1215,8 +1215,8 @@ function selectJsonNodes() {
 		docListSelector = $("#docs");
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess)	// in process
 		docListSelector = $("#inProcessDocs");
-	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.checkup)	// checkup
-		docListSelector = $("#checkupDocs");
+	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.vault)		// return
+		docListSelector = $("#vaultDocs");
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected)	// rejected
 		docListSelector = $("#rejectedDocs");
 	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat)	// edafat
@@ -1401,27 +1401,27 @@ function applyButtonBorderStyle(itemTemplate) {
 		if (sectionId == sectionId_enum.followup) {
 			itemTemplate.find("a:nth-of-type(2)").addClass("editButton");
 			itemTemplate.find("a:nth-of-type(2)").attr('title', $.i18n.prop('Edit'));
-			itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");
-			itemTemplate.find("a:nth-of-type(1)").attr('title', $.i18n.prop('Reject'));
+			itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").addClass("rejectButton");
+			itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").attr('title', $.i18n.prop('Reject'));
 		} else if (sectionId == sectionId_enum.ac || sectionId == sectionId_enum.electricity) {
 			itemTemplate.find("a:nth-of-type(2)").addClass("approveButton");
 			itemTemplate.find("a:nth-of-type(2)").attr('title', $.i18n.prop('Approve'));
-			itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");
-			itemTemplate.find("a:nth-of-type(1)").attr('title', $.i18n.prop('Reject'));
+			itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").addClass("rejectButton");
+			itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").attr('title', $.i18n.prop('Reject'));
 		}
 	} else {
 		if (actor == actor_enum.manager) {
 			if (sectionId == sectionId_enum.followup) {
-				if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.pending) { 
-					itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");
-					itemTemplate.find("a:nth-of-type(1)").attr('title', $.i18n.prop('Delete'));
+				if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.pending) {					//pending
+					itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").addClass("rejectButton");
+					itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").attr('title', $.i18n.prop('Delete'));
 					itemTemplate.find("a:nth-of-type(2)").addClass("editButton");
 					itemTemplate.find("a:nth-of-type(2)").attr('title', $.i18n.prop('Edit'));
 					itemTemplate.find("a:nth-of-type(3)").addClass("approveButton");
 					itemTemplate.find("a:nth-of-type(3)").attr('title', $.i18n.prop('Approve'));
-				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected) {
-					itemTemplate.find("a:nth-of-type(1)").addClass("rejectButton");
-					itemTemplate.find("a:nth-of-type(1)").attr('title', $.i18n.prop('Delete'));
+				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected) {			//rejected
+					itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").addClass("rejectButton");
+					itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").attr('title', $.i18n.prop('Delete'));
 					itemTemplate.find("a:nth-of-type(2)").addClass("editButton");
 					itemTemplate.find("a:nth-of-type(2)").attr('title', $.i18n.prop('Edit'));
 					itemTemplate.find("a:nth-of-type(3)").addClass("forwardbackButton");
@@ -1429,22 +1429,30 @@ function applyButtonBorderStyle(itemTemplate) {
 				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess) {
 					if (itemTemplate.data('empId') != null) {
 						//itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");				//revoke button
-					
+						itemTemplate.find(".tagButton").text(mapLoginNameToDisplayName(itemTemplate, itemTemplate.data('empId')));
+/*
 						userInfo.some(function(o) {
 							if (itemTemplate.data('empId') == o.loginName) {
 								itemTemplate.find("a:nth-of-type(4)").text(o.displayName);
 								return true;
 							}
 						})
-					
-						itemTemplate.find("a:nth-of-type(4)").css("display", "block");
-						itemTemplate.find("a:nth-of-type(4)").button({ icons: { primary: 'ui-icon-person'} });
-						itemTemplate.find("a:nth-of-type(4)").button({ disabled: 'true' });
-						itemTemplate.find("a:nth-of-type(4)").css({ bottom: '6px' });
-						itemTemplate.find("a:nth-of-type(4)").css({ color: 'black' });
+*/					
+
+						itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
+
+						itemTemplate.find(".tagButton").css("display", "block");
+						itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-person'} });
+						//itemTemplate.find("a:nth-of-type(1)").button({ disabled: 'true' });
+
+						//itemTemplate.find(".tagButton").css({ right: '2px' });
+						itemTemplate.find(".tagButton").css({ bottom: '6px' });
+						//itemTemplate.find("div>a").css({ color: 'black' });
 					}
+					
 					setPrintCommentLinks(itemTemplate);
-				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.checkup) {
+					
+				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.vault) {
 						setPrintCommentLinks(itemTemplate);
 				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat) {
 						setPrintCommentLinks(itemTemplate);
@@ -1453,21 +1461,27 @@ function applyButtonBorderStyle(itemTemplate) {
 				setPrintCommentLinks(itemTemplate);
 			} else if (sectionId == sectionId_enum.ac || sectionId == sectionId_enum.electricity) {
 				if (itemTemplate.data('empId') != null) {
-					itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");	
-				
+					itemTemplate.find(".tagButton").addClass("revokeButton");	
+					itemTemplate.find(".tagButton").text(mapLoginNameToDisplayName(itemTemplate, itemTemplate.data('empId')));
+/*				
 					userInfo.some(function(o) {
 						if (itemTemplate.data('empId') == o.loginName) {
 							itemTemplate.find("a:nth-of-type(4)").text(o.displayName);
 							return true;
 						}
 					})
-				
-					itemTemplate.find("a:nth-of-type(4)").attr('title', $.i18n.prop('Revoke'));
-					itemTemplate.find("a:nth-of-type(4)").css("display", "block");
-					itemTemplate.find("a:nth-of-type(4)").button({ icons: { primary: 'ui-icon-close'} });
+*/				
+
+					itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
+					//itemTemplate.find(".tagButton").css(itemTemplate.offset());						 
+
+					itemTemplate.find(".tagButton").attr('title', $.i18n.prop('Revoke'));
+					//itemTemplate.find(".tagButton").parent().css({ right: '4px' });
+					itemTemplate.find(".tagButton").css("display", "block");
+					itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-close'} });
 				} else {
-					itemTemplate.find("a:nth-of-type(1)").addClass("forwardButton");
-					itemTemplate.find("a:nth-of-type(1)").attr('title', $.i18n.prop('Forward'));
+					itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").addClass("forwardButton");
+					itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").attr('title', $.i18n.prop('Forward'));
 				}
 			}
 		}
@@ -1486,6 +1500,17 @@ function setPrintCommentLinks(itemTemplate) {
 	
 	itemTemplate.find(".docDetailDiv").prepend(a2_tag);
 	itemTemplate.find(".docDetailDiv").prepend(a_tag);
+}
+
+function mapLoginNameToDisplayName(itemTemplate, loginName) {
+	var displayName;
+	userInfo.some(function(o) {
+		displayName = o.displayName;
+		if (loginName == o.loginName)
+			return true;
+	})
+
+	return displayName;
 }
 
 $(document).on("click", ".revokeButton", function(e, data) {
@@ -1604,14 +1629,16 @@ this.commentDialog = function(that, action) {
 	} else
 */
 	//{
-		rootDoc[0].docs.some(function(key, index) {
-			if (key.doc.docFileNumber == docFileNumber) {
-				//docFileNumber = key.doc.docFileNumber;
-				//currentDoc = key.doc;
-				docComment = key.doc.docComment == null ? '' : key.doc.docComment;
-				return true;
-			}
-		});
+	var sectionIdReturnedFrom;
+	rootDoc[0].docs.some(function(key, index) {
+		if (key.doc.docFileNumber == docFileNumber) {
+			//docFileNumber = key.doc.docFileNumber;
+			//currentDoc = key.doc;
+			sectionIdDocReturnedFrom = Math.abs(key.doc.sectionId % 10);
+			docComment = key.doc.docComment == null ? '' : key.doc.docComment;
+			return true;
+		}
+	});
 	//}
 
 	
@@ -1636,6 +1663,13 @@ this.commentDialog = function(that, action) {
 			if (sectionId != sectionId_enum.followup && actor == actor_enum.manager) {
 				var employee = null;
 				$(rootActors).find('section[id="' + sectionId + '"] employee').each(function(index) {
+
+					nf.checked = "";
+					if (checked.length == 0) {
+						if ($($(this).parent()).children().length == 1)
+							checked = nf.checked = " checked=\"checked\"";
+					}
+/*				
 					if (checked.length == 0) {
 						if ($($(this).parent()).children().length == 1)
 							checked = nf.checked = " checked=\"checked\"";
@@ -1644,6 +1678,7 @@ this.commentDialog = function(that, action) {
 					}
 					else
 						nf.checked = "";
+*/
 					employee = $(this).text();
 					userInfo.some(function(o) {
 						if (employee == o.loginName) {
@@ -1653,26 +1688,43 @@ this.commentDialog = function(that, action) {
 						}
 					})
 				})
+			} else if (sectionId == sectionId_enum.followup && $("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected) {
+				//var fn = $(that).closest("div").find(".docFileNumber span").text();
+				//var doc = $(rootDoc).find("doc>docFileNumber:contains('" + fn + "')");
+
+				var sec = $(rootActors).find('section[id="' + sectionIdDocReturnedFrom + '"]');
+				var name = ($("body[dir='ltr']").length) ? sec.attr('name') : sec.attr('arName');
+				html += '<input type="radio" id="radio1" value="' + sectionIdDocReturnedFrom + '" name="radio" checked="checked" /><label for="radio1">' + name + '</label>';
+				
 			} else {
 				$(rootActors).find('section').each(function(index) {
-					if (index == 0) 
-						return true;	// continue
+					//if (index == 0) 
+					//	return true;	// continue
+
+					//nf.disabled = sectionId == $(this).attr('id') ? " disabled=\"disabled\"" : "";
+					
+					
+					if (sectionId == $(this).attr('id'))
+						return true;
 						
 					nf.name = ($("body[dir='ltr']").length) ? $(this).attr('name') : $(this).attr('arName');
-					nf.disabled = sectionId == $(this).attr('id') ? " disabled=\"disabled\"" : "";
-					
-					if (checked.length == 0)
-						checked = nf.checked = sectionId == $(this).attr('id') ? "" : " checked=\"checked\"";
-					else
-						nf.checked = "";
+
+					nf.checked = "";
+					if (checked.length == 0) {
+						if ($($(this).parent()).children().length == 1)
+							checked = nf.checked = " checked=\"checked\"";
+					}
+
+					//if (checked.length == 0)
+						//checked = nf.checked = sectionId == $(this).attr('id') ? "" : " checked=\"checked\"";
+					//else
+						//nf.checked = "";
 
 					//if (checked_idx == -1)
 						//checked_idx = sectionId == this.id ? -1 : index;
 						
-						
-					//html += '<input type="radio" id="' + this.id + '" value="' + this.id + '" name="radiogroup"' + nf.disabled + ' /><label for="' + this.id + '">' + nf.name + '</label>';
-					html += '<input type="radio" id="radio' + index + '" value="' + $(this).attr('id') + '" name="radio"' + nf.disabled + nf.checked + ' /><label for="radio' + index + '">' + nf.name + '</label>';
-					//html += '<input type="radio" id="radio' + index + '" name="radio"' + nf.disabled + nf.checked + ' /><label for="radio' + index + '">' + nf.name + '</label>';
+					html += '<input type="radio" id="radio' + index + '" value="' + $(this).attr('id') + '" name="radio"' + nf.checked + ' /><label for="radio' + index + '">' + nf.name + '</label>';
+					//html += '<input type="radio" id="radio' + index + '" value="' + $(this).attr('id') + '" name="radio"' + nf.disabled + nf.checked + ' /><label for="radio' + index + '">' + nf.name + '</label>';
 				})
 			}
 			
@@ -1818,10 +1870,10 @@ function approve_reject_revoke(docComment, docFileNumber, forwardTo, status) {
 	var dt = getDate();
 	//var signature = 'Approved \&nbsp;' + dt + ' by ' + userInfo[0].displayName;
 	var signature = dt + ' ' + userInfo[0].displayName;
-	if (status == status_enum.approve)
-		signature = $.i18n.prop('Approved') + ' \&nbsp;' + dt + ' ' + userInfo[0].displayName;
-	else
-		signature = $.i18n.prop('Rejected') + ' \&nbsp;' + dt + ' ' + userInfo[0].displayName;
+	//if (status == status_enum.approve)
+	//	signature = $.i18n.prop('Approved') + ' \&nbsp;' + dt + ' ' + userInfo[0].displayName;
+	//else
+	//	signature = $.i18n.prop('Rejected') + ' \&nbsp;' + dt + ' ' + userInfo[0].displayName;
 
 	//var html = '<option selected="selected" value="' + selectTag.children().length + '">' + signature + '</option>';
 	//selectTag.append(html);
@@ -1911,21 +1963,25 @@ function approve_reject_revoke(docComment, docFileNumber, forwardTo, status) {
 	var secId;
 	var docHistory = {"docDate": dt, "docApprover": userInfo[0].displayName};
 
-	if (status == status_enum.revoke) {	//revoke
+	if (status == status_enum.revoke) {					//revoke
 		secId = null;
 		forwardTo = null;
-	} else if (status == status_enum.reject) {	//reject
-		secId = -1;
+	} else if (status == status_enum.reject) {			//reject
+		secId = -10 - parseInt(sectionId);				
 		//forwardTo = null;
-	} else if (sectionId != sectionId_enum.followup && actor == actor_enum.manager) {
-		//secId = parseInt(sectionId);
+	} else if (sectionId != sectionId_enum.followup && actor == actor_enum.manager) { // assign doc to employee
 		secId = null;
- 		// forwardTo should have a value	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// forwardTo should have a value	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		docHistory = null;
 		docComment = null;
+	} else if (sectionId != sectionId_enum.followup && actor == actor_enum.employee) { //return back to Follow up section
+		if (forwardTo == sectionId_enum.followup) {
+			secId = -20 - parseInt(sectionId);
+			// forwardTo = null;
+		}
 	} else {
 		secId = parseInt(forwardTo);
-		//forwardTo = null;
+		// forwardTo = null;
 	}
 	
 	var url, data;
@@ -3199,7 +3255,7 @@ function toggleLanguage(lang, dir) {
 			
 			$("#tabs>ul>li").find('a[href="#tab-pending"]').text(jQuery.i18n.prop("PendingDocsListTab"));
 			$("#tabs>ul>li").find('a[href="#tab-inprocess"]').text(jQuery.i18n.prop("InProcessDocsListTab"));
-			$("#tabs>ul>li").find('a[href="#tab-checkup"]').text(jQuery.i18n.prop("CheckupDocsListTab"));
+			$("#tabs>ul>li").find('a[href="#tab-vault"]').text(jQuery.i18n.prop("VaultDocsListTab"));
 			$("#tabs>ul>li").find('a[href="#tab-rejected"]').text(jQuery.i18n.prop("RejectedDocsListTab"));
 			$("#tabs>ul>li").find('a[href="#tab-edafat"]').text(jQuery.i18n.prop("EdafatTab"));
 			//if (actor == actor_enum.manager)

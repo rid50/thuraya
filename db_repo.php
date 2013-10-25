@@ -197,6 +197,10 @@ class DatabaseRepository {
 					if ($param[filter][sectionId] != null) {
 						if ($param[filter][sectionId] == 123)
 							$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2 OR doc.sectionId = 3)";
+						else if ($param[filter][sectionId] == -10)
+							$where .= " AND (doc.sectionId < -9 AND doc.sectionId > -20)";
+						else if ($param[filter][sectionId] == -20)
+							$where .= " AND (doc.sectionId < -19 AND doc.sectionId > -30)";
 						else
 							$where .= " AND doc.sectionId = '{$param[filter][sectionId]}'";
 					}
