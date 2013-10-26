@@ -776,7 +776,9 @@ function initTabs() {
 						//$("#tabs-9").append($("#newForm"));
 						$("#newForm").show();
 					}
-					resetForm();
+					
+					//resetForm();
+					
 					if ($("#userAssignmentDiv").css("display") == "none") {
 						$("#userAssignmentDiv").show();
 					}
@@ -810,17 +812,25 @@ function initTabs() {
 
 			activate: function( event, ui ) {
 				//if (actor == actor_enum.manager && actorSectionNumber == 0) {
-				if (actor == actor_enum.manager) {
+				//if (actor == actor_enum.manager) {
 					if (ui.newTab.index() != activeTab_enum.edit && ui.newTab.index() != activeTab_enum.users)
 						getDocs();
 					else
 						cleanDocTabs();
 
+					//if (ui.newTab.index() == activeTab_enum.edit)
+					//	resetForm();
+						
 					//if (ui.newTab.index() == 1 || ui.newTab.index() == 2 || ui.newTab.index() == 3)
 					//	getDocs();
 					//else if (ui.newTab.index() == 0 || ui.newTab.index() == 4)
 					//	cleanDocTabs();
-				}
+				//} else if (sectionId == sectionId_enum.followup && $("#tabs").tabs("option", "active") == 0) {
+					//resetForm();
+				//}
+				
+				if ($("#tabs").tabs("option", "active") == activeTab_enum.edit)
+					resetForm();
 			}
 		});
 
@@ -869,6 +879,13 @@ function initTabs() {
 			}
 			break;
 		default:
+			superuser.some(function(name) {
+				if (userInfo[0].loginName == name) {
+					$("#tabs").tabs( "enable", activeTab_enum.users );
+					$("#tabs>ul>li").find('a[href="#tab-users"]').parent().show();
+					return true;
+				}
+			})
 	}
 /*	
 	if (actor == -1) {
@@ -1432,15 +1449,6 @@ function applyButtonBorderStyle(itemTemplate) {
 					if (itemTemplate.data('empId') != null) {
 						//itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");				//revoke button
 						itemTemplate.find(".tagButton").text(mapLoginNameToDisplayName(itemTemplate, itemTemplate.data('empId')));
-/*
-						userInfo.some(function(o) {
-							if (itemTemplate.data('empId') == o.loginName) {
-								itemTemplate.find("a:nth-of-type(4)").text(o.displayName);
-								return true;
-							}
-						})
-*/					
-
 						itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
 
 						itemTemplate.find(".tagButton").css("display", "block");
@@ -1460,19 +1468,15 @@ function applyButtonBorderStyle(itemTemplate) {
 						setPrintCommentLinks(itemTemplate);
 				}
 			} else if (sectionId == sectionId_enum.checkup) {
-				setPrintCommentLinks(itemTemplate);
+				itemTemplate.find(".tagButton").addClass("checkupButton");	
+				itemTemplate.find(".tagButton").text("Checkup");
+				itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
+				itemTemplate.find(".tagButton").css("display", "block");
+				itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-document'} });
 			} else if (sectionId == sectionId_enum.ac || sectionId == sectionId_enum.electricity) {
 				if (itemTemplate.data('empId') != null) {
 					itemTemplate.find(".tagButton").addClass("revokeButton");	
 					itemTemplate.find(".tagButton").text(mapLoginNameToDisplayName(itemTemplate, itemTemplate.data('empId')));
-/*				
-					userInfo.some(function(o) {
-						if (itemTemplate.data('empId') == o.loginName) {
-							itemTemplate.find("a:nth-of-type(4)").text(o.displayName);
-							return true;
-						}
-					})
-*/				
 
 					itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
 					//itemTemplate.find(".tagButton").css(itemTemplate.offset());						 
@@ -1480,7 +1484,7 @@ function applyButtonBorderStyle(itemTemplate) {
 					itemTemplate.find(".tagButton").attr('title', $.i18n.prop('Revoke'));
 					//itemTemplate.find(".tagButton").parent().css({ right: '4px' });
 					itemTemplate.find(".tagButton").css("display", "block");
-					itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-close'} });
+					itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-arrowreturnthick-1-s'} });
 				} else {
 					itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").addClass("forwardButton");
 					itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").attr('title', $.i18n.prop('Forward'));
@@ -1524,6 +1528,10 @@ $(document).on("click", ".revokeButton", function(e, data) {
 	
 	var fn = $(this).closest("div").find(".docFileNumber span").text();
 	revoke(fn);
+})
+
+$(document).on("click", ".checkupButton", function() {
+	checkupFormDialog(this);
 })
 
 $(document).on("click", ".approveButton", function() {
@@ -1614,6 +1622,31 @@ function deleteDocument(fileNumber) {
 			alert("deleteDoc - error: " + errorThrown);
 		});
 }
+
+this.checkupFormDialog = function(that) {
+	var docFileNumber = $(that).closest("div").find(".docFileNumber span").text();
+
+	var sectionIdReturnedFrom;
+	rootDoc[0].docs.some(function(key, index) {
+		if (key.doc.docFileNumber == docFileNumber) {
+			return true;
+		}
+	});
+	
+	var form = $("#checkupForm");
+    form.prop('docFileNumber', docFileNumber);
+    form.dialog({
+        //title:jQuery.i18n.prop('Comment'),
+		//dialogClass: "no-close",
+        height: "auto",
+        width: 700,
+        modal: true,
+		autoOpen: true,
+		resizable: false,
+		open: function( event, ui ) {
+		}
+    });
+};
 
 this.commentDialog = function(that, action) {
     //$("#commentDialog").dialog( "destroy" );
@@ -1976,10 +2009,12 @@ function approve_reject_revoke(docComment, docFileNumber, forwardTo, status) {
 		// forwardTo should have a value	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		docHistory = null;
 		docComment = null;
-	} else if (sectionId != sectionId_enum.followup && actor == actor_enum.employee) { //return back to Follow up section
-		if (forwardTo == sectionId_enum.followup) {
+	} else if (sectionId != sectionId_enum.followup && actor == actor_enum.employee) {
+		if (forwardTo == sectionId_enum.followup) {  //return back to Follow up section
 			secId = -20 - parseInt(sectionId);
 			// forwardTo = null;
+		} else {  //forward to ac, electricity, checkup sections
+			secId = parseInt(forwardTo);
 		}
 	} else {
 		secId = parseInt(forwardTo);
@@ -2238,7 +2273,8 @@ function resetForm() {
 	}
 
 	$("#newForm").data('originFileNumber', null);
-	
+	file_number.focus();
+	//$("#newForm").find("#file_number").focus();
 	//$(form.children("form").get())[0].reset();
 	//form.reset();
 	//form.find("#file_number").removeAttr("readonly");
@@ -2322,14 +2358,17 @@ $(function() {
 	$(document).on("click", "#saveButton", function(){
 		var newDoc = saveForm(this);
 		if (!newDoc) {
+		//if ($("#newForm").is(':visible')) {
 			$("#newForm").dialog('close');	//close is just to activate a "close" event
 			$("#newForm").dialog('destroy');
 		}
 	});
 	
 	$(document).on("click", "#cancelButton", function(){
-		$("#newForm").dialog('close');	//close is just to activate a "close" event
-		$("#newForm").dialog('destroy');
+		//if ($("#newForm").is(':visible')) {
+			$("#newForm").dialog('close');	//close is just to activate a "close" event
+			$("#newForm").dialog('destroy');
+		//}
 	});
 	
 /*

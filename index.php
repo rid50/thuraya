@@ -329,35 +329,35 @@ if ($idp == "SAML") {
 	<form>
 		<fieldset>
 			<label for="file_number"><strong>File#</strong></label>
-			<input type="text" name="file_number" id="file_number" maxlength="5" autofocus class="text ui-widget-content ui-corner-all" />
+			<input type="text" name="file_number2" id="file_number2" autofocus="autofocus" class="text ui-widget-content ui-corner-all" />
 
 			<table>
 				<tr>
-					<td style="width:200px;">
-						<label for="area"><strong>Area</strong></label>
-					</td>
 					<td style="width:80px;">
-						<label for="block"><strong>Block</strong></label>
+						<label for="checkup_number"><strong>Checkup#</strong></label>
 					</td>
 					<td style="width:200px;">
-						<label for="street"><strong>Street</strong></label>
+						<label for="address"><strong>Address</strong></label>
+					</td>
+					<td style="width:200px;">
+						<label for="date_checkup"><strong>Date of checkup</strong></label>
 					</td>
 					<td style="width:80px;">
-						<label for="building"><strong>Building</strong></label>
+						<label for="date_submission"><strong>Date of submittion</strong></label>
 					</td>
 				</tr>	
 				<tr>
+					<td>
+						<input type="text" name="checkup_number" id="checkup_number" class="text ui-widget-content ui-corner-all" />
+					</td>
 					<td style="padding:0">
-						<input type="text" name="area" id="area" class="text ui-widget-content ui-corner-all" />
+						<input type="text" name="address" id="address" class="text ui-widget-content ui-corner-all" />
 					</td>
 					<td>
-						<input type="text" name="block" id="block" maxlength="6" class="text ui-widget-content ui-corner-all" />
+						<input type="text" name="date_checkup" id="date_checkup" class="text ui-widget-content ui-corner-all" />
 					</td>
 					<td>
-						<input type="text" name="sreet" id="street" class="text ui-widget-content ui-corner-all" />
-					</td>
-					<td>
-						<input type="text" name="building" id="building"maxlength="6" class="text ui-widget-content ui-corner-all" />
+						<input type="text" name="date_submission" id="date_submission" class="text ui-widget-content ui-corner-all" />
 					</td>
 				</tr>	
 			</table>
