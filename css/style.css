@@ -57,7 +57,7 @@ fieldset { padding:0; border:0; margin-top:10px; }
 input.text, textarea, select#approver_search { margin-bottom:10px; padding: .4em; }
 //select#area_search { margin-bottom:10px; padding: .4em; }
  
-input#file_number {width:20%;}
+input#file_number {width:32%;}
 input#area {width:180px;}
 input#block {width:70px;}
 input#street {width:180px;}
@@ -372,8 +372,12 @@ a:hover {
 
 .docFileNumber{
 	margin-top: 1px;
-	width: 130px;
+	width: 250px;
 	//display: inline;
+}
+
+.docFileNumber>span{
+	color: blue;
 }
 
 .docPACINumber{
@@ -388,7 +392,7 @@ a:hover {
 	padding: 4px 10px;
     //text-align:left;
 	//overflow: auto;
-	height: 70px;
+	height: 50px;
 //	background-color: #eee;
 }
 

@@ -1,28 +1,29 @@
-;DROP DATABASE IF EXISTS mewdesigncomps;
-;CREATE DATABASE IF NOT EXISTS mewdesigncomps;
-USE mewdesigncomps;
+DROP DATABASE IF EXISTS tamdidat;
+CREATE DATABASE IF NOT EXISTS tamdidat;
+USE tamdidat;
 DROP TABLE IF EXISTS doc;
 CREATE TABLE `doc` (
 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-`docFileNumber` INT( 5 ) NOT NULL,
+`docFileNumber` VARCHAR( 24 ) NOT NULL,
 `docDate` DATE NOT NULL,
-`docApprover` VARCHAR( 40 ) NOT NULL,
-`docArea` VARCHAR( 30 ) NOT NULL,
-`docBlock` VARCHAR( 6 ) NOT NULL,
-`docStreet` VARCHAR( 30 ) NOT NULL,
-`docBuilding` VARCHAR( 6 ) NOT NULL,
-`docPACINumber` INT( 8 ),
+`docApprover` VARCHAR( 48 ) NOT NULL,
+`docArea` VARCHAR( 32 ) NOT NULL,
+`docBlock` VARCHAR( 8 ) NOT NULL,
+`docPlot` VARCHAR( 8 ) NULL,
+-- `docStreet` VARCHAR( 32 ) NOT NULL,
+-- `docBuilding` VARCHAR( 8 ) NOT NULL,
+-- `docPACINumber` INT( 8 ),
 `docTitle` VARCHAR( 255 ) NOT NULL,
-`docComment` VARCHAR( 20000 ),
+`docComment` TEXT,
 `sectionId` TINYINT(1) NOT NULL DEFAULT 0,
-`employeeId` VARCHAR( 20 ) DEFAULT NULL,
+`employeeId` VARCHAR( 24 ) DEFAULT NULL,
 `time` TIMESTAMP
 );
-ALTER TABLE `mewdesigncomps`.`doc` ADD UNIQUE INDEX `file_number_UNIQUE` (`docFileNumber` ASC) ;
+ALTER TABLE `tamdidat`.`doc` ADD UNIQUE INDEX `file_number_UNIQUE` (`docFileNumber` ASC) ;
 
-INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle) VALUES (12345, STR_TO_DATE('1/04/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Salmiya', '6', 'Salem Al-Mubarak', '13', 12345678, 'Assemble, install, test, and maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
-INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle) VALUES (12346, STR_TO_DATE('9/04/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Jabriya', '11', '102', '5', 92345678, 'Install, test, and maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
-INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle) VALUES (12347, STR_TO_DATE('22/04/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Fintas', '01', '7', '13', null, 'Test, and maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
-INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle) VALUES (12348, STR_TO_DATE('4/5/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Adeliya', '3', 'Ring 3', '111', null, 'Maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
-INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle) VALUES (25678, STR_TO_DATE('24/04/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Salmiya', '6', 'Bahrain', '25', null, 'Maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
-INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle) VALUES (45678, STR_TO_DATE('24/04/2013', '%d/%m/%Y'), 'Amr Maken', 'Faiha', '2', '9', '25', null, 'Maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
+INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle) VALUES (12345, STR_TO_DATE('1/08/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Salmiya', '6', '66', 'Assemble, install, test, and maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
+INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle) VALUES (12346, STR_TO_DATE('9/09/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Jabriya', '11', '102', 'Install, test, and maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
+INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle) VALUES (12347, STR_TO_DATE('22/10/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Fintas', '01', '7', 'Test, and maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
+INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle) VALUES (12348, STR_TO_DATE('4/9/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Adeliya', '3', '3', 'Maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
+INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle) VALUES (25678, STR_TO_DATE('24/07/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Salmiya', '6', '66', 'Maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
+INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle) VALUES (45678, STR_TO_DATE('24/07/2013', '%d/%m/%Y'), 'Amr Maken', 'Faiha', '2', '9', 'Maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');

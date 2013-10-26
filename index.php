@@ -138,15 +138,15 @@ if ($idp == "SAML") {
 			<div id="accordion">
 				<span>Search</span>
 				<div>
-					<div><span>File</span>#:&nbsp;<input type="text" id="file_number_search" maxlength="5" size="10" class="text ui-widget-content ui-corner-all" /></div>
-					<div><span>PACI</span>#:&nbsp;<input type="text" id="paci_number_search" maxlength="8" size="10" class="text ui-widget-content ui-corner-all" /></div>
+					<div><span>File</span>#:&nbsp;<input type="text" id="file_number_search" size="18" class="text ui-widget-content ui-corner-all" /></div>
+					<!--div><span>PACI</span>#:&nbsp;<input type="text" id="paci_number_search" maxlength="8" size="10" class="text ui-widget-content ui-corner-all" /></div-->
 					<div><span>Approver</span>:&nbsp;<select id="approver_search" style="width:120px"  class="ui-widget-content ui-corner-all"></select></div>
 					<div><span>From</span>:&nbsp;<input type="text" id="datepicker" maxlength="10" size="10" class="text ui-widget-content ui-corner-all"/></div>
 					<div><span>To</span>:&nbsp;<input type="text" id="datepicker2" maxlength="10" size="10" class="text ui-widget-content ui-corner-all"/></div>
 					<!--div><span>Area</span>:&nbsp;<select id="area_search" style="width:120px"  class="ui-widget-content ui-corner-all"></select></div-->
 					<div><span>Area</span>:&nbsp;<input type="text" id="area_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
 					<div><span>Block</span>:&nbsp;<input type="text" id="block_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
-					<div><span>Street</span>:&nbsp;<input type="text" id="street_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
+					<div><span>Plot</span>:&nbsp;<input type="text" id="plot_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
 					<button id="searchButton">Search</button>
 					<button id="searchResetButton" title="Set fields empty">Reset</button>
 				</div>
@@ -255,17 +255,76 @@ if ($idp == "SAML") {
 				<span/>
 			</div>
 
-			<div class="customClear"></div>
+			<!--div class="customClear"></div>
 			<div class='docPACINumber floatLeft'>
 				<div style="float:inherit;"><strong>PACI#:&nbsp;</strong></div>
 				<span/>
-			</div>
+			</div-->
 
 		</div>
 	</li>
 </ul>		
 
 <div id="newForm" style="display:none">
+	<p id="validateTips">Fields with the <strong>bold</strong> labels are required.</p>
+	<form>
+		<fieldset>
+			<label for="file_number"><strong>File#</strong></label>
+			<input type="text" name="file_number" id="file_number" autofocus class="text ui-widget-content ui-corner-all" />
+
+			<table>
+				<tr>
+					<td style="width:200px;">
+						<label for="area"><strong>Area</strong></label>
+					</td>
+					<td style="width:80px;">
+						<label for="block"><strong>Block</strong></label>
+					</td>
+					<td style="width:200px;">
+						<label for="plot"><strong>Plot</strong></label>
+					</td>
+				</tr>	
+				<tr>
+					<td style="padding:0">
+						<input type="text" name="area" id="area" class="text ui-widget-content ui-corner-all" />
+					</td>
+					<td>
+						<input type="text" name="block" id="block" maxlength="6" class="text ui-widget-content ui-corner-all" />
+					</td>
+					<td>
+						<input type="text" name="plot" id="plot" class="text ui-widget-content ui-corner-all" />
+					</td>
+				</tr>	
+			</table>
+			<!--label for="paci_number">PACI#</label>
+			<input type="text" name="paci_number" id="paci_number" maxlength="8" class="text ui-widget-content ui-corner-all" /-->
+			<label id="labTitle" for="title"><strong>Title</strong></label>
+			<textarea name="title" id="title" rows="3" class="text ui-widget-content ui-corner-all" ></textarea>
+			<p><br/>
+				<button id="saveButton" title="Insert new or update document">Save</button>
+				<button id="resetButton" title="Set fields empty">Reset</button>
+				<button id="cancelButton" style="display:none" title="Cancel">Cancel</button>
+			</p>
+		</fieldset>
+	</form>
+</div>
+
+<div id="userAssignmentDiv" style="display:none">
+	<div id="custom_jsTree" dir="ltr" style="background-color:transparent;">
+		<ul/>
+	</div>
+
+	<div id="userList" dir="ltr">
+		<input style="margin: 3px 0 3px 13px;" type="text" value="" size="15" />
+		<button id="addUserButton">Add User</button>
+		<div class="customClear"></div>
+		<ul></ul>
+	</div>
+</div>
+
+<div id="dialog-form-comments" title="Comments"/>
+
+<div id="checkupForm" style="display:none">
 	<p id="validateTips">Fields with the <strong>bold</strong> labels are required.</p>
 	<form>
 		<fieldset>
@@ -314,20 +373,5 @@ if ($idp == "SAML") {
 		</fieldset>
 	</form>
 </div>
-
-<div id="userAssignmentDiv" style="display:none">
-	<div id="custom_jsTree" dir="ltr" style="background-color:transparent;">
-		<ul/>
-	</div>
-
-	<div id="userList" dir="ltr">
-		<input style="margin: 3px 0 3px 13px;" type="text" value="" size="15" />
-		<button id="addUserButton">Add User</button>
-		<div class="customClear"></div>
-		<ul></ul>
-	</div>
-</div>
-
-<div id="dialog-form-comments" title="Comments"/>
 
 </html>

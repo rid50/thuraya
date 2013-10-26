@@ -169,7 +169,7 @@ class DatabaseRepository {
 		$dbh = $this->connect();
 
 		try {
-			if ($param[docFileNumber] == null && $param[docFileNumber] == "") {
+			if ($param[docFileNumber] == null || $param[docFileNumber] == "") {
 
 				//error_log($param[filter][dateFrom] . "---" . $param[filter][dateTo], 3, "error.log");
 			
@@ -181,19 +181,19 @@ class DatabaseRepository {
 				//error_log($dtFrom . "---" . $dtTo, 3, "error.log");
 
 				if ($param[filter][fileNumber] != null) {
-					$where = " doc.docFileNumber = {$param[filter][fileNumber]}";
+					$where = " doc.docFileNumber = '{$param[filter][fileNumber]}'";
 					if ($param[filter][approver] != null)
 						$param[filter][approver] = null;
 				} else {
 					$where = " doc.docDate BETWEEN '$dtFrom' AND '$dtTo'";
-					if ($param[filter][paciNumber] != null)
-						$where .= " AND doc.docPACINumber = '{$param[filter][paciNumber]}'";
+					//if ($param[filter][paciNumber] != null)
+					//	$where .= " AND doc.docPACINumber = '{$param[filter][paciNumber]}'";
 					if ($param[filter][area] != null)
 						$where .= " AND doc.docArea = '{$param[filter][area]}'";
 					if ($param[filter][block] != null)
 						$where .= " AND doc.docBlock = '{$param[filter][block]}'";
-					if ($param[filter][street] != null)
-						$where .= " AND doc.docStreet = '{$param[filter][street]}'";
+					if ($param[filter][plot] != null)
+						$where .= " AND doc.docPlot = '{$param[filter][plot]}'";
 					if ($param[filter][sectionId] != null) {
 						if ($param[filter][sectionId] == 123)
 							$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2 OR doc.sectionId = 3)";
@@ -208,7 +208,8 @@ class DatabaseRepository {
 						$where .= " AND doc.employeeId = '{$param[filter][employeeId]}'";
 				}
 					
-				$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc";
+				//$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc";
+				$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc";
 				$st .= " WHERE " . $where . " ORDER BY docDate ASC, docFileNumber ASC ";
 
 				//error_log($st . "---", 3, "error.log");
@@ -227,7 +228,8 @@ class DatabaseRepository {
 				$stDoc = $dbh->query($st);
 				$stHistory = $dbh->query($st2);
 			} else {
-				$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc WHERE docFileNumber = :docFileNumber";
+				//$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc WHERE docFileNumber = :docFileNumber";
+				$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc WHERE docFileNumber = :docFileNumber";
 				$st2 = "SELECT docFileNumber, docDate, docApprover FROM docHistory WHERE docFileNumber = :docFileNumber"; // . " ORDER BY docDate ASC";
 				$stDoc = $dbh->prepare($st);
 				$stHistory = $dbh->prepare($st2);
@@ -271,8 +273,10 @@ class DatabaseRepository {
 //			if (!$found && $param[filter][approver] != null && $r2 -> docApprover != $param[filter][approver])
 //				continue;
 			
-			if ($r2->docPACINumber == null)
-				$r2->docPACINumber = "";
+			//if ($r2->docPACINumber == null)
+			//	$r2->docPACINumber = "";
+			if ($r2->docPlot == null)
+				$r2->docPlot = "";
 			
 			//$dt = date_create($r2 -> docDate)->format('d/m/Y');
 			//$dt = date_format(date_create($r2 -> docDate), 'd/m/Y');
@@ -408,12 +412,14 @@ class DatabaseRepository {
 	//error_log(gettype($dt2), 3, "error.txt");
 		$dbh = $this->connect();
 
-		if ($param[docPACINumber] == "")
-			$param[docPACINumber] = null;
+		//if ($param[docPACINumber] == "")
+		//	$param[docPACINumber] = null;
+		if ($param[docPlot] == "")
+			$param[docPlot] = null;
 
 		try {
 			//if ($param == "") {
-				$stDoc = $dbh->query("SELECT COUNT(*) FROM docHistory WHERE docFileNumber = $param[docFileNumber]");
+				$stDoc = $dbh->query("SELECT COUNT(*) FROM docHistory WHERE docFileNumber = '$param[docFileNumber]'");
 
 				//throw new Exception('Number of columns: ' . $stDoc->fetchColumn());
 				$udateIfExists = $param[docFileNumber] == $param[originFileNumber] && $param["udateIfExists"] == true;
@@ -421,16 +427,16 @@ class DatabaseRepository {
 				{
 					if ($param[originFileNumber] == null) {
 						//$aa = " - In - ";
-						$st = "INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle)
-							VALUES (:docFileNumber, :docDate, :docApprover, :docArea, :docBlock, :docStreet, :docBuilding, :docPACINumber, :docTitle)";
+						$st = "INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle)
+							VALUES (:docFileNumber, :docDate, :docApprover, :docArea, :docBlock, :docPlot, :docTitle)";
 					} else {
 						//$aa = " - Up - ";
 						if($udateIfExists)
-							$st = "UPDATE doc SET docFileNumber=:docFileNumber, docArea=:docArea, docBlock=:docBlock, docStreet=:docStreet, docBuilding=:docBuilding, docPACINumber=:docPACINumber, docTitle=:docTitle
-								WHERE docFileNumber = $param[originFileNumber]";
+							$st = "UPDATE doc SET docFileNumber=:docFileNumber, docArea=:docArea, docBlock=:docBlock, docPlot=:docPlot, docTitle=:docTitle
+								WHERE docFileNumber = '$param[originFileNumber]'";
 						else
-							$st = "UPDATE doc SET docFileNumber=:docFileNumber, docDate=:docDate, docApprover=:docApprover, docArea=:docArea, docBlock=:docBlock, docStreet=:docStreet, docBuilding=:docBuilding, docPACINumber=:docPACINumber, docTitle=:docTitle
-								WHERE docFileNumber = $param[originFileNumber]";
+							$st = "UPDATE doc SET docFileNumber=:docFileNumber, docDate=:docDate, docApprover=:docApprover, docArea=:docArea, docBlock=:docBlock, docPlot=:docPlot, docTitle=:docTitle
+								WHERE docFileNumber = '$param[originFileNumber]'";
 					}
 					
 					// $st = "INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle)
@@ -445,9 +451,9 @@ class DatabaseRepository {
 							'docFileNumber' => $param[docFileNumber],
 							'docArea' => $param[docArea],
 							'docBlock' => $param[docBlock],
-							'docStreet' => $param[docStreet],
-							'docBuilding' => $param[docBuilding],
-							'docPACINumber' => $param[docPACINumber],
+							'docPlot' => $param[docPlot],
+							//'docBuilding' => $param[docBuilding],
+							//'docPACINumber' => $param[docPACINumber],
 							'docTitle' => $param[docTitle],
 						);
 					} else {
@@ -458,9 +464,9 @@ class DatabaseRepository {
 							'docApprover' => $param[docApprover],
 							'docArea' => $param[docArea],
 							'docBlock' => $param[docBlock],
-							'docStreet' => $param[docStreet],
-							'docBuilding' => $param[docBuilding],
-							'docPACINumber' => $param[docPACINumber],
+							'docPlot' => $param[docPlot],
+							//'docBuilding' => $param[docBuilding],
+							//'docPACINumber' => $param[docPACINumber],
 							'docTitle' => $param[docTitle],
 						);
 					}
@@ -502,8 +508,8 @@ class DatabaseRepository {
 				//if ($param[sectionId])
 				$st .= ", sectionId = " . $param[sectionId];
 				$st .= ", employeeId = NULL";
-				$st .= " WHERE docFileNumber = $param[docFileNumber]";
-				//$st = "UPDATE doc SET docComment = " . $dbh->quote($param[docComment]) . ", employeeId = NULL WHERE docFileNumber = $param[docFileNumber]";
+				$st .= " WHERE docFileNumber = '$param[docFileNumber]'";
+				//$st = "UPDATE doc SET docComment = " . $dbh->quote($param[docComment]) . ", employeeId = NULL WHERE docFileNumber = $dbh->quote($param[docFileNumber])";
 				
 				$stDoc = $dbh->exec($st);
 				
@@ -511,7 +517,7 @@ class DatabaseRepository {
 				$dt = date_format($dt, 'Y-m-d');
 				//$appr = $param[docHistory][docApprover];
 				//$st = "INSERT INTO docHistory (docFileNumber, docDate, docApprover)	VALUES ($param[docFileNumber], '$dt', '$appr')";
-				$st = "INSERT INTO docHistory (docFileNumber, docDate, docApprover)	VALUES ($param[docFileNumber], '$dt', '{$param[docHistory][docApprover]}')";
+				$st = "INSERT INTO docHistory (docFileNumber, docDate, docApprover)	VALUES ('$param[docFileNumber]', '$dt', '{$param[docHistory][docApprover]}')";
 				$stDoc = $dbh->exec($st);
 			} else {
 				if ($param[employeeId] != null)
@@ -519,7 +525,7 @@ class DatabaseRepository {
 				else
 					$st = "UPDATE doc SET employeeId = NULL";
 				
-				$st .= " WHERE docFileNumber = $param[docFileNumber]";
+				$st .= " WHERE docFileNumber = '$param[docFileNumber]'";
 				//$stDoc = $dbh->prepare($st);
 				//$stDoc->execute();
 				$stDoc = $dbh->exec($st);
@@ -540,7 +546,7 @@ class DatabaseRepository {
 
 			//throw new Exception('Number of columns: ' . $stDoc->fetchColumn());
 			if($stDoc->fetchColumn() == 0 || $param["deleteIfExists"] == true) {
-				$st = "DELETE FROM doc WHERE docFileNumber = $param[docFileNumber]";
+				$st = "DELETE FROM doc WHERE docFileNumber = '$param[docFileNumber]'";
 				$stDoc = $dbh->exec($st);
 			} else
 				throw new Exception("1003"); 	//"The document $param[docFileNumber] has been already approved, it cannot be deleted"
