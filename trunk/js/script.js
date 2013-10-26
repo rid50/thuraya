@@ -321,7 +321,7 @@ $(document).ready(function () {
 			//$("#area_search").val("0");
 			$("#area_search").val("");
 			$("#block_search").val("");
-			$("#street_search").val("");
+			$("#plot_search").val("");
 			$("#searchButton").removeClass( "ui-state-error" );
 			$("#searchButton").removeAttr("disabled");
 		});
@@ -738,14 +738,14 @@ function getSearchFilter() {
 	return {
 		//actorRole:actorSectionNumber,
 		fileNumber: $("#file_number_search").val(),
-		paciNumber: $("#paci_number_search").val(),
+		//paciNumber: $("#paci_number_search").val(),
 		approver: selVal,
 		dateFrom: dt,
 		dateTo: dt2,
 		//area: selVal2,
 		area: $("#area_search").val(),
 		block: $("#block_search").val(),
-		street: $("#street_search").val(),
+		plot: $("#plot_search").val(),
 		sectionId: secId,
 		employeeId: empId,
 	};
@@ -1177,9 +1177,9 @@ function selectXmlNodes() {
 					names,
 					that.find('docArea').text(),
 					that.find('docBlock').text(),
-					that.find('docStreet').text(),
-					that.find('docBuilding').text(),
-					that.find('docPACINumber').text(),
+					that.find('docPlot').text(),
+					//that.find('docBuilding').text(),
+					//that.find('docPACINumber').text(),
 					sectionId
 					//$(this).find('taskDescription').text(),
 					//$(this).find('taskStatus').text()
@@ -1261,9 +1261,9 @@ function selectJsonNodes() {
 						names,
 						key.doc.docArea,
 						key.doc.docBlock,
-						key.doc.docStreet,
-						key.doc.docBuilding,
-						key.doc.docPACINumber,
+						key.doc.docPlot,
+						//key.doc.docBuilding,
+						//key.doc.docPACINumber,
 						key.doc.sectionId,
 						key.doc.employeeId
 						//$(this).find('taskDescription').text(),
@@ -1276,7 +1276,8 @@ function selectJsonNodes() {
 
 //$('.customMiddleSide>ul').empty();
 
-function addDocToList(list, id, file_number, date, name, area, block, street, building, paci_number, secId, empId) {
+//function addDocToList(list, id, file_number, date, name, area, block, street, building, paci_number, secId, empId) {
+function addDocToList(list, id, file_number, date, name, area, block, plot, secId, empId) {
 	// Create a copy of the <li> template
 	var itemTemplate = $('#TemplateListItems').clone();
 
@@ -1310,13 +1311,14 @@ function addDocToList(list, id, file_number, date, name, area, block, street, bu
 
 	var address = area + "; " + 
 					$.i18n.prop('Block') + ": " + block + "; " + 
-					$.i18n.prop('Street') + ": " + street + "; " + 
-					$.i18n.prop('Building') + ": " + building;
+					$.i18n.prop('Plot') + ": " + plot;
+//					+ "; " + 
+//					$.i18n.prop('Building') + ": " + building;
 
 	itemTemplate.find('.docAddress span').text(address);
 	//itemTemplate.find('.docAddress').text(address);
 
-	itemTemplate.find('.docPACINumber span').text(paci_number);
+	//itemTemplate.find('.docPACINumber span').text(paci_number);
 	
 	// Set the description to the task description
 	//itemTemplate.find('.taskDescription span').html(description);
@@ -2220,11 +2222,12 @@ function resetForm() {
 	var file_number = $( "#file_number" ),
 		area = $( "#area" ),
 		block = $( "#block" ),
-		street = $( "#street" ),
-		building = $( "#building" ),
-		paci_number = $( "#paci_number" ),
+		plot = $( "#plot" ),
+		//building = $( "#building" ),
+		//paci_number = $( "#paci_number" ),
 		title = $( "#title" ),
-		allFields = $( [] ).add(file_number).add(area).add(block).add(street).add(building).add(paci_number).add(title),
+		allFields = $( [] ).add(file_number).add(area).add(block).add(plot).add(title),
+		//allFields = $( [] ).add(file_number).add(area).add(block).add(street).add(building).add(paci_number).add(title),
 		tips = $( "#validateTips" );
 
 	if ($("#newForm").length != 0) {
@@ -2352,11 +2355,12 @@ $(function() {
 	var file_number = $( "#file_number" ),
 		area = $( "#area" ),
 		block = $( "#block" ),
-		street = $( "#street" ),
-		building = $( "#building" ),
-		paci_number = $( "#paci_number" ),
+		plot = $( "#plot" ),
+		//building = $( "#building" ),
+		//paci_number = $( "#paci_number" ),
 		title = $( "#title" ),
-		allFields = $( [] ).add(file_number).add(area).add(block).add(street).add(building).add(paci_number).add(title),
+		allFields = $( [] ).add(file_number).add(area).add(block).add(plot).add(title),
+		//allFields = $( [] ).add(file_number).add(area).add(block).add(street).add(building).add(paci_number).add(title),
 		tips = $( "#validateTips" );
 	
 	function updateTips( t ) {
@@ -2418,11 +2422,11 @@ $(function() {
 		var v = address[1].split(':');
 		form.find("#block").val(v[1].trim());
 		v = address[2].split(':');
-		form.find("#street").val(v[1].trim());
-		v = address[3].split(':');
-		form.find("#building").val(v[1].trim());
+		form.find("#plot").val(v[1].trim());
+		//v = address[3].split(':');
+		//form.find("#building").val(v[1].trim());
 
-		form.find("#paci_number").val(that.find('.docPACINumber span').text());
+		//form.find("#paci_number").val(that.find('.docPACINumber span').text());
 		
 		//var xmlNode = $(rootDoc).find("doc>docFileNumber:contains('" + fn + "')");
 		//form.find("#title").val(xmlNode.siblings('docTitle').text());
@@ -2464,9 +2468,10 @@ $(function() {
 		var bValid = true;
 		allFields.removeClass( "ui-state-error" );
 		//bValid = bValid && checkLength( file_number, "File Number", 5, 5 );
-		bValid = bValid && checkLength( file_number, $.i18n.prop("FileNumber"), 5, 5 );
+		//bValid = bValid && checkLength( file_number, $.i18n.prop("FileNumber"), 5, 5 );
 		//bValid = bValid && checkRegexp( file_number, /^([0-9])+$/, "File Number field only allows : 0-9" );
-		bValid = bValid && checkRegexp( file_number, /^([0-9])+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("FileNumber"), " : 0-9")); //File Number field only allows : 0-9" 
+		bValid = bValid && isRequired( file_number, $.i18n.prop("FileNumber") );
+		bValid = bValid && checkRegexp( file_number, /^[^:;]+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("FileNumber"), " : 0-9")); //File Number field only allows : 0-9" 
 		
 		//bValid = bValid && isRequired( area, "Area" );
 		//bValid = bValid && checkRegexp( area, /^[^:;]+$/, "Area field does not allow ':' ';'" );
@@ -2478,19 +2483,16 @@ $(function() {
 		bValid = bValid && isRequired( block, $.i18n.prop("Block") );
 		bValid = bValid && checkRegexp( block, /^[^:;]+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("Block"), " ':' ';'"));
 
-		//bValid = bValid && isRequired( street, "Street" );
-		//bValid = bValid && checkRegexp( street, /^[^:;]+$/, "Street field does not allow ':' ';'" );
-		bValid = bValid && isRequired( street, $.i18n.prop("Street") );
-		bValid = bValid && checkRegexp( street, /^[^:;]+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("Street"), " ':' ';'"));
+		//bValid = bValid && isRequired( street, $.i18n.prop("Street") );
+		//bValid = bValid && checkRegexp( street, /^[^:;]+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("Street"), " ':' ';'"));
+		//bValid = bValid && isRequired( plot, $.i18n.prop("Plot") );
+		bValid = bValid && checkRegexp( plot, /^[^:;]+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("Plot"), " ':' ';'"));
 
-
-		//bValid = bValid && isRequired( building, "Building" );
-		//bValid = bValid && checkRegexp( building, /^[^:;]+$/, "Building field does not allow ':' ';'" );
-		bValid = bValid && isRequired( building, $.i18n.prop("Building") );
-		bValid = bValid && checkRegexp( building, /^[^:;]+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("Building"), " ':' ';'"));
+		//bValid = bValid && isRequired( building, $.i18n.prop("Building") );
+		//bValid = bValid && checkRegexp( building, /^[^:;]+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("Building"), " ':' ';'"));
 		
-		//bValid = bValid && checkRegexp( paci_number, /^([0-9]){8}$/, "PACI Number field only allows : 0-9 , length is 8" );
-		bValid = bValid && checkRegexp( paci_number, /^([0-9]){8}$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("PACINumber"), $.i18n.prop("LengthIs8")));
+		////bValid = bValid && checkRegexp( paci_number, /^([0-9]){8}$/, "PACI Number field only allows : 0-9 , length is 8" );
+		//bValid = bValid && checkRegexp( paci_number, /^([0-9]){8}$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("PACINumber"), $.i18n.prop("LengthIs8")));
 		
 		//bValid = bValid && isRequired( title, "Title" );
 		bValid = bValid && isRequired( title, $.i18n.prop("Title") );
@@ -2556,9 +2558,9 @@ $(function() {
 						docDate:getDate(),
 						docArea:area.val(),
 						docBlock:block.val(),
-						docStreet:street.val(),
-						docBuilding: building.val(),
-						docPACINumber:paci_number.val(),
+						docPlot:plot.val(),
+						//docBuilding: building.val(),
+						//docPACINumber:paci_number.val(),
 						docTitle:title.val(),
 						originFileNumber: (newDoc) ? null : $("#newForm").data('originFileNumber'),
 						udateIfExists: udateIfExists,
@@ -2625,11 +2627,12 @@ $(function() {
 				*/
 				var address = area.val() + "; " + 
 						$.i18n.prop('Block') + ": " + block.val() + "; " + 
-						$.i18n.prop('Street') + ": " + street.val() + "; " + 
-						$.i18n.prop('Building') + ": " + building.val();
+						$.i18n.prop('Plot') + ": " + plot.val();
+//						+ "; " + 
+//						$.i18n.prop('Building') + ": " + building.val();
 				item.find(".docAddress span").text(address);
 				
-				item.find(".docPACINumber span").text(paci_number.val());
+				//item.find(".docPACINumber span").text(paci_number.val());
 			
 				if (rootDoc.constructor == XMLDocument) {
 					docNode = docNode.parent();
@@ -2641,9 +2644,9 @@ $(function() {
 					}
 					docNode.children("docArea").text(area.val());
 					docNode.children("docBlock").text(block.val());
-					docNode.children("docStreet").text(street.val());
-					docNode.children("docBuilding").text(building.val());
-					docNode.children("docPACINumber").text(paci_number.val());
+					docNode.children("docPlot").text(plot.val());
+					//docNode.children("docBuilding").text(building.val());
+					//docNode.children("docPACINumber").text(paci_number.val());
 					docNode.children("docTitle").text(title.val());
 					selectXmlNodes();
 				} else {
@@ -2653,9 +2656,9 @@ $(function() {
 					docNode.docFileNumber = file_number.val();
 					docNode.docArea = area.val();
 					docNode.docBlock = block.val();
-					docNode.docStreet = street.val();
-					docNode.docBuilding = building.val();
-					docNode.docPACINumber = paci_number.val();
+					docNode.docPlot = plot.val();
+					//docNode.docBuilding = building.val();
+					//docNode.docPACINumber = paci_number.val();
 					docNode.docTitle = title.val();
 					selectJsonNodes();
 				}
@@ -2664,7 +2667,8 @@ $(function() {
 				var names = []; names[0] = userInfo[0].displayName;
 				//addDocToList($('.customMiddleSide #docs'), 0, 
 				addDocToList($('#docs'), 0, 
-							file_number.val(), dates, names, area.val(), block.val(), street.val(), building.val(), paci_number.val(), sectionId);
+							file_number.val(), dates, names, area.val(), block.val(), plot.val(), sectionId);
+//							file_number.val(), dates, names, area.val(), block.val(), street.val(), building.val(), paci_number.val(), sectionId);
 
 				if (rootDoc.constructor == XMLDocument) {
 					appendSpaceElement(rootDoc.documentElement, 4);
@@ -2686,14 +2690,14 @@ $(function() {
 					el = createElement("docBlock", block.val());
 					doc.appendChild(el); appendNewLineElement(doc, 8);
 					
-					el = createElement("docStreet", street.val());
+					el = createElement("docPlot", plot.val());
 					doc.appendChild(el); appendNewLineElement(doc, 8);
 					
-					el = createElement("docBuilding", building.val());
-					doc.appendChild(el); appendNewLineElement(doc, 8);
+					//el = createElement("docBuilding", building.val());
+					//doc.appendChild(el); appendNewLineElement(doc, 8);
 
-					el = createElement("docPACINumber", paci_number.val());
-					doc.appendChild(el); appendNewLineElement(doc, 8);
+					//el = createElement("docPACINumber", paci_number.val());
+					//doc.appendChild(el); appendNewLineElement(doc, 8);
 
 					el = createElement("docTitle", title.val());
 					doc.appendChild(el); appendNewLineElement(doc, 8);
@@ -2708,9 +2712,9 @@ $(function() {
 					doc.docHistory = {"docDate": getDate(), "docApprover": userInfo[0].displayName};
 					doc.docArea = area.val();
 					doc.docBlock = block.val();
-					doc.docStreet = street.val();
-					doc.docBuilding = building.val();
-					doc.docPACINumber = paci_number.val();
+					doc.docPlot = plot.val();
+					//doc.docBuilding = building.val();
+					//doc.docPACINumber = paci_number.val();
 					doc.docTitle = title.val();
 					rootDoc[0].docs.push({"doc": doc});
 				}
@@ -3291,13 +3295,13 @@ function toggleLanguage(lang, dir) {
 			$('label[for="file_number"]').html('<strong>' + jQuery.i18n.prop('File') + '</strong>');
 			$('label[for="area"]').html('<strong>' + jQuery.i18n.prop('Area') + '</strong>');
 			$('label[for="block"]').html('<strong>' + jQuery.i18n.prop('Block') + '</strong>');
-			$('label[for="street"]').html('<strong>' + jQuery.i18n.prop('Street') + '</strong>');
-			$('label[for="building"]').html('<strong>' + jQuery.i18n.prop('Building') + '</strong>');
-			$('label[for="paci_number"]').html(jQuery.i18n.prop('PACI'));
+			$('label[for="plot"]').html('<strong>' + jQuery.i18n.prop('Plot') + '</strong>');
+			//$('label[for="building"]').html('<strong>' + jQuery.i18n.prop('Building') + '</strong>');
+			//$('label[for="paci_number"]').html(jQuery.i18n.prop('PACI'));
 			$('#labTitle').html('<strong>' + jQuery.i18n.prop('Title') + '</strong>');
 			$('.docFileNumber>div').html('<strong>' + jQuery.i18n.prop('File') + ':&nbsp;</strong>');
 			$('.docAddress>div').html('<strong>' + jQuery.i18n.prop('Address') + ':&nbsp;</strong>');
-			$('.docPACINumber>div').html('<strong>' + jQuery.i18n.prop('PACI') + ':&nbsp;</strong>');
+			//$('.docPACINumber>div').html('<strong>' + jQuery.i18n.prop('PACI') + ':&nbsp;</strong>');
 
 			$("#approver_search>option:first").html('--- ' + jQuery.i18n.prop('Select') + ' ---');
 			//$("#area_search>option:first").html('--- ' + jQuery.i18n.prop('Select') + ' ---');
@@ -3306,13 +3310,13 @@ function toggleLanguage(lang, dir) {
 			var obj = $("#accordion>span:nth-child(1)").contents().filter(function() {return this.nodeType == 3;});
 			obj.get()[0].textContent = jQuery.i18n.prop('Search');
 			$("#accordion>div>div:first>span").text(jQuery.i18n.prop('File'));
-			$("#accordion>div>div:nth-child(2)>span").text(jQuery.i18n.prop('PACI'));
-			$("#accordion>div>div:nth-child(3)>span").text(jQuery.i18n.prop('Approver'));
-			$("#accordion>div>div:nth-child(4)>span").text(jQuery.i18n.prop('DateFrom'));
-			$("#accordion>div>div:nth-child(5)>span").text(jQuery.i18n.prop('DateTo'));
-			$("#accordion>div>div:nth-child(6)>span").text(jQuery.i18n.prop('Area'));
-			$("#accordion>div>div:nth-child(7)>span").text(jQuery.i18n.prop('Block'));
-			$("#accordion>div>div:nth-child(8)>span").text(jQuery.i18n.prop('Street'));
+			//$("#accordion>div>div:nth-child(2)>span").text(jQuery.i18n.prop('PACI'));
+			$("#accordion>div>div:nth-child(2)>span").text(jQuery.i18n.prop('Approver'));
+			$("#accordion>div>div:nth-child(3)>span").text(jQuery.i18n.prop('DateFrom'));
+			$("#accordion>div>div:nth-child(4)>span").text(jQuery.i18n.prop('DateTo'));
+			$("#accordion>div>div:nth-child(5)>span").text(jQuery.i18n.prop('Area'));
+			$("#accordion>div>div:nth-child(6)>span").text(jQuery.i18n.prop('Block'));
+			$("#accordion>div>div:nth-child(7)>span").text(jQuery.i18n.prop('Plot'));
 			$("#searchButton").button({ label: $.i18n.prop('Search')});
 			$("#searchResetButton").button({ label: $.i18n.prop('Reset')});
 

@@ -1,10 +1,10 @@
-USE mewdesigncomps;
+USE tamdidat;
 DROP TABLE IF EXISTS userRepository;
 CREATE TABLE userRepository (
 loginName VARCHAR(32) PRIMARY KEY NOT NULL,
 password VARCHAR(64) NOT NULL,
-upn TEXT NOT NULL,
-displayName TEXT NOT NULL
+upn VARCHAR(48) NOT NULL,
+displayName VARCHAR(48) NOT NULL
 );
 
 INSERT INTO userRepository VALUES ('abdalla', 'abdalla', 'abdalla@mewj.gov.kw', 'Abdalla Masri');
