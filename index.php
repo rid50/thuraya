@@ -322,19 +322,19 @@ if ($idp == "SAML") {
 	</div>
 </div>
 
-<div id="dialog-form-comments"/>
+<!--div id="dialog-form-comments"/-->
 
 <div id="checkupForm" style="display:none">
-<!--
 	<p id="validateTips">Fields with the <strong>bold</strong> labels are required.</p>
+	<div id="set">
 	<form>
 		<fieldset>
-			<label for="file_number"><strong>File#</strong></label>
-			<input type="text" name="file_number" id="file_number2" autofocus="autofocus" class="text ui-widget-content ui-corner-all" />
-			<label for="checkup_number"><strong>Checkup#</strong></label>
-			<input type="text" name="checkup_number" id="checkup_number" class="text ui-widget-content ui-corner-all" />
-			<label for="address"><strong>Address</strong></label>
-			<input type="text" name="address" id="address" class="text ui-widget-content ui-corner-all" />
+			<label for="file_number"><strong>File#</strong></label><p/>
+			<input type="text" name="file_number" id="file_number2" autofocus="autofocus" class="text ui-widget-content ui-corner-all" /><p/>
+			<label for="checkup_number"><strong>Checkup#</strong></label><p/>
+			<input type="text" name="checkup_number" id="checkup_number" class="text ui-widget-content ui-corner-all" /><p/>
+			<label for="address"><strong>Address</strong></label><p/>
+			<input type="text" name="address" id="address" class="text ui-widget-content ui-corner-all" /><p/>
 			<label for="date_checkup"><strong>Date of checkup</strong></label>
 			<input type="text" name="date_checkup" id="date_checkup" class="text ui-widget-content ui-corner-all" />
 			<label for="date_submission"><strong>Date of submittion</strong></label>
@@ -350,7 +350,7 @@ if ($idp == "SAML") {
 			</p>
 		</fieldset>
 	</form>
--->	
+	</div>
 </div>
 
 </html>
