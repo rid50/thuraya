@@ -241,10 +241,18 @@ $(document).ready(function () {
 			//showButtonPanel: true,
 		});
 
+		$("#date_submission").datepicker({
+			changeMonth: true,
+			changeYear: true,
+			//showButtonPanel: true,
+		});
+		
 		$("#datepicker").datepicker( $.datepicker.regional[ "" ] );
 		$("#datepicker").datepicker( "option", "dateFormat", "dd/mm/yy" );
 		$("#datepicker2").datepicker( $.datepicker.regional[ "" ] );
 		$("#datepicker2").datepicker( "option", "dateFormat", "dd/mm/yy" );
+		$("#date_submission").datepicker( $.datepicker.regional[ "" ] );
+		$("#date_submission").datepicker( "option", "dateFormat", "dd/mm/yy" );
 
 		//$("#datepicker").datepicker( "setDate", "25/04/2013" );
 		
@@ -1455,7 +1463,11 @@ function applyButtonBorderStyle(itemTemplate) {
 						itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-person'} });
 						//itemTemplate.find("a:nth-of-type(1)").button({ disabled: 'true' });
 
-						//itemTemplate.find(".tagButton").css({ right: '2px' });
+						if ($("body[dir='ltr']").length)
+							itemTemplate.find(".tagButton").css({ right: '2px' });
+						else
+							itemTemplate.find(".tagButton").css({ left: '2px' });
+
 						itemTemplate.find(".tagButton").css({ bottom: '6px' });
 						itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-top': '0px', 'padding-bottom': '0px' });
 						//itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-top': '0px' });
@@ -1466,15 +1478,21 @@ function applyButtonBorderStyle(itemTemplate) {
 					setPrintCommentLinks(itemTemplate);
 					
 				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.vault) {
-						setPrintCommentLinks(itemTemplate);
+					setPrintCommentLinks(itemTemplate);
 				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat) {
-						setPrintCommentLinks(itemTemplate);
+					setPrintCommentLinks(itemTemplate);
 				}
 			} else if (sectionId == sectionId_enum.checkup) {
 				itemTemplate.find(".tagButton").addClass("checkupButton");	
 				itemTemplate.find(".tagButton").text("Checkup");
 				itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
 				itemTemplate.find(".tagButton").css("display", "block");
+
+				if ($("body[dir='ltr']").length)
+					itemTemplate.find(".tagButton").css({ right: '2px' });
+				else
+					itemTemplate.find(".tagButton").css({ left: '2px' });
+				
 				itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-document'} });
 			} else if (sectionId == sectionId_enum.ac || sectionId == sectionId_enum.electricity) {
 				if (itemTemplate.data('empId') != null) {
@@ -1485,6 +1503,12 @@ function applyButtonBorderStyle(itemTemplate) {
 					//itemTemplate.find(".tagButton").css(itemTemplate.offset());						 
 
 					itemTemplate.find(".tagButton").attr('title', $.i18n.prop('Revoke'));
+					
+					if ($("body[dir='ltr']").length)
+						itemTemplate.find(".tagButton").css({ right: '2px' });
+					else
+						itemTemplate.find(".tagButton").css({ left: '2px' });
+					
 					//itemTemplate.find(".tagButton").parent().css({ right: '4px' });
 					itemTemplate.find(".tagButton").css("display", "block");
 					itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-arrowreturnthick-1-s'} });
@@ -1628,7 +1652,7 @@ function deleteDocument(fileNumber) {
 
 function checkupFormDialog(that) {
 //this.checkupFormDialog = function(that) {
-	//var docFileNumber = $(that).closest("div").find(".docFileNumber span").text();
+	var fileNumber = $(that).closest("div").find(".docFileNumber span").text();
 /*
 	var sectionIdReturnedFrom;
 	rootDoc[0].docs.some(function(key, index) {
@@ -1641,20 +1665,73 @@ function checkupFormDialog(that) {
 	//$("#checkupForm").show();
 	
 	var form = $("#checkupForm");
-    //form.prop('docFileNumber', docFileNumber);
+    form.prop('fileNumber', fileNumber);
     form.dialog({
-        //title:jQuery.i18n.prop('Comment'),
+		title:jQuery.i18n.prop('FileNumber') + ": " + fileNumber,
 		//dialogClass: "no-close",
         height: "auto",
-        width: 700,
+        width: 730,
         modal: true,
 		autoOpen: true,
 		resizable: false,
-		//closeOnEscape: false,
-		//open: function( event, ui ) {
-		//},
-		//close: function( event, ui ) {
-		//},
+		closeOnEscape: false,
+		open: function( event, ui ) {
+			$(this).dialog( "option", "buttons",
+				[{	text: "Save",
+					id: "buttSave",
+					click: function() {
+						$( this ).dialog( "destroy" )
+					}
+				},
+				{	text: "Cancel",
+					click: function() {
+						$( this ).dialog( "destroy" )
+					}
+				}]
+			); 
+
+			$(this).find("#file_number_checkup").val(fileNumber);
+			//$(this).find("#file_number_checkup").prop("disabled", "true");
+
+			that = $(that).parent();	//  a context of the current doc
+
+			var address = that.find('.docAddress span').text();
+			$(this).find("#address").val(address);
+			//$(this).find("#address").prop("disabled", "true");
+
+/*
+			form.find("#area").val(address[0].trim());
+			var v = address[1].split(':');
+			form.find("#block").val(v[1].trim());
+			v = address[2].split(':');
+			form.find("#plot").val(v[1].trim());
+*/
+
+			$('input[id="date_submission"]').change(function() {
+				var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
+				if (!$(this).val().match(regExpPattern)) {
+					$(this).addClass( "ui-state-error" );
+					$("#buttSave").attr('disabled', 'disabled');
+				} else {
+					$(this).removeClass( "ui-state-error" );
+					$("#buttSave").removeAttr("disabled");
+				}
+			});
+			
+			//ui-dialog-buttonset
+			$(this).parent().find(".ui-button-text").each(function() {
+				var that = $(this);
+				if (that.text() == "Save")
+					that.text(jQuery.i18n.prop('Save'));
+				else if (that.text() == "Cancel")
+					that.text(jQuery.i18n.prop('Cancel'));
+				else if (that.text() == "Close")
+					that.text(jQuery.i18n.prop('Close'));
+			});
+			
+		},
+		close: function( event, ui ) {
+		},
     });
 };
 
@@ -1674,7 +1751,7 @@ this.commentDialog = function(that, action) {
 		}
 	});
 	
-	var html = "";
+	var html = "<div>";
 	
 	//var html = '<div style="overflow:auto; height: 340px; word-wrap:break-word;">' + docFileNumber.siblings('docComment').text() + "</div><br/>";
 	html += '<div style="overflow:auto; height: 340px; word-wrap:break-word;">' + commentHistory + "</div><br/>";
@@ -1742,6 +1819,9 @@ this.commentDialog = function(that, action) {
 		
 		if (!(sectionId != sectionId_enum.followup && actor == actor_enum.manager))
 			html += '<textarea name="comment" id="comment" style="width:500px;" rows="4" class="text ui-widget-content ui-corner-all" ></textarea>';
+			
+		html += '</div>';
+			
 	}
 
 	//var form = $("#dialog-form-comments");
@@ -1790,7 +1870,7 @@ this.commentDialog = function(that, action) {
 				$(this).dialog( "option", "buttons",
 					[{	text: "Close",
 						click: function() {
-							$( this ).dialog( "destroy" )
+							$( this ).dialog( "destroy" );
 						}
 					}]
 				); 
@@ -1799,6 +1879,7 @@ this.commentDialog = function(that, action) {
 				$(this).dialog( "option", "buttons",
 					[{
 						text: "Ok",
+						id: "buttOk",
 						click: function() {
 							if (action == status_enum.approve) {
 								//$(e.currentTarget).button('disable');
@@ -1810,12 +1891,12 @@ this.commentDialog = function(that, action) {
 							} else if (action == status_enum.reject)
 								reject($(this).find("#comment").val(), this.commentHistory, this.fileNumber);
 								
-							$( this ).dialog( "destroy" )
+							$( this ).dialog( "destroy" );
 						}
 					},
 					{	text: "Cancel",
 						click: function() {
-							$(this).dialog( "destroy" )
+							$(this).dialog( "destroy" );
 						}
 					}]
 				);
@@ -1823,7 +1904,8 @@ this.commentDialog = function(that, action) {
 
 			$('#radio').bind('click', function(event){
 				if ($("input:checked").val() != undefined)
-					$(this).parent().parent().dialog('widget').find('button:contains("Ok")').prop('disabled', false);
+					$("#buttOk").prop('disabled', false);
+					//$(".ui-dialog-buttonpane").find('button:contains("Ok")').prop('disabled', false);	// it works !!!!
 			});
 
 			if (action == status_enum.approve && $("input:checked").val() == undefined)
@@ -3184,8 +3266,11 @@ function toggleLanguage(lang, dir) {
 			
 			$("#datepicker").datepicker( "option", $.datepicker.regional[ (lang == "en") ? "" : lang ] );
 			$("#datepicker2").datepicker( "option", $.datepicker.regional[ (lang == "en") ? "" : lang ] );
+			$("#date_submission").datepicker( "option", $.datepicker.regional[ (lang == "en") ? "" : lang ] );
+
 			$("#datepicker").datepicker( "option", "dateFormat", "dd/mm/yy" );
 			$("#datepicker2").datepicker( "option", "dateFormat", "dd/mm/yy" );
+			$("#date_submission").datepicker( "option", "dateFormat", "dd/mm/yy" );
 			
 			var change = true;
 			if (lang == "ar")
@@ -3193,6 +3278,7 @@ function toggleLanguage(lang, dir) {
 				
 			$("#datepicker").datepicker("option", "changeMonth", change);
 			$("#datepicker2").datepicker("option", "changeMonth", change);
+			$("#date_submission").datepicker("option", "changeMonth", change);
 		
 			$('#Copyright').text(jQuery.i18n.prop('Copyright'));
 			$('#MediaCenter').text(jQuery.i18n.prop('MediaCenter'));
@@ -3220,6 +3306,8 @@ function toggleLanguage(lang, dir) {
 
 			
 			if (dir == 'ltr') {
+				$(".tagButton").css("left", ""); 
+				$(".tagButton").css("right", "2px");
 				$(".customRightSide").css("text-align", "right");
 				$(".customMiddleSide, .customRightSide, #userList").css("box-shadow", "4px 4px 2px #999");
 				$(".customMiddleSide #docs li, .docButtons").css("box-shadow", "2px 2px 2px #999");
@@ -3227,6 +3315,8 @@ function toggleLanguage(lang, dir) {
 			//	$(".docDetailDiv select").css({'margin-left':'20px', 'margin-right':0});
 			//	$(".docPACINumber").css({'margin-left': 0, 'margin-right':'20px'});
 			} else {
+				$(".tagButton").css("right", ""); 
+				$(".tagButton").css("left", "2px");
 				$(".customRightSide").css("text-align", "left"); 
 				$(".customMiddleSide, .customRightSide, #userList").css("box-shadow", "-4px 4px 2px #999");
 				$(".customMiddleSide #docs li, .docButtons").css("box-shadow", "-2px 2px 2px #999");

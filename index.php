@@ -247,7 +247,7 @@ if ($idp == "SAML") {
 			<a href="#" class="docButtons floatRight"></a>
 			<a href="#" class="docButtons floatRight"></a>
 			<!--div class="floatRight" style="border: 1px solid red"><a href="#" class="tagButton"></a></div-->
-			<a href="#" class="tagButton floatRight"></a>
+			<a href="#" class="tagButton"></a>
 
 			<div class="customClear"></div>
 			<div class='docAddress floatLeft'>
@@ -270,22 +270,22 @@ if ($idp == "SAML") {
 	<form>
 		<fieldset>
 			<label for="file_number"><strong>File#</strong></label>
-			<input type="text" name="file_number" id="file_number" autofocus class="text ui-widget-content ui-corner-all" />
+			<input type="text" name="file_number" id="file_number" autofocus maxlength="24" class="text ui-widget-content ui-corner-all" />
 
 			<table>
 				<tr>
-					<td style="width:200px;">
+					<td>
 						<label for="area"><strong>Area</strong></label>
 					</td>
-					<td style="width:80px;">
+					<td>
 						<label for="block"><strong>Block</strong></label>
 					</td>
-					<td style="width:200px;">
+					<td>
 						<label for="plot"><strong>Plot</strong></label>
 					</td>
 				</tr>	
 				<tr>
-					<td style="padding:0">
+					<td>
 						<input type="text" name="area" id="area" class="text ui-widget-content ui-corner-all" />
 					</td>
 					<td>
@@ -329,25 +329,91 @@ if ($idp == "SAML") {
 	<div id="set">
 	<form>
 		<fieldset>
-			<label for="file_number"><strong>File#</strong></label><p/>
-			<input type="text" name="file_number" id="file_number2" autofocus="autofocus" class="text ui-widget-content ui-corner-all" /><p/>
-			<label for="checkup_number"><strong>Checkup#</strong></label><p/>
-			<input type="text" name="checkup_number" id="checkup_number" class="text ui-widget-content ui-corner-all" /><p/>
-			<label for="address"><strong>Address</strong></label><p/>
-			<input type="text" name="address" id="address" class="text ui-widget-content ui-corner-all" /><p/>
-			<label for="date_checkup"><strong>Date of checkup</strong></label>
-			<input type="text" name="date_checkup" id="date_checkup" class="text ui-widget-content ui-corner-all" />
-			<label for="date_submission"><strong>Date of submittion</strong></label>
-			<input type="text" name="date_submission" id="date_submission" class="text ui-widget-content ui-corner-all" />
-			<label for="paci_number">PACI#</label>
-			<input type="text" name="paci_number" id="paci_number" maxlength="8" class="text ui-widget-content ui-corner-all" />
-			<label id="labTitle" for="title"><strong>Title</strong></label>
-			<textarea name="title" id="title" rows="3" class="text ui-widget-content ui-corner-all" ></textarea>
+			<table>
+				<tr>
+					<td>
+						<label for="checkup_number"><strong>Checkup#</strong></label>
+					</td>
+					<td>
+						<label for="date_submission"><strong>Date of submittion</strong></label>
+					</td>
+				</tr>	
+				<tr>
+					<td>
+						<input type="text" name="checkup_number" id="checkup_number" autofocus="autofocus" maxlength="24" class="text ui-widget-content ui-corner-all" />
+					</td>
+					<td>
+						<input type="text" name="date_submission" id="date_submission" maxlength="10" size="10" class="text ui-widget-content ui-corner-all" />
+					</td>
+				</tr>	
+				<tr>
+					<td>
+						<label for="file_number_checkup"><strong>File#</strong></label>
+					</td>
+					<td>
+						<label for="date_checkup"><strong>Date of checkup</strong></label>
+					</td>
+					<td>
+						<label for="address"><strong>Address</strong></label>
+					</td>
+				</tr>	
+				<tr>
+					<td>
+						<input type="text" name="file_number_checkup" id="file_number_checkup" disabled="disabled" maxlength="24" class="text ui-widget-content ui-corner-all" />
+					</td>
+					<td>
+						<input type="text" name="date_checkup" id="date_checkup" disabled="disabled" class="text ui-widget-content ui-corner-all" />
+					</td>
+					<td>
+						<input type="text" name="address" id="address" disabled="disabled" class="text ui-widget-content ui-corner-all" />
+					</td>
+				</tr>
+			</table>
+
+			<table>
+				<tr>
+					<td>
+						<label for="case"><strong>Case</strong></label>
+					</td>
+					<td>
+						<label for="result"><strong>Result</strong></label>
+					</td>
+					<td>
+						<label for="postponement"><strong>Postponement</strong></label>
+					</td>
+					<td>
+						<label for="unsatisfactory_case"><strong>Case of unsatisfactory</strong></label>
+					</td>
+				</tr>
+				
+				<hr style="margin: 20px 0"/>
+				
+				<tr>
+					<td>
+						<select id="case" style="width:120px"  class="ui-widget-content ui-corner-all"></select>
+					</td>
+					<td>
+						<select id="result" style="width:120px"  class="ui-widget-content ui-corner-all"></select>
+					</td>
+					<td>
+						<select id="postponement" style="width:120px"  class="ui-widget-content ui-corner-all"></select>
+					</td>
+					<td>
+						<select id="unsatisfactory_case" style="width:120px"  class="ui-widget-content ui-corner-all"></select>
+					</td>
+				</tr>
+				
+				
+			</table>
+<!--
+			<hr style="margin: 20px 0"/>
+
 			<p><br/>
 				<button id="saveButton" title="Insert new or update document">Save</button>
 				<button id="resetButton" title="Set fields empty">Reset</button>
-				<button id="cancelButton" style="display:none" title="Cancel">Cancel</button>
-			</p>
+				<button id="cancelButton" title="Cancel">Cancel</button>
+			</p>		
+-->			
 		</fieldset>
 	</form>
 	</div>

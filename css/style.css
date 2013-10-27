@@ -41,29 +41,36 @@ ul {
 	margin: 0px;
 }
 
-table,th, td
+th, td
 {
 	//table-layout:fixed;
 	//border: 1px solid black;
 	border-collapse:collapse;
-	width: 540px;
 }
-
-#newForm { padding: 20px}
-#newForm label:after { content: ": " }
-#newForm label { display: block; }
 
 fieldset { padding:0; border:0; margin-top:10px; }
 input.text, textarea, select#approver_search { margin-bottom:10px; padding: .4em; }
 //select#area_search { margin-bottom:10px; padding: .4em; }
  
-input#file_number {width:32%;}
-input#area {width:180px;}
-input#block {width:70px;}
-input#plot {width:70px;}
+
+#newForm table { width: 540px }
+#newForm { padding: 20px}
+//#newForm label:after { content: ": " }
+#newForm label { display: block; }
+
+#file_number, #file_number_checkup, #checkup_number {width:240px;}
+#area {width:220px;}
+#block {width:70px;}
+#plot {width:70px;}
+#address {width:240px;}
 // input#building {width:70px;}
 // input#paci_number {width:20%}
 textarea#title {width: 500px;}
+
+#date_checkup, #date_submission {width:85px;}
+
+//#checkupForm  form{ width: 740px }
+#checkupForm table { width: 700px }
 
 .hiddenElement {display: none}
 
@@ -453,7 +460,8 @@ a:hover {
 	border: 1px solid #999;
 	border-radius: 4px;
 	//position:absolute;	// works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
-	right: 2px;
+	//right: 2px;
+	//left: 2px;
 	//top: 2px;
 	//bottom: 10px;
 }
@@ -586,21 +594,6 @@ background: url('result.png');
 	margin-top:8px;
 	margin-left:20px;
 	width:2px;
-}
-/*
-#set{
-	border: 1px solid green;
-    position:relative;
-    //top: 30px;
-    //margin-bottom: 30px;
-}
-*/
-label{
-	border: 1px solid red;
-    position:relative;
-    //display: inline-block;
-    //top:-30px;
-    //width: 0px;
 }
 
 /*
