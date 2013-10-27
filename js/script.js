@@ -1457,6 +1457,9 @@ function applyButtonBorderStyle(itemTemplate) {
 
 						//itemTemplate.find(".tagButton").css({ right: '2px' });
 						itemTemplate.find(".tagButton").css({ bottom: '6px' });
+						itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-top': '0px', 'padding-bottom': '0px' });
+						//itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-top': '0px' });
+						//itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-bottom': '0px' });
 						//itemTemplate.find("div>a").css({ color: 'black' });
 					}
 					
@@ -1623,18 +1626,22 @@ function deleteDocument(fileNumber) {
 		});
 }
 
-this.checkupFormDialog = function(that) {
-	var docFileNumber = $(that).closest("div").find(".docFileNumber span").text();
-
+function checkupFormDialog(that) {
+//this.checkupFormDialog = function(that) {
+	//var docFileNumber = $(that).closest("div").find(".docFileNumber span").text();
+/*
 	var sectionIdReturnedFrom;
 	rootDoc[0].docs.some(function(key, index) {
 		if (key.doc.docFileNumber == docFileNumber) {
 			return true;
 		}
 	});
+*/
+	//alert(docFileNumber);
+	//$("#checkupForm").show();
 	
 	var form = $("#checkupForm");
-    form.prop('docFileNumber', docFileNumber);
+    //form.prop('docFileNumber', docFileNumber);
     form.dialog({
         //title:jQuery.i18n.prop('Comment'),
 		//dialogClass: "no-close",
@@ -1643,57 +1650,41 @@ this.checkupFormDialog = function(that) {
         modal: true,
 		autoOpen: true,
 		resizable: false,
-		open: function( event, ui ) {
-		}
+		//closeOnEscape: false,
+		//open: function( event, ui ) {
+		//},
+		//close: function( event, ui ) {
+		//},
     });
 };
 
 this.commentDialog = function(that, action) {
     //$("#commentDialog").dialog( "destroy" );
-    //html = "<div id='cmtDialog'>";
-    //html += "Comment<textarea id='comment'></textarea></div>";
-	var docFileNumber = $(that).closest("div").find(".docFileNumber span").text();
-//	var docFileNumber = $(rootDoc).find("doc>docFileNumber:contains('" + fn + "')");
+	var fileNumber = $(that).closest("div").find(".docFileNumber span").text();
 
-	var docComment = "";
-	//var docFileNumber, comment = "";
-/*
-	if (rootDoc.constructor == XMLDocument) {
-		docFileNumber = $(rootDoc).find("doc>docFileNumber:contains('" + fn + "')");
-		comment = docFileNumber.siblings('docComment').text();
-	} else
-*/
-	//{
+	var commentHistory = "";
 	var sectionIdReturnedFrom;
 	rootDoc[0].docs.some(function(key, index) {
-		if (key.doc.docFileNumber == docFileNumber) {
+		if (key.doc.docFileNumber == fileNumber) {
 			//docFileNumber = key.doc.docFileNumber;
 			//currentDoc = key.doc;
 			sectionIdDocReturnedFrom = Math.abs(key.doc.sectionId % 10);
-			docComment = key.doc.docComment == null ? '' : key.doc.docComment;
+			commentHistory = key.doc.docComment == null ? '' : key.doc.docComment;
 			return true;
 		}
 	});
-	//}
-
 	
 	var html = "";
+	
 	//var html = '<div style="overflow:auto; height: 340px; word-wrap:break-word;">' + docFileNumber.siblings('docComment').text() + "</div><br/>";
-	html += '<div style="overflow:auto; height: 340px; word-wrap:break-word;">' + docComment + "</div><br/>";
+	html += '<div style="overflow:auto; height: 340px; word-wrap:break-word;">' + commentHistory + "</div><br/>";
 
 	if (action != status_enum.readonly) {
+	
      	if (action == status_enum.approve) {
-			//var name;
-			/*
-			if ($("body[dir='ltr']").length)
-				name = 'name';
-			else
-				name = 'arName';
-			*/
 			html += '<fieldset><legend>' + jQuery.i18n.prop('ForwardTo') + '</legend><div id="radio">';
 			//html += '<fieldset><legend>' + jQuery.i18n.prop('ForwardTo') + '</legend>';
 			
-			//var checked_idx = -1;
 			var  checked = "", nf = {};	// names to forward - the names of sections or employees to forward a document
 			if (sectionId != sectionId_enum.followup && actor == actor_enum.manager) {
 				var employee = null;
@@ -1704,16 +1695,7 @@ this.commentDialog = function(that, action) {
 						if ($($(this).parent()).children().length == 1)
 							checked = nf.checked = " checked=\"checked\"";
 					}
-/*				
-					if (checked.length == 0) {
-						if ($($(this).parent()).children().length == 1)
-							checked = nf.checked = " checked=\"checked\"";
-						else
-							nf.checked = "";
-					}
-					else
-						nf.checked = "";
-*/
+
 					employee = $(this).text();
 					userInfo.some(function(o) {
 						if (employee == o.loginName) {
@@ -1749,45 +1731,28 @@ this.commentDialog = function(that, action) {
 						if ($($(this).parent()).children().length == 1)
 							checked = nf.checked = " checked=\"checked\"";
 					}
-
-					//if (checked.length == 0)
-						//checked = nf.checked = sectionId == $(this).attr('id') ? "" : " checked=\"checked\"";
-					//else
-						//nf.checked = "";
-
-					//if (checked_idx == -1)
-						//checked_idx = sectionId == this.id ? -1 : index;
 						
 					html += '<input type="radio" id="radio' + index + '" value="' + $(this).attr('id') + '" name="radio"' + nf.checked + ' /><label for="radio' + index + '">' + nf.name + '</label>';
 					//html += '<input type="radio" id="radio' + index + '" value="' + $(this).attr('id') + '" name="radio"' + nf.disabled + nf.checked + ' /><label for="radio' + index + '">' + nf.name + '</label>';
 				})
 			}
 			
-			//html += '</fieldset>';
 			html += '</div></fieldset>';
-			
-			
-			/*
-			var sections = $(rootActors).find('section');
-			html += '<fieldset><legend>' + jQuery.i18n.prop('ForwardTo') + '</legend><div id="radio">' +
-				'<input type="radio" id="radio1" name="radio"' + (sectionId == $(sections[1]).attr('id') ? "disabled=disabled" : "") + 'checked="checked" /><label for="radio1">' + $(sections[1]).attr(name) + '</label>' +
-				'<input type="radio" id="radio2" name="radio"' + (sectionId == $(sections[2]).attr('id') ? "disabled=disabled" : "") + '/><label for="radio2">' + $(sections[2]).attr(name) + '</label>' +
-				'<input type="radio" id="radio3" name="radio"' + (sectionId == $(sections[3]).attr('id') ? "disabled=disabled" : "") + '/><label for="radio3">' + $(sections[3]).attr(name) + '</label>' +
-			'</div></fieldset>';
-			*/
 		}
 		
 		if (!(sectionId != sectionId_enum.followup && actor == actor_enum.manager))
 			html += '<textarea name="comment" id="comment" style="width:500px;" rows="4" class="text ui-widget-content ui-corner-all" ></textarea>';
 	}
 
-	var form = $("#dialog-form-comments");
+	//var form = $("#dialog-form-comments");
+	var form = $("<div/>");
     form.html(html);
-    form.prop('docComment', docComment);
-    form.prop('docFileNumber', docFileNumber);
+    form.prop('commentHistory', commentHistory);
+    form.prop('fileNumber', fileNumber);
     form.dialog({
-        title:jQuery.i18n.prop('Comment'),
-		dialogClass: "no-close",
+		title:jQuery.i18n.prop('FileNumber') + ": " + fileNumber,
+        //title:jQuery.i18n.prop('Comment'),
+		//dialogClass: "no-close",
         height: "auto", //640,
         width: 600,
         modal: true,
@@ -1821,16 +1786,18 @@ this.commentDialog = function(that, action) {
 			//$("#radiogroup").buttonset("refresh");
 
 			if (action == status_enum.readonly) {
-				$("#dialog-form-comments" ).dialog( "option", "buttons",
+				//$("#dialog-form-comments" ).dialog( "option", "buttons",
+				$(this).dialog( "option", "buttons",
 					[{	text: "Close",
 						click: function() {
-							$( this ).dialog( "close" )
+							$( this ).dialog( "destroy" )
 						}
 					}]
 				); 
 			} else {
-				$("#dialog-form-comments" ).dialog( "option", "buttons",
-					[{	
+				//$("#dialog-form-comments" ).dialog( "option", "buttons",
+				$(this).dialog( "option", "buttons",
+					[{
 						text: "Ok",
 						click: function() {
 							if (action == status_enum.approve) {
@@ -1838,15 +1805,17 @@ this.commentDialog = function(that, action) {
 								// get DOM element for button
 								//var buttonDomElement = e.target;
 								//$(buttonDomElement).attr('disabled', true);
-								approve(this.docComment, this.docFileNumber, $("input:checked").val());
+								approve($(this).find("#comment").val(), this.commentHistory, this.fileNumber, $("input:checked").val());
 								//$("input[name='radio']:checked").val()
 							} else if (action == status_enum.reject)
-								reject(this.docComment, this.docFileNumber);
+								reject($(this).find("#comment").val(), this.commentHistory, this.fileNumber);
+								
+							$( this ).dialog( "destroy" )
 						}
 					},
 					{	text: "Cancel",
 						click: function() {
-							$( this ).dialog( "close" )
+							$(this).dialog( "destroy" )
 						}
 					}]
 				);
@@ -1874,21 +1843,21 @@ this.commentDialog = function(that, action) {
     });
 };
 
-function approve(docComment, docFileNumber, forwardTo) {
-	approve_reject_revoke(docComment, docFileNumber, forwardTo, status_enum.approve)
+function approve(currentComment, commentHistory, fileNumber, forwardTo) {
+	approve_reject_revoke(currentComment, commentHistory, fileNumber, forwardTo, status_enum.approve)
 }
 
-function reject(docComment, docFileNumber) {
-	approve_reject_revoke(docComment, docFileNumber, null, status_enum.reject)
+function reject(currentComment, commentHistory, fileNumber) {
+	approve_reject_revoke(currentComment, commentHistory, fileNumber, null, status_enum.reject)
 }
 
-function revoke(docFileNumber) {
-	approve_reject_revoke(null, docFileNumber, null, status_enum.revoke)
+function revoke(fileNumber) {
+	approve_reject_revoke(null, null, fileNumber, null, status_enum.revoke)
 }
 
-function approve_reject_revoke(docComment, docFileNumber, forwardTo, status) {
-	var currentComment = "";
-	
+function approve_reject_revoke(currentComment, commentHistory, docFileNumber, forwardTo, status) {
+	//var currentComment = "";
+/*	
 	if (status != status_enum.revoke) {
 		var obj = $("#dialog-form-comments");
 		if (obj && obj.dialog( "isOpen" )) {
@@ -1897,76 +1866,19 @@ function approve_reject_revoke(docComment, docFileNumber, forwardTo, status) {
 		//	alert(comment);
 		}
 	}
-	
-	//return;
-	//var selectTag = $(that).siblings('select');
-	
-	//var signature;
-	var dt = getDate();
-	//var signature = 'Approved \&nbsp;' + dt + ' by ' + userInfo[0].displayName;
-	var signature = dt + ' ' + userInfo[0].displayName;
-	//if (status == status_enum.approve)
-	//	signature = $.i18n.prop('Approved') + ' \&nbsp;' + dt + ' ' + userInfo[0].displayName;
-	//else
-	//	signature = $.i18n.prop('Rejected') + ' \&nbsp;' + dt + ' ' + userInfo[0].displayName;
-
-	//var html = '<option selected="selected" value="' + selectTag.children().length + '">' + signature + '</option>';
-	//selectTag.append(html);
-	
-	//return;
-	
-	//var taskNumber = $(that).closest("div").find(".taskNumber span").text();
-	//var taskNumber = $(this).closest("div").find(".taskNumber span").text();
-	//var v = $(root).find("task>taskNumber:contains('" + taskNumber + "')").next().find("taskApprover").last();
-	//var xmlNode = $(root).find("task>taskNumber:contains('" + taskNumber + "')");
-	//$(root).find("task>taskNumber").each(function(){
-		//if ($(this).text() == taskNumber) {
-	//if (xmlNode.text() != "") {
-
-
-	//var v = $(this).parent().find("taskHistory");
-	//var v = $(this).next("taskHistory");
-
-/*	
-	var v;
-	if (rootDoc.constructor == XMLDocument) {
-		v = docFileNumber.next("docHistory");
-		v.append(createSpaceElement(4));
-		v.append(createElement("docDate", dt));
-		v.append(createNewLineElement(12));
-		v.append(createElement("docApprover", userInfo[0].displayName));
-		v.append(createNewLineElement(8));
-
-		html = docFileNumber.siblings('docComment').text();
-		if (approve)
-			html += '<span class="ca">';
-		else
-			html += '<span class="cr">';
-
-		html += signature + "</span><br/>" + comment + "<br/>";
-			
-		//html += '<span class="ca">' + signature + "</span><br/>" + comment + "<br/>";
-		var el = createElement("docComment", html);
-		docFileNumber.siblings('docComment').replaceWith(el);
-	} else {
 */	
-		//v = docFileNumber;			// docFileNumber == current doc for DB source
-		//var o = {"docDate": dt, "docApprover": userInfo[0].displayName};
-		//v.docHistory.push(o);
-
-		//html = v.docComment == null ? '' : v.docComment;
-		html = docComment == null ? '' : docComment;
+	var dt = getDate();
+	var signature = dt + ' ' + userInfo[0].displayName;
+	var html = commentHistory == null ? '' : commentHistory;
 		
-		if (status == status_enum.approve)
-			html += '<span class="ca">';
-		else
-			html += '<span class="cr">';
+	if (status == status_enum.approve)
+		html += '<span class="ca">';
+	else
+		html += '<span class="cr">';
 
-		html += signature + "</span><br/>" + currentComment + "<br/>";
+	html += signature + "</span><br/>" + currentComment + "<br/>";
 
-		//html += '<span class="ca">' + signature + "</span><br/>" + comment + "<br/>";
-		//v.docComment = html;
-		docComment = html;
+	var docComment = html;
 	//}
 	
 	//var el2 = document.createElementNS("", "taskDate");

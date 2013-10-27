@@ -138,7 +138,7 @@ if ($idp == "SAML") {
 			<div id="accordion">
 				<span>Search</span>
 				<div>
-					<div><span>File</span>#:&nbsp;<input type="text" id="file_number_search" size="18" class="text ui-widget-content ui-corner-all" /></div>
+					<div><span>File</span>#:&nbsp;<input type="text" id="file_number_search" size="17" class="text ui-widget-content ui-corner-all" /></div>
 					<!--div><span>PACI</span>#:&nbsp;<input type="text" id="paci_number_search" maxlength="8" size="10" class="text ui-widget-content ui-corner-all" /></div-->
 					<div><span>Approver</span>:&nbsp;<select id="approver_search" style="width:120px"  class="ui-widget-content ui-corner-all"></select></div>
 					<div><span>From</span>:&nbsp;<input type="text" id="datepicker" maxlength="10" size="10" class="text ui-widget-content ui-corner-all"/></div>
@@ -322,45 +322,23 @@ if ($idp == "SAML") {
 	</div>
 </div>
 
-<div id="dialog-form-comments" title="Comments"/>
+<div id="dialog-form-comments"/>
 
 <div id="checkupForm" style="display:none">
+<!--
 	<p id="validateTips">Fields with the <strong>bold</strong> labels are required.</p>
 	<form>
 		<fieldset>
 			<label for="file_number"><strong>File#</strong></label>
-			<input type="text" name="file_number2" id="file_number2" autofocus="autofocus" class="text ui-widget-content ui-corner-all" />
-
-			<table>
-				<tr>
-					<td style="width:80px;">
-						<label for="checkup_number"><strong>Checkup#</strong></label>
-					</td>
-					<td style="width:200px;">
-						<label for="address"><strong>Address</strong></label>
-					</td>
-					<td style="width:200px;">
-						<label for="date_checkup"><strong>Date of checkup</strong></label>
-					</td>
-					<td style="width:80px;">
-						<label for="date_submission"><strong>Date of submittion</strong></label>
-					</td>
-				</tr>	
-				<tr>
-					<td>
-						<input type="text" name="checkup_number" id="checkup_number" class="text ui-widget-content ui-corner-all" />
-					</td>
-					<td style="padding:0">
-						<input type="text" name="address" id="address" class="text ui-widget-content ui-corner-all" />
-					</td>
-					<td>
-						<input type="text" name="date_checkup" id="date_checkup" class="text ui-widget-content ui-corner-all" />
-					</td>
-					<td>
-						<input type="text" name="date_submission" id="date_submission" class="text ui-widget-content ui-corner-all" />
-					</td>
-				</tr>	
-			</table>
+			<input type="text" name="file_number" id="file_number2" autofocus="autofocus" class="text ui-widget-content ui-corner-all" />
+			<label for="checkup_number"><strong>Checkup#</strong></label>
+			<input type="text" name="checkup_number" id="checkup_number" class="text ui-widget-content ui-corner-all" />
+			<label for="address"><strong>Address</strong></label>
+			<input type="text" name="address" id="address" class="text ui-widget-content ui-corner-all" />
+			<label for="date_checkup"><strong>Date of checkup</strong></label>
+			<input type="text" name="date_checkup" id="date_checkup" class="text ui-widget-content ui-corner-all" />
+			<label for="date_submission"><strong>Date of submittion</strong></label>
+			<input type="text" name="date_submission" id="date_submission" class="text ui-widget-content ui-corner-all" />
 			<label for="paci_number">PACI#</label>
 			<input type="text" name="paci_number" id="paci_number" maxlength="8" class="text ui-widget-content ui-corner-all" />
 			<label id="labTitle" for="title"><strong>Title</strong></label>
@@ -372,6 +350,7 @@ if ($idp == "SAML") {
 			</p>
 		</fieldset>
 	</form>
+-->	
 </div>
 
 </html>
