@@ -1484,7 +1484,7 @@ function applyButtonBorderStyle(itemTemplate) {
 				}
 			} else if (sectionId == sectionId_enum.checkup) {
 				itemTemplate.find(".tagButton").addClass("checkupButton");	
-				itemTemplate.find(".tagButton").text("Checkup");
+				itemTemplate.find(".tagButton").text($.i18n.prop('Checkup'));
 				itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
 				itemTemplate.find(".tagButton").css("display", "block");
 
@@ -1650,6 +1650,37 @@ function deleteDocument(fileNumber) {
 		});
 }
 
+var case_enum = {
+	Repeat:1,
+	StreamStrengthening:2,
+	ReCheckup:3,
+	NotToAttendCheckup:4,
+	New:5
+};
+
+
+var result_enum = {
+ Satisfactory:1,
+ Unsatisfactory:2,
+ Amendment:3,
+ DidNotAttendCheckup:4,
+}
+
+var postponement_enum = {
+	SupervisorPostponement:1,
+	OwnerPostponement:2
+}
+
+var unsatisfactory_case_enum = {
+	Postponed:1,
+	NotReadyForInspection:2,
+	MayorIrregularities:3,
+	AirConditioning:4,
+	ElectricalIrregularities:5,
+	OwnerDidNotAttend:6
+}
+
+
 function checkupFormDialog(that) {
 //this.checkupFormDialog = function(that) {
 	var fileNumber = $(that).closest("div").find(".docFileNumber span").text();
@@ -1698,15 +1729,31 @@ function checkupFormDialog(that) {
 			var address = that.find('.docAddress span').text();
 			$(this).find("#address").val(address);
 			//$(this).find("#address").prop("disabled", "true");
+			
+			var selectTag;
+			var a = ["case", "result", "postponement", "unsatisfactory_case"];
+			a.forEach(function(name) {
+				selectTag = $('#' + name);
+				if (selectTag.children().length != 0)
+					selectTag.find('option').remove();
 
-/*
-			form.find("#area").val(address[0].trim());
-			var v = address[1].split(':');
-			form.find("#block").val(v[1].trim());
-			v = address[2].split(':');
-			form.find("#plot").val(v[1].trim());
-*/
+				selectTag.append('<option value="' + (0) + '"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
+				for (i in eval(name + '_enum')) {
+					selectTag.append('<option value="' + (i) + '">' + jQuery.i18n.prop(i) + '</option>');
+				}
+			})
 
+			$('label[for="checkup_number"]').html('<strong>' + jQuery.i18n.prop('CheckupNumber') + '</strong>');
+			$('label[for="date_submission"]').html('<strong>' + jQuery.i18n.prop('DateOfSubmission') + '</strong>');
+			$('label[for="file_number_checkup"]').html('<strong>' + jQuery.i18n.prop('FileNumber') + '</strong>');
+			$('label[for="date_checkup"]').html('<strong>' + jQuery.i18n.prop('DateOfCheckup') + '</strong>');
+			$('label[for="address"]').html('<strong>' + jQuery.i18n.prop('Address') + '</strong>');
+			$('label[for="case"]').html('<strong>' + jQuery.i18n.prop('Case') + '</strong>');
+			$('label[for="result"]').html('<strong>' + jQuery.i18n.prop('Result') + '</strong>');
+			$('label[for="postponement"]').html('<strong>' + jQuery.i18n.prop('Postponement') + '</strong>');
+			$('label[for="unsatisfactory_case"]').html('<strong>' + jQuery.i18n.prop('UnsatisfactoryCase') + '</strong>');
+			
+			
 			$('input[id="date_submission"]').change(function() {
 				var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
 				if (!$(this).val().match(regExpPattern)) {
@@ -3323,6 +3370,9 @@ function toggleLanguage(lang, dir) {
 			//	$(".docDetailDiv select").css({'margin-left':0, 'margin-right':'20px'});
 			//	$(".docPACINumber").css({'margin-left':'20px', 'margin-right':0});
 			}
+			
+			if (sectionId == sectionId_enum.checkup)
+				$(".tagButton").text($.i18n.prop('Checkup'));
 			
 			//$("#newForm").attr('title', jQuery.i18n.prop('RegisterNewDoc'));
 			$("#saveButton").button({label: jQuery.i18n.prop('Save')});
