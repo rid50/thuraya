@@ -1681,19 +1681,12 @@ var unsatisfactory_case_enum = {
 }
 
 
-function checkupFormDialog(that) {
-//this.checkupFormDialog = function(that) {
+//function checkupFormDialog(that) {
+this.checkupFormDialog = function(that) {
 	var fileNumber = $(that).closest("div").find(".docFileNumber span").text();
-/*
-	var sectionIdReturnedFrom;
-	rootDoc[0].docs.some(function(key, index) {
-		if (key.doc.docFileNumber == docFileNumber) {
-			return true;
-		}
-	});
-*/
-	//alert(docFileNumber);
-	//$("#checkupForm").show();
+	var selectTag = $(that).siblings('select');
+	//var l = selectTag.children().length;
+	var selectOptionLabel = $(selectTag.children()[selectTag.children().length - 1]).prop('label')
 	
 	var form = $("#checkupForm");
     form.prop('fileNumber', fileNumber);
@@ -1724,8 +1717,9 @@ function checkupFormDialog(that) {
 			$(this).find("#file_number_checkup").val(fileNumber);
 			//$(this).find("#file_number_checkup").prop("disabled", "true");
 
-			that = $(that).parent();	//  a context of the current doc
-
+			$(this).find("#date_checkup").val(selectOptionLabel.split(' ')[0].trim());
+			
+			that = $(that).parent();
 			var address = that.find('.docAddress span').text();
 			$(this).find("#address").val(address);
 			//$(this).find("#address").prop("disabled", "true");
