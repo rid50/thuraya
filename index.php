@@ -325,8 +325,6 @@ if ($idp == "SAML") {
 <!--div id="dialog-form-comments"/-->
 
 <div id="checkupForm" style="display:none">
-	<p id="validateTips">Fields with the <strong>bold</strong> labels are required.</p>
-	<div id="set">
 	<form>
 		<fieldset>
 			<table>
@@ -390,16 +388,16 @@ if ($idp == "SAML") {
 				
 				<tr>
 					<td>
-						<select id="case" style="width:120px"  class="ui-widget-content ui-corner-all"></select>
+						<select id="case" style="width:150px"  class="ui-widget-content ui-corner-all"></select>
 					</td>
 					<td>
-						<select id="result" style="width:120px"  class="ui-widget-content ui-corner-all"></select>
+						<select id="result" style="width:150px"  class="ui-widget-content ui-corner-all"></select>
 					</td>
 					<td>
-						<select id="postponement" style="width:120px"  class="ui-widget-content ui-corner-all"></select>
+						<select id="postponement" style="width:150px"  class="ui-widget-content ui-corner-all"></select>
 					</td>
 					<td>
-						<select id="unsatisfactory_case" style="width:120px"  class="ui-widget-content ui-corner-all"></select>
+						<select id="unsatisfactory_case" style="width:150px"  class="ui-widget-content ui-corner-all"></select>
 					</td>
 				</tr>
 				
@@ -416,7 +414,6 @@ if ($idp == "SAML") {
 -->			
 		</fieldset>
 	</form>
-	</div>
 </div>
 
 </html>
