@@ -2910,9 +2910,25 @@ function fillUserList() {
 	
 	a.forEach(function(name){
 		name = name.split('|');
+		//$("#userList>ul").append('<li class="ui-state-default jstree-draggable">' + name[0] + '</li>');
 		$("#userList>ul").append('<li class="ui-state-default jstree-draggable">' + name[0] + '<span class="hiddenElement">' + name[1] + '</span></li>');
 	});
+/*	
+	$( "#userList>ul>li" ).hover(function(e) {
+		//if (this.nodeType == 3)
+			console.log(e.target.style.cursor);
+			//alert("aa");
+	
+	});
+*/
+
 }
+/*
+document.addEventListener('mouseover',function(e){
+    var cursor = e.target.style.cursor;
+    console.log(cursor);
+},false);
+*/
 
 userAssignment = function() {
 	//$.get( "actors.xml", 
@@ -3077,7 +3093,7 @@ userAssignment = function() {
 					$('#addUserButton').focus();
 				})
 				.bind("before.jstree", function (e, data) {
-					if (data.func === "remove" && !confirm("Are you sure?")) {
+					if (data.func === "remove" && !confirm(jQuery.i18n.prop('AreYouSure'))) {
 						e.stopImmediatePropagation();
 						return false;
 					}
