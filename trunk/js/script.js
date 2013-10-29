@@ -3064,8 +3064,17 @@ userAssignment = function() {
 						})						
 					}
 				})
-				.bind("select_node.jstree", function (event, data) {
+				.bind("select_node.jstree", function (e, data) {
 					//data.inst.delete_node(data.rslt.obj);
+					//$.jstree._fn._get_node(event.currentTarget).focus();
+					//e.preventDefault();
+					//this.activate_node(e.currentTarget, e);
+					//$(this).focus();
+					//var f = data.func;
+					//$('#custom_jsTree').jstree('select_node', this);
+					//var nod = $('#custom_jsTree').jstree('get_node', this);
+					//$(nod).children('.jstree-anchor').focus();
+					$('#addUserButton').focus();
 				})
 				.bind("before.jstree", function (e, data) {
 					if (data.func === "remove" && !confirm("Are you sure?")) {
