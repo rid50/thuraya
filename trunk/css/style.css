@@ -305,12 +305,14 @@ a:hover {
 
 #userList ul {
 	padding: 0 10px 5px 10px;
+	//z-index: -1000 !important;
 }
 #userList li {
+	//background-color:transparent !important;
 	white-space:nowrap;
 	margin: 0px 3px 3px 3px; 
 	padding: 3px;
-	cursor: move;
+	//cursor: move;
 	//padding-left: 1.5em; 
 	//font-size: 1.4em; 
 	//height: 18px; 
@@ -595,7 +597,12 @@ background: url('result.png');
 	margin-left:20px;
 	width:2px;
 }
-
+/*
+.jstree-focused.jstree-default
+ {
+	background-color:transparent !important;
+ }
+ */
 /*
 .customBody h1 {
 	font-size:175%;
