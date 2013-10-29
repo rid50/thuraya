@@ -3237,7 +3237,10 @@ userAssignment = function() {
 							//}
 						},
 						"del" : function () {
-							this.remove();
+							if (this.is_selected()) {
+								if (this._get_parent(this._get_node()) != -1)
+									this.remove();
+							}
 						}
 					},
 					"themes" : {
