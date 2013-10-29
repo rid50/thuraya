@@ -203,6 +203,23 @@ $(document).ready(function () {
 			searchInterval = data.searchInterval;
 		});
 
+	$.datepicker.setDefaults( $.datepicker.regional[ "" ] );
+	$.datepicker.setDefaults({
+		//regional: "",
+		showOn: "both",
+		buttonImageOnly: true,
+		buttonImage: "images/calendar.gif",
+		buttonText: "Calendar",
+		//changeMonth: 'true',
+		//changeYear: 'true'
+	});
+	
+	$(".rid50-datepicker").datepicker({
+		changeMonth: true,
+		changeYear: true,
+		dateFormat: "dd/mm/yy",
+	});
+		
 		
 	//if ($("html[lang='ar']").length)
 	if (lang == "ar")
@@ -221,20 +238,25 @@ $(document).ready(function () {
 			//active: false,
 			collapsible: true
 		});
-		
+/*		
 		$.datepicker.setDefaults( $.datepicker.regional[ "" ] );
 		$.datepicker.setDefaults({
+			//regional: "",
 			showOn: "both",
 			buttonImageOnly: true,
 			buttonImage: "images/calendar.gif",
-			buttonText: "Calendar"
+			buttonText: "Calendar",
+			//changeMonth: 'true',
+			//changeYear: 'true'
 		});
 		
-		$("#datepicker").datepicker({
+		$(".rid50-datepicker").datepicker({
 			changeMonth: true,
 			changeYear: true,
+			dateFormat: "dd/mm/yy",
 		});
-
+*/		
+/*
 		$("#datepicker2").datepicker({
 			changeMonth: true,
 			changeYear: true,
@@ -246,13 +268,13 @@ $(document).ready(function () {
 			changeYear: true,
 			//showButtonPanel: true,
 		});
-		
-		$("#datepicker").datepicker( $.datepicker.regional[ "" ] );
-		$("#datepicker").datepicker( "option", "dateFormat", "dd/mm/yy" );
-		$("#datepicker2").datepicker( $.datepicker.regional[ "" ] );
-		$("#datepicker2").datepicker( "option", "dateFormat", "dd/mm/yy" );
-		$("#date_submission").datepicker( $.datepicker.regional[ "" ] );
-		$("#date_submission").datepicker( "option", "dateFormat", "dd/mm/yy" );
+*/		
+		//$("#datepicker").datepicker( $.datepicker.regional[ "" ] );
+		//$("#datepicker").datepicker( "option", "dateFormat", "dd/mm/yy" );
+		//$("#datepicker2").datepicker( $.datepicker.regional[ "" ] );
+		//$("#datepicker2").datepicker( "option", "dateFormat", "dd/mm/yy" );
+		//$("#date_submission").datepicker( $.datepicker.regional[ "" ] );
+		//$("#date_submission").datepicker( "option", "dateFormat", "dd/mm/yy" );
 
 		//$("#datepicker").datepicker( "setDate", "25/04/2013" );
 		
@@ -3304,7 +3326,29 @@ function toggleLanguage(lang, dir) {
 		mode:'both',
 		language: lang,
 		callback: function() {
+		/*	
+			var change = true;
+			if (lang == "ar")
+				change = false;
+		*/	
+		
+		if (lang == "en") {
+			$.datepicker.setDefaults( $.datepicker.regional[ lang == "en" ? "" : lang ] );
+
+			$(".rid50-datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
+			//$("#datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
+			//$("#datepicker2").datepicker("option", "changeMonth", lang == "en" ? true : false);
+			//$("#date_submission").datepicker("option", "changeMonth", lang == "en" ? true : false);
+		} else {
+			$(".rid50-datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
+			//$("#datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
+			//$("#datepicker2").datepicker("option", "changeMonth", lang == "en" ? true : false);
+			//$("#date_submission").datepicker("option", "changeMonth", lang == "en" ? true : false);
+
+			$.datepicker.setDefaults( $.datepicker.regional[ lang == "en" ? "" : lang ] );
+		}
 			
+/*
 			$("#datepicker").datepicker( "option", $.datepicker.regional[ (lang == "en") ? "" : lang ] );
 			$("#datepicker2").datepicker( "option", $.datepicker.regional[ (lang == "en") ? "" : lang ] );
 			$("#date_submission").datepicker( "option", $.datepicker.regional[ (lang == "en") ? "" : lang ] );
@@ -3320,6 +3364,15 @@ function toggleLanguage(lang, dir) {
 			$("#datepicker").datepicker("option", "changeMonth", change);
 			$("#datepicker2").datepicker("option", "changeMonth", change);
 			$("#date_submission").datepicker("option", "changeMonth", change);
+
+			$("#datepicker").datepicker({
+				changeMonth: false,
+				changeYear: true,
+			});
+*/
+
+			//$("#datepicker").datepicker("option", "changeYear", false);
+
 		
 			$('#Copyright').text(jQuery.i18n.prop('Copyright'));
 			$('#MediaCenter').text(jQuery.i18n.prop('MediaCenter'));

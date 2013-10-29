@@ -141,8 +141,9 @@ if ($idp == "SAML") {
 					<div><span>File</span>#:&nbsp;<input type="text" id="file_number_search" size="17" class="text ui-widget-content ui-corner-all" /></div>
 					<!--div><span>PACI</span>#:&nbsp;<input type="text" id="paci_number_search" maxlength="8" size="10" class="text ui-widget-content ui-corner-all" /></div-->
 					<div><span>Approver</span>:&nbsp;<select id="approver_search" style="width:120px"  class="ui-widget-content ui-corner-all"></select></div>
-					<div><span>From</span>:&nbsp;<input type="text" id="datepicker" maxlength="10" size="10" class="text ui-widget-content ui-corner-all"/></div>
-					<div><span>To</span>:&nbsp;<input type="text" id="datepicker2" maxlength="10" size="10" class="text ui-widget-content ui-corner-all"/></div>
+					<!--div><span>From</span>:&nbsp;<div dir="ltr"><input type="text" id="datepicker" maxlength="10" size="10" class="text ui-widget-content ui-corner-all"/></div></div-->
+					<div><span>From</span>:&nbsp;<input type="text" id="datepicker" maxlength="10" size="10" class="rid50-datepicker text ui-widget-content ui-corner-all"/></div>
+					<div><span>To</span>:&nbsp;<input type="text" id="datepicker2" maxlength="10" size="10" class="rid50-datepicker text ui-widget-content ui-corner-all"/></div>
 					<!--div><span>Area</span>:&nbsp;<select id="area_search" style="width:120px"  class="ui-widget-content ui-corner-all"></select></div-->
 					<div><span>Area</span>:&nbsp;<input type="text" id="area_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
 					<div><span>Block</span>:&nbsp;<input type="text" id="block_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
@@ -341,7 +342,7 @@ if ($idp == "SAML") {
 						<input type="text" name="checkup_number" id="checkup_number" autofocus="autofocus" maxlength="24" class="text ui-widget-content ui-corner-all" />
 					</td>
 					<td>
-						<input type="text" name="date_submission" id="date_submission" maxlength="10" size="10" class="text ui-widget-content ui-corner-all" />
+						<input type="text" name="date_submission" id="date_submission" maxlength="10" size="10" class="rid50-datepicker text ui-widget-content ui-corner-all" />
 					</td>
 				</tr>	
 				<tr>
@@ -360,7 +361,7 @@ if ($idp == "SAML") {
 						<input type="text" name="file_number_checkup" id="file_number_checkup" disabled="disabled" maxlength="24" class="text ui-widget-content ui-corner-all" />
 					</td>
 					<td>
-						<input type="text" name="date_checkup" id="date_checkup" disabled="disabled" class="text ui-widget-content ui-corner-all" />
+						<input type="text" name="date_checkup" id="date_checkup" disabled="disabled" class="rid50-datepicker text ui-widget-content ui-corner-all" />
 					</td>
 					<td>
 						<input type="text" name="address" id="address" disabled="disabled" class="text ui-widget-content ui-corner-all" />
