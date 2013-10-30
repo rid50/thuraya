@@ -1600,16 +1600,24 @@ $(document).on("click", ".rejectButton", function(e, data) {
 	//if (actor == actor_enum.employee && sectionId == sectionId_enum.followup) {
 	if (sectionId == sectionId_enum.followup) {
 		e.stopImmediatePropagation();
-	
-		//if (!confirm("Are you sure?")) {
+		
+		var fileNumber = $(this).parent().find(".docFileNumber span").text();
+		confirm("AreYouSure", fileNumber, function(fileNumber) {
+			deleteDocument(fileNumber);
+		});
+		
+		
+		/*
 		if (!confirm(jQuery.i18n.prop('AreYouSure'))) {
 			//e.stopImmediatePropagation();
 			return false;
 		}
-
-		var fileNumber = $(this).parent().find(".docFileNumber span").text();
-		//$(this).parent().remove();
-		deleteDocument(fileNumber);
+		*/
+		//	return false;
+		
+		//var fileNumber = $(this).parent().find(".docFileNumber span").text();
+		////$(this).parent().remove();
+		//deleteDocument(fileNumber);
 	} else 
 		commentDialog(this, status_enum.reject);
 })
@@ -3093,10 +3101,18 @@ userAssignment = function() {
 					$('#addUserButton').focus();
 				})
 				.bind("before.jstree", function (e, data) {
-					if (data.func === "remove" && !confirm(jQuery.i18n.prop('AreYouSure'))) {
-						e.stopImmediatePropagation();
-						return false;
-					}
+					//if (data.func === "remove" && !confirm(jQuery.i18n.prop('AreYouSure'))) {
+//					if (data.func === "remove") {
+/*
+						var nod = $(this).jstree('get_node', this);
+						confirm("AreYouSure", data, function() {
+							data.inst.delete_node(data.inst);
+							//$('#custom_jsTree').jstree('delete_node', nod);
+						});
+*/					
+//						e.stopImmediatePropagation();
+//						return false;
+					//}
 /*
 					else
 					if (data.func === "rename") {
@@ -3254,8 +3270,17 @@ userAssignment = function() {
 						},
 						"del" : function () {
 							if (this.is_selected()) {
-								if (this._get_parent(this._get_node()) != -1)
-									this.remove();
+								if (this._get_parent(this._get_node()) != -1) {
+									//this.remove();
+									//var nod = $(this).jstree('get_node', this);
+									confirm("AreYouSure", this, function(that) {
+										that.remove();
+										//data.inst.delete_node(data.inst);
+										//$('#custom_jsTree').jstree('delete_node', nod);
+									});
+									
+									
+								}
 							}
 						}
 					},
@@ -3749,6 +3774,50 @@ function alert(text) {
 			},
 		},
 	});
+}
+
+this.confirm = function(text, param, func) {
+	var form = $("<div/>");
+	html = '<div>' + $.i18n.prop(text) + '</div>';
+    form.html(html);
+    form.dialog({
+		title:$.i18n.prop('Confirm'),
+		dialogClass: "no-close",
+        height: "auto", //640,
+        width: 300,
+        modal: true,
+		autoOpen: true,
+		resizable: false,
+		open: function( event, ui ) {
+			$(this).dialog( "option", "buttons",
+				[{	text: "Ok",
+					//id: "buttSave",
+					click: function() {
+						if (func != null)
+							func(param);
+
+						$( this ).dialog( "destroy" )
+					}
+				},
+				{	text: "Cancel",
+					click: function() {
+						$( this ).dialog( "destroy" )
+					}
+				}]
+			); 
+			
+			//ui-dialog-buttonset
+			$(this).parent().find(".ui-button-text").each(function() {
+				var that = $(this);
+				if (that.text() == "Ok")
+					that.text(jQuery.i18n.prop('Ok'));
+				else if (that.text() == "Cancel")
+					that.text(jQuery.i18n.prop('Cancel'));
+			});
+		},
+		close: function( event, ui ) {
+		},
+    });
 }
 
 function setbg(color)

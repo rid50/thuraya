@@ -9,8 +9,8 @@ $ini = parse_ini_file("config.ini");
 $idp = $ini["IdP"];
 
 if ($idp == "SAML") {
-	//$as = new SimpleSAML_Auth_Simple('mewSQLAuth');
-	$as = new SimpleSAML_Auth_Simple('mewADAuth');
+	$as = new SimpleSAML_Auth_Simple('mewSQLAuth');
+	//$as = new SimpleSAML_Auth_Simple('mewADAuth');
 	$as->requireAuth();
 	$attributes = $as->getAttributes();
 	//$url = $url . '?loginName=' . $attributes["LoginName"];
@@ -316,7 +316,7 @@ if ($idp == "SAML") {
 	<div id="custom_jsTree" dir="ltr" style="background-color:transparent;">
 		<ul/>
 	</div>
-
+	<!--div id="???" style="display:none; position:absolute; left:20px; bottom:40px"> F2 rename, DEL - delete </div-->
 	<div id="userList" dir="ltr">
 		<input style="margin: 3px 0 3px 13px;" type="text" value="" size="15" />
 		<button id="addUserButton">Add User</button>

@@ -312,7 +312,7 @@ a:hover {
 	white-space:nowrap;
 	margin: 0px 3px 3px 3px; 
 	padding: 3px;
-	//cursor: move;
+	cursor: auto;
 	//padding-left: 1.5em; 
 	//font-size: 1.4em; 
 	//height: 18px; 
