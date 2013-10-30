@@ -2,12 +2,11 @@
  <sections>
   <section id="0" name="Follow up" arName="متابعة">
    <managers>
-    <manager name="ali">
-    </manager>
     <manager name="ahmed">
-     <employee>masri</employee>
-     <employee>amr</employee>
+    </manager>
+    <manager name="ali">
      <employee>abdalla</employee>
+     <employee>amr</employee>
     </manager>
    </managers>
   </section>

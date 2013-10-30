@@ -182,8 +182,8 @@ class DatabaseRepository {
 
 				if ($param[filter][fileNumber] != null) {
 					$where = " doc.docFileNumber = '{$param[filter][fileNumber]}'";
-					if ($param[filter][approver] != null)
-						$param[filter][approver] = null;
+					//if ($param[filter][approver] != null)
+					//	$param[filter][approver] = null;
 				} else {
 					$where = " doc.docDate BETWEEN '$dtFrom' AND '$dtTo'";
 					//if ($param[filter][paciNumber] != null)
@@ -194,6 +194,7 @@ class DatabaseRepository {
 						$where .= " AND doc.docBlock = '{$param[filter][block]}'";
 					if ($param[filter][plot] != null)
 						$where .= " AND doc.docPlot = '{$param[filter][plot]}'";
+/*						
 					if ($param[filter][sectionId] != null) {
 						if ($param[filter][sectionId] == 123)
 							$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2 OR doc.sectionId = 3)";
@@ -204,10 +205,22 @@ class DatabaseRepository {
 						else
 							$where .= " AND doc.sectionId = '{$param[filter][sectionId]}'";
 					}
+*/					
 					if ($param[filter][employeeId] != null)
 						$where .= " AND doc.employeeId = '{$param[filter][employeeId]}'";
 				}
-					
+
+				if ($param[filter][sectionId] != null) {
+					if ($param[filter][sectionId] == 123)
+						$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2 OR doc.sectionId = 3)";
+					else if ($param[filter][sectionId] == -10)
+						$where .= " AND (doc.sectionId < -9 AND doc.sectionId > -20)";
+					else if ($param[filter][sectionId] == -20)
+						$where .= " AND (doc.sectionId < -19 AND doc.sectionId > -30)";
+					else
+						$where .= " AND doc.sectionId = '{$param[filter][sectionId]}'";
+				}
+				
 				//$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc";
 				$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc";
 				$st .= " WHERE " . $where . " ORDER BY docDate ASC, docFileNumber ASC ";
