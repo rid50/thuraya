@@ -9,7 +9,8 @@ $ini = parse_ini_file("config.ini");
 $idp = $ini["IdP"];
 
 if ($idp == "SAML") {
-	$as = new SimpleSAML_Auth_Simple('mewSQLAuth');
+	//$as = new SimpleSAML_Auth_Simple('mewSQLAuth');
+	$as = new SimpleSAML_Auth_Simple('mewADAuth');
 	$as->requireAuth();
 	$attributes = $as->getAttributes();
 	//$url = $url . '?loginName=' . $attributes["LoginName"];
