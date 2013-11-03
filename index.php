@@ -8,10 +8,14 @@ require_once('c:/simplesaml/lib/_autoload.php');
 
 $ini = parse_ini_file("config.ini");
 $idp = $ini["IdP"];
+$idpSource = $ini["IdPSource"];
 
 if ($idp == "SAML") {
-	//$as = new SimpleSAML_Auth_Simple('mewSQLAuth');
-	$as = new SimpleSAML_Auth_Simple('mewADAuth');
+	if ($idpSource == "DB")
+		$as = new SimpleSAML_Auth_Simple('mewSQLAuth');
+	else
+		$as = new SimpleSAML_Auth_Simple('mewADAuth');
+		
 	$as->requireAuth();
 	$attributes = $as->getAttributes();
 	//$url = $url . '?loginName=' . $attributes["LoginName"];

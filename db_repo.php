@@ -206,10 +206,13 @@ class DatabaseRepository {
 							$where .= " AND doc.sectionId = '{$param[filter][sectionId]}'";
 					}
 */					
-					if ($param[filter][employeeId] != null)
-						$where .= " AND doc.employeeId = '{$param[filter][employeeId]}'";
+//					if ($param[filter][employeeId] != null)
+//						$where .= " AND doc.employeeId = '{$param[filter][employeeId]}'";
 				}
 
+				if ($param[filter][employeeId] != null)
+					$where .= " AND doc.employeeId = '{$param[filter][employeeId]}'";
+				
 				if ($param[filter][sectionId] != null) {
 					if ($param[filter][sectionId] == 123)
 						$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2 OR doc.sectionId = 3)";
@@ -220,6 +223,9 @@ class DatabaseRepository {
 					else
 						$where .= " AND doc.sectionId = '{$param[filter][sectionId]}'";
 				}
+				//else
+				//	throw new Exception($where);
+				
 				
 				//$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc";
 				$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc";
