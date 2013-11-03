@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('c:/simplesaml/lib/_autoload.php');
+//require_once('/var/www/html/simplesamlphp/lib/_autoload.php');
 //require_once('/home/yarussor/public_html/simplesamlphp/lib/_autoload.php');
 
 //$url = 'http://mewdesigncomps/index.html';
@@ -9,8 +10,8 @@ $ini = parse_ini_file("config.ini");
 $idp = $ini["IdP"];
 
 if ($idp == "SAML") {
-	$as = new SimpleSAML_Auth_Simple('mewSQLAuth');
-	//$as = new SimpleSAML_Auth_Simple('mewADAuth');
+	//$as = new SimpleSAML_Auth_Simple('mewSQLAuth');
+	$as = new SimpleSAML_Auth_Simple('mewADAuth');
 	$as->requireAuth();
 	$attributes = $as->getAttributes();
 	//$url = $url . '?loginName=' . $attributes["LoginName"];

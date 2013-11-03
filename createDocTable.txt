@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS tamdidat;
-CREATE DATABASE IF NOT EXISTS tamdidat;
+CREATE DATABASE IF NOT EXISTS tamdidat DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_unicode_ci;
 USE tamdidat;
 DROP TABLE IF EXISTS doc;
 CREATE TABLE `doc` (
@@ -18,8 +18,10 @@ CREATE TABLE `doc` (
 `sectionId` TINYINT(1) NOT NULL DEFAULT 0,
 `employeeId` VARCHAR( 24 ) DEFAULT NULL,
 `time` TIMESTAMP
-);
-ALTER TABLE `tamdidat`.`doc` ADD UNIQUE INDEX `file_number_UNIQUE` (`docFileNumber` ASC) ;
+)
+CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
+
+ALTER TABLE `doc` ADD UNIQUE INDEX `file_number_UNIQUE` (`docFileNumber` ASC) ;
 
 INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle) VALUES (12345, STR_TO_DATE('1/08/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Salmiya', '6', '66', 'Assemble, install, test, and maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');
 INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle) VALUES (12346, STR_TO_DATE('9/09/2013', '%d/%m/%Y'), 'Abdalla Masri', 'Jabriya', '11', '102', 'Install, test, and maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');

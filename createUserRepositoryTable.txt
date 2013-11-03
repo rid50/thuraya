@@ -5,7 +5,8 @@ loginName VARCHAR(32) PRIMARY KEY NOT NULL,
 password VARCHAR(64) NOT NULL,
 upn VARCHAR(48) NOT NULL,
 displayName VARCHAR(48) NOT NULL
-);
+)
+CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
 
 INSERT INTO userRepository VALUES ('abdalla', 'abdalla', 'abdalla@mewj.gov.kw', 'Abdalla Masri');
 INSERT INTO userRepository VALUES ('ahmed', 'ahmed', 'ahmed@mewj.gov.kw', 'Ahmed Al-Atheri');
