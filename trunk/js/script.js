@@ -1283,6 +1283,39 @@ function selectJsonNodes() {
 		//var name = $(this).find('taskNumber').text();
 		//var that = $(this);
 		//var history = that.find('docHistory');
+/*
+var sectionId_enum = {
+	followup: "0",
+	ac: "1",
+	electricity: "2",
+	checkup: "3",
+	edafat: "4",
+};
+
+var activeTab_enum = {
+	pending: 0,
+	inprocess: 1,
+	vault: 2,
+	rejected: 3,
+	edafat: 4,
+	edit: 5,
+	users: 6,
+};
+*/		
+		if ($("#file_number_search").val() != "") {
+			switch (key.doc.sectionId) {
+				case sectionId_enum.followup:
+					docListSelector = $("#docs");
+					$("#tabs").tabs( "option", "active", activeTab_enum.pending );
+					break;
+				case sectionId_enum.ac:
+				case sectionId_enum.electricity:
+				case sectionId_enum.vault:
+				case sectionId_enum.edafat:
+					break;
+				default:
+			}
+		}
 		
 		var dates = [];
 		var names = [];

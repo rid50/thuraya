@@ -6,9 +6,10 @@ CREATE TABLE `docHistory` (
 `docDate` DATE NOT NULL,
 `docApprover` VARCHAR( 48 ) NOT NULL,
 `time` TIMESTAMP
-);
+)
+CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
 
- ALTER TABLE `tamdidat`.`docHistory` 
+ ALTER TABLE `docHistory` 
  	ADD INDEX `file_number_INDEX` (`docFileNumber` ASC) ;
 
  ALTER TABLE docHistory ADD 
