@@ -1305,8 +1305,11 @@ var activeTab_enum = {
 		if ($("#file_number_search").val() != "") {
 			switch (key.doc.sectionId) {
 				case sectionId_enum.followup:
-					docListSelector = $("#docs");
-					$("#tabs").tabs( "option", "active", activeTab_enum.pending );
+					//docListSelector = $("#docs");
+					if ($("#tabs").tabs( "option", "active" ) != activeTab_enum.pending) {
+						$("#tabs").tabs( "option", "active", activeTab_enum.pending );
+						return;
+					}
 					break;
 				case sectionId_enum.ac:
 				case sectionId_enum.electricity:
