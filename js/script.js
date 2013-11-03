@@ -773,13 +773,14 @@ function getSearchFilter() {
 	
 	var fileNumber = null;
 	
-	if ($("#searchButton").data("search") == 1 &&
-		$("#file_number_search").val() != ""  &&
-		sectionId == sectionId_enum.followup) {
+	if ($("#searchButton").data("search") == 1 && $("#file_number_search").val() != "" ) {
 
 		fileNumber = $("#file_number_search").val();
-		secId = null;
-		empId = null;
+		
+		if (sectionId == sectionId_enum.followup) {
+			secId = null;
+			empId = null;
+		}
 	}
 	
 	return {
