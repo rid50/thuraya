@@ -98,6 +98,7 @@ namespace RequestDisplayNameGroupMembership
 							json = new
 							{
 								LoginName = principal.SamAccountName,
+								//DisplayName = principal.extensionName,
 								DisplayName = principal.DisplayName,
 								UserPrincipalName = principal.UserPrincipalName
 								//UserPrincipalName = Context.User.Identity.Name
