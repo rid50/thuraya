@@ -40,7 +40,7 @@ var tab_enum = {
 	users: 4,
 };
 */
-var idp;
+var idp, idpSource;
 var documentSource;
 var lang;
 
@@ -198,6 +198,7 @@ $(document).ready(function () {
 	$.get("get_ini.php")
 		.done(function(data) {
 			idp = data.IdP;
+			idpSource = data.IdPSource;
 			documentSource = data.documentSource;
 			lang = data.lang;
 			searchInterval = data.searchInterval;
@@ -576,15 +577,17 @@ function start(userLoginName, func) {
 	
 function getUserIdentities(url, json, func) {
 	var	contentType, data;
-	if (idp == "LDAP") {
-		contentType = "application/x-www-form-urlencoded; charset=UTF-8";
-		url = "ldap_repo.php";
-		data = {"param":{loginNames:JSON.stringify(json)}};
-	} else if (idp == "AD") {
+	if (idp == "AD") {
 		contentType = "application/json; charset=utf-8";
 		url = "ASPNetWebService.asmx/" + url;
 		data = "{\"loginNames\":" + JSON.stringify(json) + "}";
-	} else if (idp == "SAML") {
+	//} else if (idp == "LDAP" || (idp == "SAML" && idpSource == "AD")) {
+	} else if (idpSource == "AD" && (idp == "LDAP" || idp == "SAML")) {
+		contentType = "application/x-www-form-urlencoded; charset=UTF-8";
+		url = "ldap_repo.php";
+		data = {"param":{loginNames:JSON.stringify(json)}};
+	//} else if (idp == "SAML" && idpSource == "DB") {
+	} else if (idpSource == "DB" && (idp == "LDAP" || idp == "SAML")) {
 		//url = "get_user_attributes.php";
 		contentType = "application/x-www-form-urlencoded; charset=UTF-8";
 		//data = {loginNames:JSON.stringify(json)};

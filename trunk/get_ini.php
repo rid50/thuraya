@@ -1,9 +1,10 @@
 <?php
 $ini = parse_ini_file("config.ini");
 $idp = $ini["IdP"];
+$idpSource = $ini["IdPSource"];
 $ds = $ini["documentSource"];
 
-$json = json_encode(array("IdP" => $idp, "documentSource" => $ds, "lang" => $ini["lang"], "searchInterval" => $ini["searchInterval"]));
+$json = json_encode(array("IdP" => $idp, "IdPSource" => $idpSource, "documentSource" => $ds, "lang" => $ini["lang"], "searchInterval" => $ini["searchInterval"]));
 
 header('Content-type: application/json; charset=utf-8');
 header('Cache-Control: no-cache, must-revalidate');
