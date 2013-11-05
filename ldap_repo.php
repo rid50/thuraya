@@ -8,8 +8,8 @@ $base_dn = $ini["ldap_base_dn"];
 $conn = ldap_connect("ldap://".$dc, 636);
 $bind = @ldap_bind($conn, $username, $password);
 if ($bind) {
-	$attributes = array("sAMAccountName", "displayName", "userPrincipalName", "dn");
-	//$attributes = array("sAMAccountName", "extensionName", "userPrincipalName", "distinguishedName");
+	//$attributes = array("sAMAccountName", "displayName", "userPrincipalName", "dn");
+	$attributes = array("sAMAccountName", "displayName", "extensionName", "userPrincipalName", "distinguishedName");
 	
 	
 	$assoc_ar = json_decode($_POST['param']['loginNames'], true);
@@ -45,9 +45,15 @@ if ($bind) {
 							//$attrs = ldap_get_attributes($conn, $entry);
 							//throw new Exception(" --- " . $values[0] . " *****");
 							
+							$displayName = $entries[$i]["extensionname"][0];
+							if ($displayName == null)
+								$displayName = $entries[$i]["displayname"][0];
+							
 							$result[] = array(
 								'LoginName' => $entries[$i]["samaccountname"][0],
-								'DisplayName' => $entries[$i]["displayname"][0],
+								'DisplayName' => $displayName,
+								//'DisplayName' => $entries[$i]["displayname"][0],
+								//'DisplayName' => $entries[$i]["extensionname"][0],
 								'UserPrincipalName' => $entries[$i]["userprincipalname"][0],
 								'distinguishedName' => $entries[$i]["dn"],
 							);
