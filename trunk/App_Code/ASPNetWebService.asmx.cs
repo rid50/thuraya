@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Services;
 using System.Web.Script.Services;
 using System.Security.Principal;
+using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -65,16 +66,17 @@ namespace RequestDisplayNameGroupMembership
 			{
 				using (PrincipalContext context = new PrincipalContext(ContextType.Domain))
 				{
-					UserPrincipal principal;
+					//UserPrincipal principal;
+					UserPrincipalEx principal;
 
 					foreach (LoginName ln in loginNames)
 					{
 						if (ln.loginName.Length == 0)
 							//principal = UserPrincipal.Current;
 							//principal = UserPrincipal.FindByIdentity(context, userLoginName);
-							principal = UserPrincipal.FindByIdentity(context, Context.User.Identity.Name);
+							principal = (UserPrincipalEx)UserPrincipal.FindByIdentity(context, Context.User.Identity.Name);
 						else
-							principal = UserPrincipal.FindByIdentity(context, ln.loginName);
+							principal = (UserPrincipalEx)UserPrincipal.FindByIdentity(context, ln.loginName);
 
 						//UserPrincipal principal = UserPrincipal.FindByIdentity(context, loginName);
 						//PrincipalSearchResult<Principal> psr = principal.GetGroups();
@@ -98,7 +100,7 @@ namespace RequestDisplayNameGroupMembership
 							json = new
 							{
 								LoginName = principal.SamAccountName,
-								//DisplayName = principal.extensionName,
+								//DisplayName = principal.ExtensionName,
 								DisplayName = principal.DisplayName,
 								UserPrincipalName = principal.UserPrincipalName
 								//UserPrincipalName = Context.User.Identity.Name
@@ -121,4 +123,33 @@ namespace RequestDisplayNameGroupMembership
         //    public IList<Object> Groups;
         //}
     }
+	
+		//[DirectoryObjectClass("user")]
+		//[DirectoryRdnPrefix("CN")]
+		//[DirectoryServicesPermissionAttribute(SecurityAction.LinkDemand, Unrestricted = true)]
+		//[DirectoryServicesPermissionAttribute(SecurityAction.InheritanceDemand, Unrestricted = true)]
+		public class UserPrincipalEx : UserPrincipal
+		{
+			public UserPrincipalEx(PrincipalContext context) : base(context) { }
+
+			public UserPrincipalEx(PrincipalContext context, string samAccountName, string password,  bool enabled ) : base(context, samAccountName, password, enabled)
+			{
+			}
+/*
+			[DirectoryProperty("ExtensionName")]
+			public string ExtensionName
+			{
+				get
+				{
+					if (ExtensionGet("ExtensionName").Length != 1)
+						return null;
+
+					return (string)ExtensionGet("ExtensionName")[0];
+
+				}
+				//set { this.ExtensionSet("extensionName", value); }
+			}
+*/			
+		}		
+	
 }
