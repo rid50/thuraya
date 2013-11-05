@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.Services;
 using System.Web.Script.Services;
 using System.Security.Principal;
+//using System.Security.Permissions;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.Web.Mvc;
@@ -68,15 +69,17 @@ namespace RequestDisplayNameGroupMembership
 				{
 					//UserPrincipal principal;
 					UserPrincipalEx principal;
-
+					String displayName;
+					
 					foreach (LoginName ln in loginNames)
 					{
 						if (ln.loginName.Length == 0)
 							//principal = UserPrincipal.Current;
 							//principal = UserPrincipal.FindByIdentity(context, userLoginName);
-							principal = (UserPrincipalEx)UserPrincipal.FindByIdentity(context, Context.User.Identity.Name);
+							//principal = UserPrincipalEx.FindByIdentity(context, IdentityType.SamAccountName, Context.User.Identity.Name);
+							principal = UserPrincipalEx.FindByIdentity(context, IdentityType.SamAccountName, Context.User.Identity.Name);
 						else
-							principal = (UserPrincipalEx)UserPrincipal.FindByIdentity(context, ln.loginName);
+							principal = UserPrincipalEx.FindByIdentity(context, IdentityType.SamAccountName, ln.loginName);
 
 						//UserPrincipal principal = UserPrincipal.FindByIdentity(context, loginName);
 						//PrincipalSearchResult<Principal> psr = principal.GetGroups();
@@ -97,11 +100,20 @@ namespace RequestDisplayNameGroupMembership
 						}
 						else
 						{
+							if (principal.ExtensionName == null)
+								displayName = principal.DisplayName;
+							else
+								displayName = principal.ExtensionName;
+
+							//displayName = GetExtensionName(principal);
+							//if (displayName.Length == 0)
+							//	displayName = principal.DisplayName;
+							
 							json = new
 							{
 								LoginName = principal.SamAccountName,
-								//DisplayName = principal.ExtensionName,
-								DisplayName = principal.DisplayName,
+								//DisplayName = principal.DisplayName,
+								DisplayName = displayName,
 								UserPrincipalName = principal.UserPrincipalName
 								//UserPrincipalName = Context.User.Identity.Name
 								//UserPrincipalName = userLoginName
@@ -116,6 +128,22 @@ namespace RequestDisplayNameGroupMembership
             return new JsonResult { Data = UserInfo, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
+		public String GetProperty(Principal principal, String property)
+        {
+            DirectoryEntry directoryEntry = principal.GetUnderlyingObject() as DirectoryEntry;
+            if (directoryEntry.Properties.Contains(property))
+                //return directoryEntry.Properties[property].Value.ToString();
+                return directoryEntry.Properties[property][0].ToString();
+            else
+                return String.Empty;
+        }
+
+        public String GetExtensionName(Principal principal)
+        {
+            return GetProperty(principal, "ExtensionName");
+        }
+
+		
         //public class MyUserPrincipal
         //{
         //    public string DisplayName;
@@ -124,18 +152,33 @@ namespace RequestDisplayNameGroupMembership
         //}
     }
 	
-		//[DirectoryObjectClass("user")]
+		[DirectoryObjectClass("user")]
 		//[DirectoryRdnPrefix("CN")]
+		//[DirectoryObjectClass("inetOrgPerson")]
+		//[DirectoryObjectClass("person")]
+
 		//[DirectoryServicesPermissionAttribute(SecurityAction.LinkDemand, Unrestricted = true)]
 		//[DirectoryServicesPermissionAttribute(SecurityAction.InheritanceDemand, Unrestricted = true)]
 		public class UserPrincipalEx : UserPrincipal
 		{
-			public UserPrincipalEx(PrincipalContext context) : base(context) { }
+			// Inplement the constructor using the base class constructor. 
+			public UserPrincipalEx(PrincipalContext context) : base(context)
+			{
 
-			public UserPrincipalEx(PrincipalContext context, string samAccountName, string password,  bool enabled ) : base(context, samAccountName, password, enabled)
+			}
+			 
+			// Implement the constructor with initialization parameters.    
+			public UserPrincipalEx(PrincipalContext context, 
+								 string samAccountName, 
+								 string password, 
+								 bool enabled)
+								 : base(context, 
+										samAccountName, 
+										password, 
+										enabled)
 			{
 			}
-/*
+			
 			[DirectoryProperty("ExtensionName")]
 			public string ExtensionName
 			{
@@ -149,7 +192,26 @@ namespace RequestDisplayNameGroupMembership
 				}
 				//set { this.ExtensionSet("extensionName", value); }
 			}
-*/			
+
+			// Implement the overloaded search method FindByIdentity.
+			public static new UserPrincipalEx FindByIdentity(PrincipalContext context, 
+														   string identityValue)
+			{
+				return (UserPrincipalEx)FindByIdentityWithType(context,
+															 typeof(UserPrincipalEx),
+															 identityValue);
+			}
+
+			// Implement the overloaded search method FindByIdentity. 
+			public static new UserPrincipalEx FindByIdentity(PrincipalContext context, 
+														   IdentityType identityType, 
+														   string identityValue)
+			{
+				return (UserPrincipalEx)FindByIdentityWithType(context, 
+															 typeof(UserPrincipalEx), 
+															 identityType,
+															 identityValue);
+			} 
 		}		
 	
 }
