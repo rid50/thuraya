@@ -606,7 +606,7 @@ function getUserIdentities(url, json, func) {
 	//var	data = "loginNames=" + JSON.stringify(json);
 	//var	data = "loginNames=" + "{\"loginNames\":" + JSON.stringify(json) + "}";
 
-	var syncSuccess = false;
+	//var syncSuccess = false;
 	$.ajax({ 
 		type: "POST",
 		url: url,
@@ -627,14 +627,13 @@ function getUserIdentities(url, json, func) {
 		//data: "{}",
 		processData: true,
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
-			alert($.parseJSON(XMLHttpRequest.responseText).Message);
-
-			//alert("Status: " + errorThrown);
+			//alert($.parseJSON(XMLHttpRequest.responseText).Message);
+			alert("Status: " + errorThrown);
 		
 			//loginName = $.parseJSON(this.data).loginName;
 			//displayName = loginName;
-			syncSuccess = false;
-			asyncSuccess = false;
+			//syncSuccess = false;
+			//asyncSuccess = false;
 		},
 		success: function(data) {
 			//$('#userName').text($(data).text());	//xml response
@@ -663,12 +662,12 @@ function getUserIdentities(url, json, func) {
 				v.displayName = o.DisplayName;
 				userInfo.push(v);
 			});
-			syncSuccess = true;
+			//syncSuccess = true;
 			
 			func();
 		}
 	});
-	return syncSuccess;
+	//return syncSuccess;
 }
 
 function getDocs() {
