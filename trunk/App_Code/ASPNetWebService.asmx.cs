@@ -152,10 +152,10 @@ namespace RequestDisplayNameGroupMembership
         //}
     }
 	
-		[DirectoryObjectClass("user")]
+		//[DirectoryObjectClass("user")]
 		//[DirectoryRdnPrefix("CN")]
 		//[DirectoryObjectClass("inetOrgPerson")]
-		//[DirectoryObjectClass("person")]
+		[DirectoryObjectClass("person")]
 
 		//[DirectoryServicesPermissionAttribute(SecurityAction.LinkDemand, Unrestricted = true)]
 		//[DirectoryServicesPermissionAttribute(SecurityAction.InheritanceDemand, Unrestricted = true)]

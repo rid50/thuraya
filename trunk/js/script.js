@@ -582,12 +582,12 @@ function getUserIdentities(url, json, func) {
 		url = "ASPNetWebService.asmx/" + url;
 		data = "{\"loginNames\":" + JSON.stringify(json) + "}";
 	//} else if (idp == "LDAP" || (idp == "SAML" && idpSource == "AD")) {
-	} else if (idpSource == "AD" && (idp == "LDAP" || idp == "SAML")) {
+	} else if (idp == "LDAP" || (idp == "SAML" && idpSource == "AD")) {
 		contentType = "application/x-www-form-urlencoded; charset=UTF-8";
 		url = "ldap_repo.php";
 		data = {"param":{loginNames:JSON.stringify(json)}};
 	//} else if (idp == "SAML" && idpSource == "DB") {
-	} else if (idpSource == "DB" && (idp == "LDAP" || idp == "SAML")) {
+	} else if (idp == "SAML" && idpSource == "DB") {
 		//url = "get_user_attributes.php";
 		contentType = "application/x-www-form-urlencoded; charset=UTF-8";
 		//data = {loginNames:JSON.stringify(json)};
