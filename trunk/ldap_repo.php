@@ -45,8 +45,19 @@ if ($bind) {
 							//$attrs = ldap_get_attributes($conn, $entry);
 							//throw new Exception(" --- " . $values[0] . " *****");
 							
+							//$displayName = $entries[$i]["extensionname"][0];
+							//$values = ldap_get_values($conn, $entries[$i], "extensionname");
+							//$displayName = $entries[$i]["extensionname"][0];
+							
+							//$entry = ldap_first_entry($conn, $ldap_result);
+							//$values = ldap_get_values_len($conn, $entry, "extensionname");
+							//$attrs = ldap_get_attributes($conn, $entry);
+							//$displayName = $attrs["count"];
+							//$displayName = $values["count"];
+							//$displayName = $values[0];
+							
 							$displayName = $entries[$i]["extensionname"][0];
-							if ($displayName == null)
+							if ($displayName == null || $displayName == "")
 								$displayName = $entries[$i]["displayname"][0];
 							
 							$result[] = array(
