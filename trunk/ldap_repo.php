@@ -6,6 +6,7 @@ $password = $ini["ldap_password"];
 $base_dn = $ini["ldap_base_dn"];
 
 $conn = ldap_connect("ldap://".$dc, 636);
+ldap_set_option($conn, LDAP_OPT_PROTOCOL_VERSION, 3);
 $bind = @ldap_bind($conn, $username, $password);
 if ($bind) {
 	//$attributes = array("sAMAccountName", "displayName", "userPrincipalName", "dn");
@@ -86,6 +87,7 @@ header('Content-type: application/json; charset=utf-8');
 header('Cache-Control: no-cache, must-revalidate');
 header('Expires: Mon, 1 Jan 1990 00:00:00 GMT');
 
+//$json = json_encode($result, JSON_UNESCAPED_UNICODE);
 $json = json_encode($result);
 print(isset($_GET['callback']) ? "{$_GET['callback']}($json)" : $json);
 
