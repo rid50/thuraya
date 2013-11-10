@@ -1,0 +1,20 @@
+CREATE ALGORITHM=UNDEFINED DEFINER=`developer`@`192.168.1.62` SQL SECURITY DEFINER VIEW `ecabling`.`v_loads` AS 
+select `ecabling`.`check_form`.`id` AS `idd`,
+`ecabling`.`check_form`.`form_no` AS `frm_no`,
+`ecabling`.`check_form`.`file_no` AS `f_no`,
+`ecabling`.`check_form`.`elc_load_old` AS `lold`,
+`ecabling`.`customers`.`cs_name` AS `csname`,
+`ecabling`.`area`.`area_name` AS `areaname`,
+`ecabling`.`checker`.`ch_name` AS `cname`,
+`ecabling`.`check_form`.`sector_addrs` AS `sadd`,
+`ecabling`.`check_form`.`qasimaa` AS `qass`,
+`ecabling`.`sponser`.`spn_name` AS `spname`,
+`ecabling`.`emrgcenter`.`emname` AS `emname`,
+`ecabling`.`check_form`.`elc_load_new` AS `lnew`,
+`ecabling`.`buildtype`.`id` AS `id`,
+`ecabling`.`buildtype`.`bt_name` AS `bt_name`,
+`ecabling`.`check_form`.`date_conduction` AS `date_conduction`,
+`ecabling`.`check_form`.`prnt_tamdet_type` AS `prnt_tamdet_type`,
+`ecabling`.`check_form`.`prnt_date_certificate` AS `prnt_date_certificate`,
+`ecabling`.`check_form`.`prnt_feerder_no` AS `prnt_feerder_no` 
+from ((((((`ecabling`.`check_form` left join `ecabling`.`customers` on((`ecabling`.`check_form`.`cs_id` = `ecabling`.`customers`.`id`))) left join `ecabling`.`area` on((`ecabling`.`check_form`.`area_id` = `ecabling`.`area`.`id`))) left join `ecabling`.`checker` on((`ecabling`.`check_form`.`checker` = `ecabling`.`checker`.`id`))) left join `ecabling`.`sponser` on((`ecabling`.`sponser`.`spn_name` = `ecabling`.`check_form`.`sponser`))) left join `ecabling`.`emrgcenter` on((`ecabling`.`emrgcenter`.`id` = `ecabling`.`area`.`emergid`))) left join `ecabling`.`buildtype` on((`ecabling`.`check_form`.`bldt_id` = `ecabling`.`buildtype`.`id`)))$$

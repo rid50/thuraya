@@ -35,10 +35,12 @@ if ($idp == "SAML") {
 
 	<!--link rel="stylesheet" media="all" href="themes/smoothness/jquery-ui-1.10.2.custom.min.css" /-->
 	<link rel="stylesheet" media="all" href="themes/smoothness/jquery-ui-1.10.3.custom.min.css" />	
+	<link rel="stylesheet" media="all" href="css/ui.jqgrid.css" />	
     <link rel="stylesheet" media="screen" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" media="print" type="text/css" href="css/style.css"/>
     <!--script src="js/jquery-1.9.1.min.js" type="text/javascript"></script-->
     <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="js/jqGridJs/jquery.jqGrid.min.js" type="text/javascript"></script>
 	<script src="js/jquery.blockUI.js" type="text/javascript"></script>
     <script src="js/jquery.hotkeys.js" type="text/javascript"></script>
 	<!--script src="js/jstree.min.js" type="text/javascript"></script-->
@@ -49,6 +51,7 @@ if ($idp == "SAML") {
 	<script src="js/jquery.i18n.properties-min-1.0.9.js" type="text/javascript"></script>
 	<script src="js/printThis.js" type="text/javascript"></script>
     <script src="js/script.js" type="text/javascript"></script>
+    <script src="js/contracts.js" type="text/javascript"></script>
 	
 	<style type="text/css">
 		.accessRejected {
@@ -422,6 +425,29 @@ if ($idp == "SAML") {
 -->			
 		</fieldset>
 	</form>
+</div>
+
+<div id="divGrid" style="margin-left:4px; height:inherit; display:none">
+    <div style="padding-left: 10px; height:24px;">
+        Search:
+        <input type="text" id="item" onkeydown="doSearch(arguments[0]||event)" style="float:none; padding: 0;" />
+        <button onclick="gridReload()" id="submitButton">Search</button>
+        <!--button onclick="f()" id="submitButton">Search</button-->
+        <input type="checkbox" id="autosearch" onclick="enableAutosubmit(this.checked)" style="padding: 0; float:none; width:auto; border: 0" />
+        Enable Autosearch
+        <div id="search" style="visibility: hidden; width:10px; height: 10px"></div>
+    </div>
+
+    <div id="myjqGrid" style="padding: 2px 18px 0 0; overflow:auto;">
+        <div>
+        <table id="grid" ></table>
+        <div id="pager"></div>
+        </div>
+        <div style="padding-top:10px;">
+        <table id="grid_d"></table>
+        <div id="pager_d"></div>
+        </div>
+    </div>
 </div>
 
 </html>
