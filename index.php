@@ -41,6 +41,9 @@ if ($idp == "SAML") {
     <!--script src="js/jquery-1.9.1.min.js" type="text/javascript"></script-->
     <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="js/jqGridJs/jquery.jqGrid.min.js" type="text/javascript"></script>
+    <script src="js/jqGridJs/i18n/grid.locale-en.js" type="text/javascript"></script>
+    <script src="js/jqGridJs/grid.filtergrid.js" type="text/javascript"></script>
+	
 	<script src="js/jquery.blockUI.js" type="text/javascript"></script>
     <script src="js/jquery.hotkeys.js" type="text/javascript"></script>
 	<!--script src="js/jstree.min.js" type="text/javascript"></script-->
@@ -51,7 +54,7 @@ if ($idp == "SAML") {
 	<script src="js/jquery.i18n.properties-min-1.0.9.js" type="text/javascript"></script>
 	<script src="js/printThis.js" type="text/javascript"></script>
     <script src="js/script.js" type="text/javascript"></script>
-    <script src="js/contracts.js" type="text/javascript"></script>
+    <script src="js/checkup_grid.js" type="text/javascript"></script>
 	
 	<style type="text/css">
 		.accessRejected {
@@ -118,6 +121,7 @@ if ($idp == "SAML") {
 					<li><a href="#tab-vault"></a></li>
 					<li><a href="#tab-rejected"></a></li>
 					<li><a href="#tab-edafat"></a></li>
+					<li><a href="#tab-checkup-grid"></a></li>
 					<li><a href="#tab-edit"><div id="newButtonTab"></div><span style="margin-left:20px"></span></a></li>
 					<li><a href="#tab-users"></a></li>
 				</ul>
@@ -136,6 +140,8 @@ if ($idp == "SAML") {
 				</div>
 				<div id="tab-edafat">
 					<ul id="edafatDocs"></ul>
+				</div>
+				<div id="tab-checkup-grid">
 				</div>
 				<div id="tab-edit">
 				</div>

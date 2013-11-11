@@ -57,8 +57,8 @@ if ($bind) {
 							//$displayName = $values["count"];
 							//$displayName = $values[0];
 							
-							$displayName = $entries[$i]["extensionname"][0];
-							if ($displayName == null || $displayName == "")
+							//$displayName = $entries[$i]["extensionname"][0];
+							//if ($displayName == null || $displayName == "")
 								$displayName = $entries[$i]["displayname"][0];
 							
 							$result[] = array(

@@ -27,8 +27,9 @@ var activeTab_enum = {
 	vault: 2,
 	rejected: 3,
 	edafat: 4,
-	edit: 5,
-	users: 6,
+	checkup_grid: 5,
+	edit: 6,
+	users: 7,
 };
 
 /*
@@ -808,6 +809,7 @@ function initTabs() {
 	if (!$("#tabs").hasClass("ui-tabs")) {
 		$("#tab-edit").append($("#newForm"));
 		$("#tab-users").append($("#userAssignmentDiv"));
+		$("#tab-checkup-grid").append($("#divGrid"));
 
 		$("#tabs>ul>li").find('a[href="#tab-pending"]').text(jQuery.i18n.prop("PendingDocsListTab"));
 		$("#tabs>ul>li").find('a[href="#tab-inprocess"]').text(jQuery.i18n.prop("InProcessDocsListTab"));
@@ -816,6 +818,7 @@ function initTabs() {
 		$("#tabs>ul>li").find('a[href="#tab-edafat"]').text(jQuery.i18n.prop("EdafatTab"));
 		$("#tabs>ul>li").find('a[href="#tab-edit"] span').text(jQuery.i18n.prop("CreateUpdateDocumentTab"));
 		$("#tabs>ul>li").find('a[href="#tab-users"]').text(jQuery.i18n.prop("UserAssignmentTab"));
+		$("#tabs>ul>li").find('a[href="#tab-checkup-grid"]').text(jQuery.i18n.prop("CheckUpCompleteTab"));
 		
 		if (!$("#custom_jsTree").hasClass("jstree"))
 			userAssignment();
@@ -834,6 +837,11 @@ function initTabs() {
 					if ($("#userAssignmentDiv").css("display") == "none") {
 						$("#userAssignmentDiv").show();
 					}
+					
+					if ($("#divGrid").css("display") == "none") {
+						$("#divGrid").show();
+					}
+					
 				//}
 
 				
@@ -908,6 +916,8 @@ function initTabs() {
 	$("#tabs>ul>li").find('a[href="#tab-edit"]').parent().hide();
 	$("#tabs").tabs( "disable", activeTab_enum.users );
 	$("#tabs>ul>li").find('a[href="#tab-users"]').parent().hide();
+	$("#tabs").tabs( "disable", activeTab_enum.checkup_grid );
+	$("#tabs>ul>li").find('a[href="#tab-checkup-grid"]').parent().hide();
 	
 	switch (sectionId) {
 		case sectionId_enum.followup:
@@ -926,9 +936,16 @@ function initTabs() {
 				$("#tabs>ul>li").find('a[href="#tab-users"]').parent().show();
 			}
 			break;
+		case sectionId_enum.checkup:
+			if (actor == actor_enum.manager) {
+				$("#tabs").tabs( "enable", activeTab_enum.checkup_grid );
+				$("#tabs>ul>li").find('a[href="#tab-checkup-grid"]').parent().show();
+				$("#tabs").tabs( "enable", activeTab_enum.users );
+				$("#tabs>ul>li").find('a[href="#tab-users"]').parent().show();
+			}
+			break;
 		case sectionId_enum.ac:
 		case sectionId_enum.electricity:
-		case sectionId_enum.vault:
 		case sectionId_enum.edafat:
 			if (actor == actor_enum.manager) {
 				$("#tabs").tabs( "enable", activeTab_enum.users );
@@ -3520,6 +3537,7 @@ function toggleLanguage(lang, dir) {
 			$("#tabs>ul>li").find('a[href="#tab-users"]').text(jQuery.i18n.prop("UserAssignmentTab"));
 			//else if (actor == actor_enum.employee)
 			$("#tabs>ul>li").find('a[href="#tab-edit"] span').text(jQuery.i18n.prop("CreateUpdateDocumentTab"));
+			$("#tabs>ul>li").find('a[href="#tab-checkup-grid"]').text(jQuery.i18n.prop("CheckUpCompleteTab"));
 
 			
 			if (dir == 'ltr') {
