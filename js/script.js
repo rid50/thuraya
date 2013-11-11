@@ -471,7 +471,7 @@ $(document).ready(function () {
 	}
 	
     $grid = $('#myjqGrid');
-    $grid.height($grid.parent().height() - 14);
+    //$grid.height($grid.parent().height() - 14);
 
 	
 	var userLoginName = "";
