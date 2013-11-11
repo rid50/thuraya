@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $ini = parse_ini_file("config.ini");
 $dc = $ini["ldap_dc"];
 $username = $ini["ldap_username"];
@@ -22,7 +24,11 @@ if ($bind) {
 					if (isset($_SERVER["AUTH_USER"])) {
 						$filter = "samaccountname=" . array_pop(explode('\\', $_SERVER["AUTH_USER"]));
 					} else {
-						$filter = "samaccountname=basma";
+						if (isset($_SESSION['loginName']))
+							//$filter = "samaccountname=" . array_pop(explode('\\', $_SESSION['loginName']));
+							$filter = "samaccountname=" . $_SESSION['loginName'];
+						else
+							$filter = "samaccountname=basma";
 					}
 				} else {
 					$filter = "samaccountname=" . $value2;
