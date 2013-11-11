@@ -1,39 +1,53 @@
 ﻿$(document).ready(function () {
-    //CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
+    CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
 });
 
 CheckupGrid = {
     setupGrid: function (grid, pager, search) {
         //        debugger; 
         grid.jqGrid({
-            url: "Checkup/List",
+            url: "json_db_crud_pdo.php",
+			postData:{"func": "getCheckups"},
             mtype: "get",
             datatype: "json",
             colNames: ['File Number', 'Checkup Number', 'Date'],
             colModel: [             //http://php.net/manual/en/function.date.php
-                        {name: 'FileNumber', index: 'file_no', width: '50', align: 'left', sortable: true, hidden: false },
-                        {name: 'CheckupNumber', index: 'form_no', align: 'left', sortable: true, hidden: false, editable: true },
+                        {name: 'file_no', index: 'file_no', width: '50', align: 'left', sortable: true, hidden: false },
+                        {name: 'form_no', index: 'form_no', align: 'left', sortable: true, hidden: false, editable: true },
             //{ name: 'DateEntry', index: 'DateEntry', align: 'left', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'M j Y h:i A', newformat: 'd-M-Y h:iA'} },  //DateEntry = "Dec 31 1999 12:00AM"
-                        {name: 'Date', index: 'date_ins', align: 'center', width: '40px', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'm d Y g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'date_ins', index: 'date_ins', align: 'center', width: '40px', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'm d Y g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
                         //{name: 'ContractValue', index: 'contract_value', align: 'right', width: '45', sortable: false, hidden: false, editable: true },
                         //{name: 'Currency', index: 'currency', align: 'left', width: '15', sortable: false, hidden: false, editable: false },
                       ],
             rowNum: 10,
             rowList: [10, 20],
+            loadui: "block",
+            //multiboxonly: true,
             pager: pager,
             sortname: 'file_no',
             sortorder: "asc",
-            viewrecords: true,
+            viewrecords: false,
             multiselect: false,
-            editurl: "Checkup/Edit",
+            //editurl: "Checkup/Edit",
             width: '100%',
             height: '100%',
             /*rowheight: '30px',*/
-            shrinkToFit: true,
+            shrinkToFit: false,
             autowidth: true,
             rownumbers: true,
             caption: 'Checkup',
             toppager: false,
+			/*
+			jsonReader: {
+				root: "Rows",
+				page: "Page",
+				total: "Total",
+				records: "Records",
+				repeatitems: false,
+				userdata: "UserData",
+				id: "Id"
+			},
+			*/
             loadError: function (xhr, st, err) {
                 if (window.console) window.console.log('failed');
                 $('#alertContent').html("Type: " + st + "; Response: " + xhr.status + " " + xhr.statusText);
@@ -42,6 +56,8 @@ CheckupGrid = {
                 //$('#info').text(event.toString()).css({ 'color': 'orange', 'fontweight': 'bold' });
             },
             loadComplete: function (event) {
+                if (event && event[0].error != "" && window.console)
+					window.console.log(event[0].error);
                 //debugger;
                 //jQuery('#grid_d').setGridParam({ url: "ContractDetails/List?contract_id=0", page: 1 }).trigger('reloadGrid');
                 //$('.ui-pg-table').css({ 'width': '600px', 'width': 'auto', 'table-layout': 'auto', 'border': '0px solid green' });

@@ -444,15 +444,15 @@ if ($idp == "SAML") {
         <div id="search" style="visibility: hidden; width:10px; height: 10px"></div>
     </div>
 
-    <div id="myjqGrid" style="padding: 2px 18px 0 0; overflow:auto;">
+    <div id="myjqGrid" style="padding: 20px 0 0 10px; overflow:auto;">
         <div>
-        <table id="grid" ></table>
-        <div id="pager"></div>
+			<table id="grid" ></table>
+			<div id="pager"></div>
         </div>
-        <div style="padding-top:10px;">
+        <!--div style="padding-top:10px;">
         <table id="grid_d"></table>
         <div id="pager_d"></div>
-        </div>
+        </div-->
     </div>
 </div>
 

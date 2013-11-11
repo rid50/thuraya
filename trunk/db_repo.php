@@ -160,6 +160,23 @@ class DatabaseRepository {
 */
 	}
 
+	public function getCheckups() {
+		$dbh = $this->connect();
+		try {
+			$st = "SELECT * FROM check_form";
+			$ds = $dbh->query($st);
+		} catch (PDOException $e) {
+			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
+		}
+		
+		$this->result = array();
+		while($r = $ds->fetch(PDO::FETCH_ASSOC)) {
+			$this->result[] = (object)$r;
+		}
+		return $this->result;
+	}
+	
+	
 	public function getDocs($param) {
 		return $this->get($param);
 	}
