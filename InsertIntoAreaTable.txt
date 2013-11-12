@@ -1,0 +1,416 @@
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('32', '5', 'جنوب الجهراء', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('33', '5', 'النسيم', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('34', '5', 'النعيم', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('36', '5', 'القصر', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('37', '5', 'العبدلي', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('38', '5', 'السالمي', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('39', '5', 'عبدالله المبارك', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('40', '5', 'الفروانية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('41', '5', 'صباح الناصر', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('42', '5', 'الفردوس', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('43', '5', 'الاندلس', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('44', '5', 'الرقعي', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('45', '5', 'خيطان', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('46', '5', 'الدوحة', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('47', '5', 'جنوب الدوحة', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('48', '5', 'الصبية', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('49', '5', 'الصليبخات', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('50', '5', 'الضجيج', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('51', '5', 'العميرية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('52', '5', 'كبد', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('53', '5', 'فروسية الجهراء', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('54', '5', 'فروسية الفروانية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('55', '5', 'غرناطة', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('56', '5', 'النهضة', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('57', '5', 'جليب الشيوخ', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('58', '5', 'الشدادية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('61', '6', 'السرة', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('62', '6', 'السلام', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('63', '6', 'حطين', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('64', '6', 'الزهراء', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('65', '6', 'الشهداء', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('66', '6', 'الصديق', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('67', '6', 'حولي', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('68', '6', 'الروضة', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('69', '6', 'قرطبة', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('70', '6', 'الفيحاء', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('72', '5', 'الشويخ', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('73', '5', 'الشويخ السكنية', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('74', '5', 'الري', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('75', '6', 'الخالدية', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('76', '5', 'اليرموك', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('77', '6', 'كيفان', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('78', '6', 'القادسية', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('79', '6', 'الدسمة', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('80', '6', 'المرقاب', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('81', '6', 'عبدالله السالم', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('82', '6', 'المنصورية', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('83', '6', 'الشعب', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('84', '6', 'بيان', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('85', '6', 'مشرف', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('86', '6', 'صباح السالم', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('87', '6', 'سلوى', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('88', '6', 'السالمية', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('89', '6', 'ميدان حولي', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('90', '6', 'شرق حولي', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('91', '6', 'بنيد القار', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('92', '6', 'الشرق', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('93', '6', 'المسيلة', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('94', '6', 'الدعية', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('95', '6', 'العديلية', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('96', '6', 'القرين', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('97', '7', 'الفطاس', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('98', '7', 'الفنيطيس', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('99', '7', 'ابو الحصانية', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('100', '7', 'صبحان', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('101', '7', 'الرقة', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('102', '7', 'العقيلة', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('103', '7', 'الفنطاس الزراعية', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('104', '7', 'ابوحليقة', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('105', '7', 'فهد الاحمد', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('106', '7', 'المنقف', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('107', '7', 'الصباحية', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('108', '7', 'الفحيحيل', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('109', '7', 'الشعيبة', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('110', '7', 'ميناء عبدالله', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('111', '7', 'الوفرة', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('112', '7', 'ام الهيمان', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('113', '7', 'الخيران', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('114', '7', 'لؤلؤة الخيران', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('115', '7', 'بنيدر', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('116', '7', 'الضبيعية', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('117', '7', 'الزور', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('118', '7', 'النويصيب', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('119', '7', 'جابر العلي', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('120', '5', 'جابر الاحمد', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('121', '5', 'سعد العبدالله', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`) VALUES ('122', '5', 'المقوع الشرقي');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('123', '5', 'مبارك الكبير', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('124', '5', 'الظهر', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('125', '5', 'الرميثية', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('126', '5', 'أمغرة', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('127', '5', 'إسطبلات الأحمدي', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('129', '5', 'الشامية', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('130', '5', 'القصور', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('131', '5', 'الجابرية', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('132', '5', 'هدية', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('133', '5', 'رجم خشمان', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('134', '5', 'الشعيبة الصناعية', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('135', '5', 'الشعب البحري', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('136', '5', 'أبرق خيطان', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('137', '5', 'أشبيلية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('138', '5', 'المهبولة', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('139', '5', 'العدان', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('140', '5', 'العارضية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `group_id`, `area_name`, `emergid`) VALUES ('142', '5', 'الرابية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('145', 'المطار', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('146', 'شمال صبحان', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('147', 'مزارع الصليبية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('148', 'الحساوي', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('149', 'مخازن الصليبية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('150', 'شرق الصليبخات', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('151', 'أم الهيمان', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('152', 'الواحة', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('153', 'الأحمدي', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('154', 'القيروان', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('155', 'الفنطاس', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('156', 'النزهة', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('157', 'العمرية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('158', 'العيون', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('159', 'الشويخ الصناعية', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('160', 'تكملة الشويخ الصناعية', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('161', 'أبو حليفة', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('162', 'المطلاع');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('163', 'مبارك العبدالله', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('164', 'الجهراء', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('165', 'القبلة');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('166', 'الصليبية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('167', 'معسكر التحرير - الدائري السادس');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('168', 'أبو فطيرة');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('169', 'شرق الأحمدي');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('170', 'الشريط الساحلي أ');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('171', 'محطة');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('172', 'الرحاب');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('173', 'الشويخ الصحية', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('174', 'الصليبية الزراعية');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('175', 'الخيرانا');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('176', 'فروسية الأحمدي');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('177', 'غرب أبو فطيرة');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('178', 'الصليبية الصناعية');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('179', 'الصباح');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('180', 'شمال الكويت');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('181', 'المراكز الحدودية الشمالية');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('182', 'الجهراء - تيماء');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('183', 'رأس السالمية');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('184', 'شريط الساحلي ج');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('185', 'الشريط الساحلي ج');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('186', 'الشريط الساحلي ب', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('187', 'الشعيبة الغربية', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('188', 'مدينة الكويت', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('189', 'مطار الكويت');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('190', '', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('191', 'مطر الكويت الدولي');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('192', 'مطار الكويت الدولي', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('193', 'مدينة جابر العلي', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('194', 'مدينة جابر العلي - قطاع (B)', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('196', 'مدينة جابر الأحمد', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('197', 'معسكر التحرير', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('198', 'الصالحية', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('199', 'شمال غرب الجهراء', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('200', 'فيلكا', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('201', 'المنطقة الوسطى');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('202', 'مشرف ( منطقه الدبلوماسية )', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('203', 'الجيون', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('204', 'المهبوله');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('205', 'البدع', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('206', 'اشبيليه');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('207', 'اشبيلية', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('208', 'تيماء', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('209', 'قصر السيف', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('211', 'جامعة الكويت');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('212', 'جنوب الصباحية', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('213', 'الصباح الصحية', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('214', 'إسطبلات الوفرة', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('215', 'ميناء الشويخ', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('216', 'جنوب جليب الشيوخ', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('217', 'قصر بيان', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('219', 'جنوب صبحان', '7');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('220', 'الشريط الساحلي (البدع)');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('221', 'غرب الجهراء', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('222', 'جزيرة فيلكا', '53');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('239', 'بنيبدر', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('240', 'غرب الشعيبة', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('241', 'منتزه الخيران السياحي', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('242', 'المقوع', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('243', 'مخيمات المباركية');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('245', 'ظريف');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('246', 'الوفرة السكنية', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('247', 'كاظمة', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('248', 'صباح الاحمد البحريه', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('249', 'علي صباح السالم', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('250', 'ميناء الزور', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('251', 'مدينه الكويت-المقوع الشرقي', '55');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('252', 'الأدعمي', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('253', 'الجيوان', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('254', 'قلمة شايع', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('255', 'الفوارس', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('256', 'أم قصر', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('257', 'الأبرق', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('258', 'الشقايا', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('259', 'الرتقة', '51');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('260', 'جنوب السرة', '50');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('261', 'الجليعة', '52');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`, `emergid`) VALUES ('262', 'الشويخ الجنوبي', '54');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('263', 'الري الصناعية');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('264', 'الصليبية - كبد');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('265', 'ابوحليفة');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('266', 'تقاطع الدائري السادس - تقاطع (3و4و5و7)');
+
+INSERT INTO `tamdidat`.`area` (`id`, `area_name`) VALUES ('267', 'المسايل');
+
