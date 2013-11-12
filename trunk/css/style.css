@@ -597,6 +597,11 @@ background: url('result.png');
 	margin-left:20px;
 	width:2px;
 }
+
+.gridAltRows {
+	background: #eee;
+}
+
 /*
 .jstree-focused.jstree-default
  {

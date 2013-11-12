@@ -1,7 +1,16 @@
 ﻿$(document).ready(function () {
     CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
 });
-
+/*
+$.jgrid = {
+	defaults : {
+		recordtext: "View {0} - {1} of {2}",
+	    emptyrecords: "No records to view",
+		loadtext: "Loading...",
+		pgtext : "Page {0} of {1}"
+	},
+}
+*/
 CheckupGrid = {
     setupGrid: function (grid, pager, search) {
         //        debugger; 
@@ -10,29 +19,33 @@ CheckupGrid = {
 			postData:{"func": "getCheckups"},
             mtype: "get",
             datatype: "json",
-            colNames: ['File Number', 'Checkup Number', 'Date'],
+            colNames: ['File#', 'Checkup#', 'Area', 'Date'],
             colModel: [             //http://php.net/manual/en/function.date.php
-                        {name: 'file_no', index: 'file_no', width: '50', align: 'left', sortable: true, hidden: false },
-                        {name: 'form_no', index: 'form_no', align: 'left', sortable: true, hidden: false, editable: true },
+                        {name: 'file_no', index: 'file_no', align: 'left', width: '80px', sortable: true, resizable: false },
+                        {name: 'form_no', index: 'form_no', align: 'right', width: '60px', sortable: true, editable: false, resizable: false },
+                        {name: 'area_name', index: 'area_name', align: 'left', width: '100px', sortable: true, editable: false, resizable: false },
             //{ name: 'DateEntry', index: 'DateEntry', align: 'left', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'M j Y h:i A', newformat: 'd-M-Y h:iA'} },  //DateEntry = "Dec 31 1999 12:00AM"
-                        {name: 'date_ins', index: 'date_ins', align: 'center', width: '40px', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'm d Y g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'date_ins', index: 'date_ins', align: 'center', width: '100px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'm d Y g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
                         //{name: 'ContractValue', index: 'contract_value', align: 'right', width: '45', sortable: false, hidden: false, editable: true },
                         //{name: 'Currency', index: 'currency', align: 'left', width: '15', sortable: false, hidden: false, editable: false },
                       ],
-            rowNum: 10,
-            rowList: [10, 20],
+            rowNum: 15,
+            rowList: [15, 30, 45],
+			altclass: 'gridAltRows',
+			altRows: true,
             loadui: "block",
+			hidegrid: false,
             //multiboxonly: true,
+            //multiselect: true,
             pager: pager,
             sortname: 'file_no',
             sortorder: "asc",
             viewrecords: false,
-            multiselect: false,
             //editurl: "Checkup/Edit",
-            width: '100%',
-            height: '100%',
+            //width: '100%',
+            height: '346px',
             /*rowheight: '30px',*/
-            shrinkToFit: false,
+            shrinkToFit: true,
             autowidth: true,
             rownumbers: true,
             caption: 'Checkup',

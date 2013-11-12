@@ -433,8 +433,8 @@ if ($idp == "SAML") {
 	</form>
 </div>
 
-<div id="divGrid" style="margin-left:4px; height:inherit; display:none">
-    <div style="padding-left: 10px; height:24px;">
+<div id="divGrid" style="margin-left:4px; display:none">
+    <div style="padding-top: 10px; padding-left: 10px; height:24px;">
         Search:
         <input type="text" id="item" onkeydown="doSearch(arguments[0]||event)" style="float:none; padding: 0;" />
         <button onclick="gridReload()" id="submitButton">Search</button>
@@ -444,7 +444,7 @@ if ($idp == "SAML") {
         <div id="search" style="visibility: hidden; width:10px; height: 10px"></div>
     </div>
 
-    <div id="myjqGrid" style="padding: 20px 0 0 10px; overflow:auto;">
+    <div id="myjqGrid" style="padding: 20px 0 0 10px;">
         <div>
 			<table id="grid" ></table>
 			<div id="pager"></div>

@@ -163,7 +163,8 @@ class DatabaseRepository {
 	public function getCheckups() {
 		$dbh = $this->connect();
 		try {
-			$st = "SELECT * FROM check_form";
+			$st = "SELECT file_no, form_no, date_ins, area_name FROM check_form INNER JOIN area ON check_form.area_id = area.id";
+
 			$ds = $dbh->query($st);
 		} catch (PDOException $e) {
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
