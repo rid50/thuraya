@@ -7,6 +7,8 @@ $username = $ini["ldap_username"];
 $password = $ini["ldap_password"];
 $base_dn = $ini["ldap_base_dn"];
 
+//$filter = "";
+
 $conn = ldap_connect("ldap://".$dc, 636);
 ldap_set_option($conn, LDAP_OPT_PROTOCOL_VERSION, 3);
 $bind = @ldap_bind($conn, $username, $password);
