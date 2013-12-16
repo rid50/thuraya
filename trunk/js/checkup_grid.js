@@ -69,7 +69,7 @@ CheckupGrid = {
                 //$('#info').text(event.toString()).css({ 'color': 'orange', 'fontweight': 'bold' });
             },
             loadComplete: function (event) {
-                if (event && event[0].error != "" && window.console)
+                if (event && event[0] && event[0].error != "" && window.console)
 					window.console.log(event[0].error);
                 //debugger;
                 //jQuery('#grid_d').setGridParam({ url: "ContractDetails/List?contract_id=0", page: 1 }).trigger('reloadGrid');
