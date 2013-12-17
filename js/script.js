@@ -1625,6 +1625,9 @@ function applyButtonBorderStyle(itemTemplate) {
 					itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").addClass("forwardButton");
 					itemTemplate.find(".docDetailDiv>a:nth-of-type(1)").attr('title', $.i18n.prop('Forward'));
 				}
+			} else if (sectionId == sectionId_enum.edafat) {
+				itemTemplate.find("a:nth-of-type(2)").addClass("forwardButton");
+				itemTemplate.find("a:nth-of-type(2)").attr('title', $.i18n.prop('Forward'));
 			}
 		}
 	}
@@ -1915,13 +1918,36 @@ this.commentDialog = function(that, action) {
 	html += '<div style="overflow:auto; height: 340px; word-wrap:break-word;">' + commentHistory + "</div><br/>";
 
 	if (action != status_enum.readonly) {
-	
      	if (action == status_enum.approve) {
 			html += '<fieldset><legend>' + jQuery.i18n.prop('ForwardTo') + '</legend><div id="radio">';
 			//html += '<fieldset><legend>' + jQuery.i18n.prop('ForwardTo') + '</legend>';
 			
 			var  checked = "", nf = {};	// names to forward - the names of sections or employees to forward a document
-			if (sectionId != sectionId_enum.followup && actor == actor_enum.manager) {
+			if (sectionId == sectionId_enum.edafat) {
+				$(rootActors).find('section').each(function(index) {
+					//if (index == 0) 
+					//	return true;	// continue
+
+					//nf.disabled = sectionId == $(this).attr('id') ? " disabled=\"disabled\"" : "";
+					
+					
+					if (sectionId == $(this).attr('id') || (sectionId_enum.followup != $(this).attr('id') && sectionId_enum.checkup != $(this).attr('id')))
+						return true;
+					//if ($(this).attr('id') != sectionId_enum.followup && $(this).attr('id') != sectionId_enum.checkup)
+					//	return true;
+						
+					nf.name = ($("body[dir='ltr']").length) ? $(this).attr('name') : $(this).attr('arName');
+
+					nf.checked = "";
+					if (checked.length == 0) {
+						if ($($(this).parent()).children().length == 1)
+							checked = nf.checked = " checked=\"checked\"";
+					}
+						
+					html += '<input type="radio" id="radio' + index + '" value="' + $(this).attr('id') + '" name="radio"' + nf.checked + ' /><label for="radio' + index + '">' + nf.name + '</label>';
+					//html += '<input type="radio" id="radio' + index + '" value="' + $(this).attr('id') + '" name="radio"' + nf.disabled + nf.checked + ' /><label for="radio' + index + '">' + nf.name + '</label>';
+				})
+			} else if (sectionId != sectionId_enum.followup && actor == actor_enum.manager) {
 				var employee = null;
 				$(rootActors).find('section[id="' + sectionId + '"] employee').each(function(index) {
 
@@ -1975,7 +2001,7 @@ this.commentDialog = function(that, action) {
 			html += '</div></fieldset>';
 		}
 		
-		if (!(sectionId != sectionId_enum.followup && actor == actor_enum.manager))
+		if (sectionId == sectionId_enum.edafat || !(sectionId != sectionId_enum.followup && actor == actor_enum.manager))
 			html += '<textarea name="comment" id="comment" style="width:500px;" rows="4" class="text ui-widget-content ui-corner-all" ></textarea>';
 			
 		html += '</div>';
@@ -2156,18 +2182,18 @@ function approve_reject_revoke(currentComment, commentHistory, docFileNumber, fo
 	} else if (status == status_enum.reject) {			//reject
 		secId = -10 - parseInt(sectionId);				
 		//forwardTo = null;
-	} else if (sectionId != sectionId_enum.followup && actor == actor_enum.manager) { // assign doc to employee
-		secId = null;
-		// forwardTo should have a value	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		docHistory = null;
-		docComment = null;
-	} else if (sectionId != sectionId_enum.followup && actor == actor_enum.employee) {
+	} else if (sectionId == sectionId_enum.edafat || sectionId != sectionId_enum.followup && actor == actor_enum.employee) {
 		if (forwardTo == sectionId_enum.followup) {  //return back to Follow up section
 			secId = -20 - parseInt(sectionId);
 			// forwardTo = null;
 		} else {  //forward to ac, electricity, checkup sections
 			secId = parseInt(forwardTo);
 		}
+	} else if (sectionId != sectionId_enum.followup && actor == actor_enum.manager) { // assign doc to employee
+		secId = null;
+		// forwardTo should have a value	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		docHistory = null;
+		docComment = null;
 	} else {
 		secId = parseInt(forwardTo);
 		// forwardTo = null;

@@ -67,13 +67,20 @@ if ($bind) {
 							
 							//$displayName = $entries[$i]["extensionname"][0];
 							//if ($displayName == null || $displayName == "")
+								//$displayName = $entries[$i]["displayname"][0];
+
+							if (isset($_SERVER["NLS_LANG"]) && $_SERVER["NLS_LANG"] == "AL32UTF8") {
+								if ($entries[$i]["extensionname"][0] == "")
+									$displayName = $entries[$i]["displayname"][0];
+								else
+									$displayName = utf8_decode($entries[$i]["extensionname"][0]);
+							} else
 								$displayName = $entries[$i]["displayname"][0];
-							
+
+								
 							$result[] = array(
 								'LoginName' => $entries[$i]["samaccountname"][0],
 								'DisplayName' => $displayName,
-								//'DisplayName' => $entries[$i]["displayname"][0],
-								//'DisplayName' => $entries[$i]["extensionname"][0],
 								'UserPrincipalName' => $entries[$i]["userprincipalname"][0],
 								'distinguishedName' => $entries[$i]["dn"],
 							);
