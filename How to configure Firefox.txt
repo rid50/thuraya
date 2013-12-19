@@ -1,0 +1,8 @@
+How to configure Firefox
+
+    Open Firefox
+    In the address bar type: about:config
+    Firefox3.x and later requires you to agree that you will proceed with caution.
+    After the config page loads, in the filter box type: network.automatic
+    * Modify network.automatic-ntlm-auth.trusted-uris by double clicking the row and enter http://www.replacewithyoursite.com or http://your-intranet-server-name
+    * Multiple sites can be added by comma delimiting them such as http://www.replacewithyoursite.com, http://www.replacewithyourintranetsite.com
