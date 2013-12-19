@@ -374,35 +374,59 @@ $(document).ready(function () {
 	});
 	
 	$(function() {
-		//var selectTag = $("#area_search");
-		areaNames = [];
-		$.get("areas.xml")    // sync request
-		.done(function(data) {
-			rootAreas = data;
-			var a = [], name;
-			$(data).find('areas>area').each(function() {
-				name = $(this).text();
-					
-				if (a.indexOf(name) == -1)
-					a.push(name);
-			});
+	if (documentSource == "XML")
+		url = "areas.xml";
+	else
+		url = "json_db_crud_pdo.php";
 
-			a.sort(
-				function(a, b) {
-					if (a.toLowerCase() < b.toLowerCase()) return -1;
-					if (a.toLowerCase() > b.toLowerCase()) return 1;
-					return 0;
+	$.get(url, {"func":"getAreas", "param":{}})
+		.done(function( data ) {
+			if (data.constructor == Array) {
+				if (data[0].error != undefined) {
+					alert (data[0].error);
+					return;
 				}
-			);
+			}
+			
+			areaNames = [];
+			rootAreas = data;
+			if (data.constructor == XMLDocument) {
+				var a = [], name;
+				$(data).find('areas>area').each(function() {
+					name = $(this).text();
+						
+					if (a.indexOf(name) == -1)
+						a.push(name);
+				});
 
-			//selectTag.append('<option value="0"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
-			a.forEach(function(name){
-				areaNames.push(name);
-				//selectTag.append('<option value="' + name + '">' + name + '</option>');
-			});
+				a.sort(
+					function(a, b) {
+						if (a.toLowerCase() < b.toLowerCase()) return -1;
+						if (a.toLowerCase() > b.toLowerCase()) return 1;
+						return 0;
+					}
+				);
+
+				//selectTag.append('<option value="0"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
+				a.forEach(function(name){
+					areaNames.push(name);
+					//selectTag.append('<option value="' + name + '">' + name + '</option>');
+				});
+			} else {
+				var result;
+				if (data.d == undefined)
+					result = data;
+				else
+					result = data.d.Data;
+				
+				//data.d.Data.forEach(function(o) {
+				result.forEach(function(o) {
+					areaNames.push(o.area_name);
+				});
+			}
 		})
-		.fail(function() {
-			console.log("getAreas - error");
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			alert("getAreas - error: " + errorThrown);
 		});
 		
 		var area = $("#area");

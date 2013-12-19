@@ -176,6 +176,23 @@ class DatabaseRepository {
 		}
 		return $this->result;
 	}
+
+	public function getAreas() {
+		$dbh = $this->connect();
+		try {
+			$st = "SELECT area_name FROM area ORDER BY area_name ASC";
+
+			$ds = $dbh->query($st);
+		} catch (PDOException $e) {
+			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
+		}
+		
+		$this->result = array();
+		while($r = $ds->fetch(PDO::FETCH_ASSOC)) {
+			$this->result[] = (object)$r;
+		}
+		return $this->result;
+	}
 	
 	
 	public function getDocs($param) {
