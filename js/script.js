@@ -57,6 +57,7 @@ var sectionId;				// id of  section of the department, like: follow_up, ac...
 var reportTo = null;
 var asyncSuccess;
 var areaNames;
+var selectedAreaId;
 //var filter;
 var searchInterval;
 
@@ -374,9 +375,9 @@ $(document).ready(function () {
 	});
 	
 	$(function() {
-	if (documentSource == "XML")
-		url = "areas.xml";
-	else
+	//if (documentSource == "XML")
+	//	url = "areas.xml";
+	//else
 		url = "json_db_crud_pdo.php";
 
 	$.get(url, {"func":"getAreas", "param":{}})
@@ -390,7 +391,7 @@ $(document).ready(function () {
 			
 			areaNames = [];
 			rootAreas = data;
-			if (data.constructor == XMLDocument) {
+/*			if (data.constructor == XMLDocument) {
 				var a = [], name;
 				$(data).find('areas>area').each(function() {
 					name = $(this).text();
@@ -413,17 +414,30 @@ $(document).ready(function () {
 					//selectTag.append('<option value="' + name + '">' + name + '</option>');
 				});
 			} else {
-				var result;
-				if (data.d == undefined)
-					result = data;
-				else
-					result = data.d.Data;
-				
-				//data.d.Data.forEach(function(o) {
-				result.forEach(function(o) {
-					areaNames.push(o.area_name);
-				});
-			}
+*/
+			var o, result;
+			if (data.d == undefined)
+				result = data;
+			else
+				result = data.d.Data;
+			
+			//data.d.Data.forEach(function(o) {
+			result.forEach(function(r) {
+				o = {};
+				o.id = r.id;
+				o.label = r.area_name;
+				areaNames.push(o);
+
+				//areaNames.push(r.area_name);
+			});
+			
+			//areaNames = [];
+			//areaNames = [{label: 1, value: "kuku"}, {label: 2, value: "kuku2"}];
+			//areaNames.push({label: 1, value: "kuku"});
+			//areaNames.push({label: 12, value: "kuku2"});
+			
+			
+//			}
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
 			alert("getAreas - error: " + errorThrown);
@@ -438,6 +452,12 @@ $(document).ready(function () {
 		area.blur(function() {
 			//if (selectedItem != null && selectedItem.length == 0) {
 			if (selectedItem != undefined && selectedItem.length == 0) {
+				selectedAreaId = null;
+			}
+			//	alert (selectedItem + " ---- " + selectedAreaId);
+			//else
+			//	alert (selectedItem + " ---- " + selectedAreaId);
+			/*
 				areaNames.push(area.val());
 			
 				//selectedItem = null;
@@ -446,15 +466,15 @@ $(document).ready(function () {
 				areas.append(createSpaceElement(1));
 				areas.append(createElement("area", area.val()));
 				areas.append(createNewLineElement(1));
-/*				
-				$.post("xml-write.php", {'fileName': 'areas.xml', 'xml' : $.xml(rootAreas)},
-				function(data, status){
-					if (data.error) {
-						alert("Data: " + data + "\nStatus: " + status);
-					}
-				}, "text");
-*/				
-			}
+			*/	
+//				$.post("xml-write.php", {'fileName': 'areas.xml', 'xml' : $.xml(rootAreas)},
+//				function(data, status){
+//					if (data.error) {
+//						alert("Data: " + data + "\nStatus: " + status);
+//					}
+//				}, "text");
+				
+			//}
 		});
 		
 		area.autocomplete({
@@ -463,6 +483,9 @@ $(document).ready(function () {
 			//},
 			response: function( event, ui ) {
 				selectedItem = ui.content;
+				//if (ui.content.length == 1)
+				if (ui.content[0] != undefined)
+					selectedAreaId = ui.content[0].id;
 			},
 			//select: function( event, ui ) {
 			//},
@@ -2791,13 +2814,20 @@ $(function() {
 				data = {'fileName': 'docs.xml', 'xml' : $.xml(rootDoc)};
 				//dataType = "text";
 			} else {
+				var areaName = "";
+				var areaId = selectedAreaId;
+				if (areaId == null) {
+					areaName = area.val();
+				}
+			
 				url = "json_db_crud_pdo.php";
 				data = {"func":"createUpdate",
 					"param":{
 						docFileNumber:file_number.val(),
 						docApprover:userInfo[0].displayName,
 						docDate:getDate(),
-						docArea:area.val(),
+						docAreaId:areaId,
+						docAreaName:areaName,
 						docBlock:block.val(),
 						docPlot:plot.val(),
 						//docBuilding: building.val(),
