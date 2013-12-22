@@ -180,7 +180,7 @@ class DatabaseRepository {
 	public function getAreas() {
 		$dbh = $this->connect();
 		try {
-			$st = "SELECT area_name FROM area ORDER BY area_name ASC";
+			$st = "SELECT id, area_name FROM area ORDER BY area_name ASC";
 
 			$ds = $dbh->query($st);
 		} catch (PDOException $e) {
@@ -263,7 +263,7 @@ class DatabaseRepository {
 				
 				
 				//$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc";
-				$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc";
+				$st = "SELECT docFileNumber, docDate, docApprover, area.area_name as docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc INNER JOIN area ON doc.docAreaId = area.id";
 				$st .= " WHERE " . $where . " ORDER BY docDate ASC, docFileNumber ASC ";
 
 				//error_log($st . "---", 3, "error.log");
@@ -481,15 +481,15 @@ class DatabaseRepository {
 				{
 					if ($param[originFileNumber] == null) {
 						//$aa = " - In - ";
-						$st = "INSERT INTO doc (docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle)
-							VALUES (:docFileNumber, :docDate, :docApprover, :docArea, :docBlock, :docPlot, :docTitle)";
+						$st = "INSERT INTO doc (docFileNumber, docDate, docApprover, docAreaId, docBlock, docPlot, docTitle)
+							VALUES (:docFileNumber, :docDate, :docApprover, :docAreaId, :docBlock, :docPlot, :docTitle)";
 					} else {
 						//$aa = " - Up - ";
 						if($udateIfExists)
-							$st = "UPDATE doc SET docFileNumber=:docFileNumber, docArea=:docArea, docBlock=:docBlock, docPlot=:docPlot, docTitle=:docTitle
+							$st = "UPDATE doc SET docFileNumber=:docFileNumber, docAreaId=:docAreaId, docBlock=:docBlock, docPlot=:docPlot, docTitle=:docTitle
 								WHERE docFileNumber = '$param[originFileNumber]'";
 						else
-							$st = "UPDATE doc SET docFileNumber=:docFileNumber, docDate=:docDate, docApprover=:docApprover, docArea=:docArea, docBlock=:docBlock, docPlot=:docPlot, docTitle=:docTitle
+							$st = "UPDATE doc SET docFileNumber=:docFileNumber, docDate=:docDate, docApprover=:docApprover, docAreaId=:docAreaId, docBlock=:docBlock, docPlot=:docPlot, docTitle=:docTitle
 								WHERE docFileNumber = '$param[originFileNumber]'";
 					}
 					
@@ -500,10 +500,26 @@ class DatabaseRepository {
 					
 					$stDoc = $dbh->prepare($st);
 					
+					$areaId = $param[docAreaId];
+					if ($areaId == NULL) {
+						$stDoc = $dbh->prepare("INSERT INTO area(id, area_name) VALUES(NULL, '$param[docAreaName]');");
+						$stDoc->execute();
+						//$stDoc = $dbh->prepare("SELECT LAST_INSERT_ID() AS kuk;");
+						//$stDoc->execute();
+						//$areaId = $dbh->fetch(PDO::FETCH_BOTH);
+						//throw new Exception('Area name: ');
+						//$areaId = $areaId[0];
+						//SET $areaId2 = LAST_INSERT_ID();
+						$areaId = $dbh->lastInsertId();
+						//throw new Exception('Area name: ' . $areaId);
+						//throw new Exception('Area name: ' . $param[docAreaName]);
+						//$areaId = $areaId['ID'];
+					}
+					
 					if($udateIfExists) {
 						$ar = array(
 							'docFileNumber' => $param[docFileNumber],
-							'docArea' => $param[docArea],
+							'docAreaId' => $areaId,
 							'docBlock' => $param[docBlock],
 							'docPlot' => $param[docPlot],
 							//'docBuilding' => $param[docBuilding],
@@ -516,7 +532,7 @@ class DatabaseRepository {
 							'docFileNumber' => $param[docFileNumber],
 							'docDate' => date_format($dt, "Y-m-d"),
 							'docApprover' => $param[docApprover],
-							'docArea' => $param[docArea],
+							'docAreaId' => $areaId,
 							'docBlock' => $param[docBlock],
 							'docPlot' => $param[docPlot],
 							//'docBuilding' => $param[docBuilding],
