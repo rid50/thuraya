@@ -58,9 +58,7 @@ CREATE TABLE `area` (
  ALTER TABLE doc ADD 
     CONSTRAINT FK_docAreaId
     FOREIGN    KEY (docAreaId)
-    REFERENCES area(id)
-	ON DELETE CASCADE
-	ON UPDATE CASCADE;
+    REFERENCES area(id);
 
 -- ------------------------------------------------------------------------------------------------------------
 
