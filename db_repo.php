@@ -262,8 +262,9 @@ class DatabaseRepository {
 				//	throw new Exception($where);
 				
 				
-				//$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc";
-				$st = "SELECT docFileNumber, docDate, docApprover, area.area_name as docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc INNER JOIN area ON doc.docAreaId = area.id";
+				//$st = "SELECT docFileNumber, docDate, docApprover, docAreaId, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc";
+				//$st = "SELECT docFileNumber, docDate, docApprover, area.area_name as docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc INNER JOIN area ON doc.docAreaId = area.id";
+				$st = "SELECT docFileNumber, docDate, docApprover, docAreaId, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc";
 				$st .= " WHERE " . $where . " ORDER BY docDate ASC, docFileNumber ASC ";
 
 				//error_log($st . "---", 3, "error.log");
@@ -283,7 +284,7 @@ class DatabaseRepository {
 				$stHistory = $dbh->query($st2);
 			} else {
 				//$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc WHERE docFileNumber = :docFileNumber";
-				$st = "SELECT docFileNumber, docDate, docApprover, docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc WHERE docFileNumber = :docFileNumber";
+				$st = "SELECT docFileNumber, docDate, docApprover, docAreaId, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc WHERE docFileNumber = :docFileNumber";
 				$st2 = "SELECT docFileNumber, docDate, docApprover FROM docHistory WHERE docFileNumber = :docFileNumber"; // . " ORDER BY docDate ASC";
 				$stDoc = $dbh->prepare($st);
 				$stHistory = $dbh->prepare($st2);
@@ -422,7 +423,7 @@ class DatabaseRepository {
 			throw new Exception('Failed to execute query: ' . $e->getMessage());
 		}
 
-		$result = array();
+		//$result = array();
 		
 		try {
 			$data = $stDoc->fetchAll(PDO::FETCH_ASSOC);
@@ -498,12 +499,12 @@ class DatabaseRepository {
 					//	ON DUPLICATE KEY UPDATE docFileNumber=:docFileNumber, docDate=:docDate, docApprover=:docApprover, 
 					//	docArea=:docArea, docBlock=:docBlock, docStreet=:docStreet, docBuilding=:docBuilding, docPACINumber=:docPACINumber, docTitle=:docTitle";
 					
-					$stDoc = $dbh->prepare($st);
-					
 					$areaId = $param[docAreaId];
 					if ($areaId == NULL) {
+						//throw new Exception('Area name: ' . $param[docAreaName]);
 						$stDoc = $dbh->prepare("INSERT INTO area(id, area_name) VALUES(NULL, '$param[docAreaName]');");
 						$stDoc->execute();
+						//throw new Exception('Area name: ' . $param[docAreaName]);
 						//$stDoc = $dbh->prepare("SELECT LAST_INSERT_ID() AS kuk;");
 						//$stDoc->execute();
 						//$areaId = $dbh->fetch(PDO::FETCH_BOTH);
@@ -511,11 +512,13 @@ class DatabaseRepository {
 						//$areaId = $areaId[0];
 						//SET $areaId2 = LAST_INSERT_ID();
 						$areaId = $dbh->lastInsertId();
+						$this->result[] = $areaId;
 						//throw new Exception('Area name: ' . $areaId);
-						//throw new Exception('Area name: ' . $param[docAreaName]);
 						//$areaId = $areaId['ID'];
 					}
-					
+
+					$stDoc = $dbh->prepare($st);
+										
 					if($udateIfExists) {
 						$ar = array(
 							'docFileNumber' => $param[docFileNumber],
@@ -564,6 +567,8 @@ class DatabaseRepository {
 				throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
 			//1062 Duplicate entry '12348' for key 
 		}
+		
+		return $this->result;
 	}
 	
 	public function approve_reject($param) {

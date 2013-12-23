@@ -49,7 +49,7 @@ var userInfo;
 
 var rootDoc;
 var rootActors;
-var rootAreas;
+//var rootAreas;
 var superuser;
 var actor;
 //var actorSectionNumber;
@@ -57,7 +57,7 @@ var sectionId;				// id of  section of the department, like: follow_up, ac...
 var reportTo = null;
 var asyncSuccess;
 var areaNames;
-var selectedAreaId;
+var selectedAreaId = null;
 //var filter;
 var searchInterval;
 
@@ -390,7 +390,7 @@ $(document).ready(function () {
 			}
 			
 			areaNames = [];
-			rootAreas = data;
+			//rootAreas = data;
 /*			if (data.constructor == XMLDocument) {
 				var a = [], name;
 				$(data).find('areas>area').each(function() {
@@ -431,6 +431,7 @@ $(document).ready(function () {
 				//areaNames.push(r.area_name);
 			});
 			
+			
 			//areaNames = [];
 			//areaNames = [{label: 1, value: "kuku"}, {label: 2, value: "kuku2"}];
 			//areaNames.push({label: 1, value: "kuku"});
@@ -449,11 +450,11 @@ $(document).ready(function () {
 		//	selectedItem = null;
 		//});
 		
-		area.blur(function() {
+//		area.blur(function() {
 			//if (selectedItem != null && selectedItem.length == 0) {
-			if (selectedItem != undefined && selectedItem.length == 0) {
-				selectedAreaId = null;
-			}
+//			if (selectedItem != undefined && selectedItem.length == 0) {
+//				selectedAreaId = null;
+//			}
 			//	alert (selectedItem + " ---- " + selectedAreaId);
 			//else
 			//	alert (selectedItem + " ---- " + selectedAreaId);
@@ -475,28 +476,51 @@ $(document).ready(function () {
 //				}, "text");
 				
 			//}
-		});
+//		});
 		
 		area.autocomplete({
+			autoFocus: true,
 			source: areaNames,
-			//change: function( event, ui ) {
-			//},
+			change: function( event, ui ) {
+				//selectedItem = ui.content;
+				if (selectedItem != undefined && selectedItem.length == 0) {
+					selectedAreaId = -1;
+				}
+			},
 			response: function( event, ui ) {
 				selectedItem = ui.content;
 				//if (ui.content.length == 1)
 				if (ui.content[0] != undefined)
 					selectedAreaId = ui.content[0].id;
 			},
-			//select: function( event, ui ) {
-			//},
-			//open: function( event, ui ) {
-			//	var i = 0;
-			//},
+			select: function( event, ui ) {
+				selectedAreaId = ui.item.id;
+			},
+/*			
+			open: function( event, ui ) {
+				var i = 0;
+			},
+			focus: function( event, ui ) {
+				var i = 0;
+			},
+			create: function( event, ui ) {
+				var i = 0;
+			},
+			search: function( event, ui ) {
+				var i = 0;
+			},
+*/			
 		});
 		
 		$("#area_search").autocomplete({
 			source: areaNames,
 		});
+		
+		//var autoSuggestion = document.getElementsByClassName('ui-autocomplete');
+		//if(autoSuggestion.length > 0){
+		//	autoSuggestion[0].style.zIndex = 1051;
+		//}
+					
 	});
 
 	if (navigator.appName == 'Microsoft Internet Explorer')
@@ -1440,7 +1464,8 @@ var activeTab_enum = {
 						key.doc.docFileNumber,
 						dates,
 						names,
-						key.doc.docArea,
+						//key.doc.docArea,
+						key.doc.docAreaId,
 						key.doc.docBlock,
 						key.doc.docPlot,
 						//key.doc.docBuilding,
@@ -1458,7 +1483,7 @@ var activeTab_enum = {
 //$('.customMiddleSide>ul').empty();
 
 //function addDocToList(list, id, file_number, date, name, area, block, street, building, paci_number, secId, empId) {
-function addDocToList(list, id, file_number, date, name, area, block, plot, secId, empId) {
+function addDocToList(list, id, file_number, date, name, areaId, block, plot, secId, empId) {
 	// Create a copy of the <li> template
 	var itemTemplate = $('#TemplateListItems').clone();
 
@@ -1490,7 +1515,15 @@ function addDocToList(list, id, file_number, date, name, area, block, plot, secI
 		i++;
 	});
 
-	var address = area + "; " + 
+	//$.inArray(value, array)
+	areaNames.some(function(o){
+		if (o.id == areaId) {
+			areaId = o.label;	// areaId now is an area name
+			return true;
+		}
+	});
+
+	var address = areaId + "; " + 
 					$.i18n.prop('Block') + ": " + block + "; " + 
 					$.i18n.prop('Plot') + ": " + plot;
 //					+ "; " + 
@@ -2670,7 +2703,7 @@ $(function() {
 		}
 	}
 
-	function fillForm(that) {		// edit a current doc
+	function fillForm(that) {		// "that" is an edit button context
 		allFields.removeClass( "ui-state-error" );
 
 		that = $(that).parent();	//  a context of the current doc
@@ -2695,7 +2728,7 @@ $(function() {
 		//var xmlNode = $(rootDoc).find("doc>docFileNumber:contains('" + fn + "')");
 		//form.find("#title").val(xmlNode.siblings('docTitle').text());
 		
-		var title = '';
+		var title = '', areaId = -1;
 		if (rootDoc.constructor == XMLDocument) {
 			title = $(rootDoc).find("doc>docFileNumber:contains('" + fn + "')").siblings('docTitle').text();
 			//node = node.siblings('docTitle').text()
@@ -2703,13 +2736,14 @@ $(function() {
 			rootDoc[0].docs.some(function(key, index) {
 				if (key.doc.docFileNumber == fn) {
 					title = key.doc.docTitle;
+					//areaId = key.doc.docAreaId;
 					return true;
 				}
 			});
 		}
 		
 		form.find("#title").val(title);
-
+		//form.prop('areaId', areaId);
 		form.dialog({
 			title:jQuery.i18n.prop('FileNumber') + ": " + fn,
 			dialogClass: "no-close",
@@ -2794,11 +2828,13 @@ $(function() {
 				if (rootDoc[0].docs == undefined)
 					rootDoc[0].docs = [];
 
+				var areaId;
 				rootDoc[0].docs.some(function(key, index) {
 					if (key.doc.docFileNumber == fileNumber) {
 					//if (key.doc.docFileNumber == file_number.val()) {
 						//docFileNumber = key.doc.docFileNumber;
 						docNode = key.doc;
+						areaId = key.doc.docAreaId;
 						//newDoc = false;
 						return true;
 					}
@@ -2815,9 +2851,15 @@ $(function() {
 				//dataType = "text";
 			} else {
 				var areaName = "";
-				var areaId = selectedAreaId;
-				if (areaId == null) {
+				//var areaId = selectedAreaId;
+				//$( "#area" ).autocomplete( "search", area.val() );
+				//var w = $( "#area" ).autocomplete( "widget" );
+				if (selectedAreaId == -1) {
+					areaId = null;
 					areaName = area.val();
+				} else
+				if (selectedAreaId != null) {
+					areaId = selectedAreaId;
 				}
 			
 				url = "json_db_crud_pdo.php";
@@ -2854,8 +2896,13 @@ $(function() {
 							alert(($.i18n.prop("AlreadyExists")).format(file_number.val()));
 						else
 							alert(data[0].error);
+					} else if (data != null) {
+						areaId = data[0];
+						areaNames.push({id:areaId, label:area.val()});
 					}
-				} else {
+				}
+/*
+				else {
 					var areas = $(rootAreas).find("areas");
 					if (areas.attr("dirty") == "yes") {
 						areas.removeAttr("dirty");
@@ -2868,6 +2915,7 @@ $(function() {
 						}, "text");
 					}
 				}
+*/				
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				errorFound = true;
@@ -2925,7 +2973,8 @@ $(function() {
 					if (udateIfExists == 0)
 						docNode.docHistory = [{"docDate": getDate(), "docApprover": userInfo[0].displayName}];
 					docNode.docFileNumber = file_number.val();
-					docNode.docArea = area.val();
+					//docNode.docArea = area.val();
+					docNode.docAreaId = areaId;
 					docNode.docBlock = block.val();
 					docNode.docPlot = plot.val();
 					//docNode.docBuilding = building.val();
@@ -2981,7 +3030,8 @@ $(function() {
 					var doc = {};
 					doc.docFileNumber = file_number.val();
 					doc.docHistory = {"docDate": getDate(), "docApprover": userInfo[0].displayName};
-					doc.docArea = area.val();
+					//doc.docArea = area.val();
+					doc.docAreaId = areaId;
 					doc.docBlock = block.val();
 					doc.docPlot = plot.val();
 					//doc.docBuilding = building.val();

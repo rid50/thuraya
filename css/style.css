@@ -52,7 +52,18 @@ fieldset { padding:0; border:0; margin-top:10px; }
 input.text, textarea, select#approver_search { margin-bottom:10px; padding: .4em; }
 //select#area_search { margin-bottom:10px; padding: .4em; }
  
+//.ui-autocomplete {z-index:1000}
+.ui-autocomplete {
+	z-index:1000;
+	max-height: 200px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+}
 
+
+
+//#newForm  { z-index: 80; }
 #newForm table { width: 540px }
 #newForm { padding: 20px}
 //#newForm label:after { content: ": " }
