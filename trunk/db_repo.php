@@ -161,18 +161,44 @@ class DatabaseRepository {
 	}
 
 	public function getCheckups() {
+		$page = $_GET['page']; // get the requested page
+		$limit = $_GET['rows']; // get how many rows we want to have into the grid
+		$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
+		$sord = $_GET['sord']; // get the direction
+		if(!$sidx) $sidx = 1;
+
 		$dbh = $this->connect();
 		try {
-			$st = "SELECT file_no, form_no, date_ins, area_name FROM check_form INNER JOIN area ON check_form.area_id = area.id";
+			$st = "SELECT COUNT(*) AS count FROM check_form INNER JOIN area ON check_form.area_id = area.id";
+			$ds = $dbh->query($st);
+			$r = $ds->fetch(PDO::FETCH_ASSOC);
 
+			$count = $r['count'];
+
+			if( $count >0 ) {
+				$total_pages = ceil($count/$limit);
+			} else {
+				$total_pages = 0;
+			}
+			if ($page > $total_pages) $page=$total_pages;
+			$start = $limit * $page - $limit;
+
+
+			$st = "SELECT file_no, form_no, date_ins, area_name FROM check_form INNER JOIN area ON check_form.area_id = area.id ORDER BY $sidx $sord LIMIT $start, $limit";
 			$ds = $dbh->query($st);
 		} catch (PDOException $e) {
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
 		}
 		
-		$this->result = array();
+
+		//$this->result = array();
+		$this->result->page = $page;
+		$this->result->total = $total_pages;
+		$this->result->records = $count;
+		$i = 0;
 		while($r = $ds->fetch(PDO::FETCH_ASSOC)) {
-			$this->result[] = (object)$r;
+			$this->result->rows[$i]['cell'] = (object)$r;
+			$i++;
 		}
 		return $this->result;
 	}

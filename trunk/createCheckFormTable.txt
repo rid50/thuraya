@@ -1,4 +1,5 @@
 USE tamdidat;
+DROP TABLE IF EXISTS check_form;
 CREATE TABLE `check_form` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `form_no` int(11) NOT NULL DEFAULT '1',

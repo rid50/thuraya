@@ -540,6 +540,7 @@ $(document).ready(function () {
 			XMLDocument = Document;
 		}
 	}
+
 	
     $grid = $('#myjqGrid');
     //$grid.height($grid.parent().height() - 14);
@@ -3590,6 +3591,17 @@ function toggleLanguage(lang, dir) {
 	$(right).toggleClass("floatLeft", !direction);
 	$('body').attr('dir', dir);
 	$('html').attr('lang', lang);
+
+	//$('#myjqGrid').attr('dir', dir);
+/*
+	if (lang == "en") {	
+		jQuery.extend(jQuery.jgrid.defaults, { direction: "ltr" });
+		loadJSFile("grid.locale-en.js");
+	} else {
+		jQuery.extend(jQuery.jgrid.defaults, { direction: "rtl" });
+		loadJSFile("grid.locale-ar.js");
+	}
+*/	
 	jQuery.i18n.properties({
 		name:'Messages', 
 		path:'bundle/', 
@@ -4037,6 +4049,13 @@ this.confirm = function(text, param, func) {
 		},
     });
 }
+
+function loadJSFile(filename) {
+	var scriptTag = document.createElement('script')
+	scriptTag.setAttribute("type","text/javascript")
+	scriptTag.setAttribute("src", filename)
+}
+
 
 function setbg(color)
 {

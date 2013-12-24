@@ -1,7 +1,4 @@
-﻿$(document).ready(function () {
-    CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
-});
-/*
+﻿/*
 $.jgrid = {
 	defaults : {
 		recordtext: "View {0} - {1} of {2}",
@@ -11,10 +8,17 @@ $.jgrid = {
 	},
 }
 */
+$(document).ready(function () {
+    CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
+});
+
+w = 500;
+
 CheckupGrid = {
     setupGrid: function (grid, pager, search) {
         //        debugger; 
         grid.jqGrid({
+			direction: "rtl",
             url: "json_db_crud_pdo.php",
 			postData:{"func": "getCheckups"},
             mtype: "get",
@@ -25,7 +29,7 @@ CheckupGrid = {
                         {name: 'form_no', index: 'form_no', align: 'right', width: '60px', sortable: true, editable: false, resizable: false },
                         {name: 'area_name', index: 'area_name', align: 'left', width: '100px', sortable: true, editable: false, resizable: false },
             //{ name: 'DateEntry', index: 'DateEntry', align: 'left', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'M j Y h:i A', newformat: 'd-M-Y h:iA'} },  //DateEntry = "Dec 31 1999 12:00AM"
-                        {name: 'date_ins', index: 'date_ins', align: 'center', width: '100px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'm d Y g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'date_ins', index: 'date_ins', align: 'center', width: '100px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
                         //{name: 'ContractValue', index: 'contract_value', align: 'right', width: '45', sortable: false, hidden: false, editable: true },
                         //{name: 'Currency', index: 'currency', align: 'left', width: '15', sortable: false, hidden: false, editable: false },
                       ],
@@ -40,13 +44,13 @@ CheckupGrid = {
             pager: pager,
             sortname: 'file_no',
             sortorder: "asc",
-            viewrecords: false,
+            viewrecords: true,
             //editurl: "Checkup/Edit",
-            //width: '100%',
-            height: '346px',
+            width: 682,
+            height: '352px',
             /*rowheight: '30px',*/
-            shrinkToFit: true,
-            autowidth: true,
+            shrinkToFit: false,
+            autowidth: false,
             rownumbers: true,
             caption: 'Checkup',
             toppager: false,
@@ -121,7 +125,7 @@ CheckupGrid = {
 				*/
             }
             //        }).jqGrid('navGrid', pager, { edit: true, add: false, del: false, search: false, refresh: true });
-        }).navGrid("#pager", { view: false, edit: true, add: true, del: true, search: false, refresh: true },
+        }).navGrid("#pager", { view: true, edit: false, add: false, del: false, search: true, refresh: true },
                                 {}, // settings for edit
                                 {}, // settings for add
                                 {}, // settings for delete

@@ -40,8 +40,9 @@ if ($idp == "SAML") {
     <link rel="stylesheet" media="print" type="text/css" href="css/style.css"/>
     <!--script src="js/jquery-1.9.1.min.js" type="text/javascript"></script-->
     <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
-    <script src="js/jqGridJs/jquery.jqGrid.min.js" type="text/javascript"></script>
+    
     <script src="js/jqGridJs/i18n/grid.locale-en.js" type="text/javascript"></script>
+	<script src="js/jqGridJs/jquery.jqGrid.min.js" type="text/javascript"></script>
     <script src="js/jqGridJs/grid.filtergrid.js" type="text/javascript"></script>
 	
 	<script src="js/jquery.blockUI.js" type="text/javascript"></script>
@@ -444,7 +445,7 @@ if ($idp == "SAML") {
         <div id="search" style="visibility: hidden; width:10px; height: 10px"></div>
     </div>
 
-    <div id="myjqGrid" style="padding: 20px 0 0 10px;">
+    <div id="myjqGrid">
         <div>
 			<table id="grid" ></table>
 			<div id="pager"></div>
