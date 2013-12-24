@@ -180,16 +180,15 @@ class DatabaseRepository {
 			} else {
 				$total_pages = 0;
 			}
+
 			if ($page > $total_pages) $page=$total_pages;
 			$start = $limit * $page - $limit;
-
 
 			$st = "SELECT file_no, form_no, date_ins, area_name FROM check_form INNER JOIN area ON check_form.area_id = area.id ORDER BY $sidx $sord LIMIT $start, $limit";
 			$ds = $dbh->query($st);
 		} catch (PDOException $e) {
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
 		}
-		
 
 		//$this->result = array();
 		$this->result->page = $page;
