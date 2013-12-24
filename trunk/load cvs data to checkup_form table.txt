@@ -1,0 +1,5 @@
+USE tamdidat;
+LOAD DATA INFILE 'c:\\tamdidat\\checkup_form.csv' INTO TABLE check_form
+  FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+  LINES TERMINATED BY '\r\n'
+  IGNORE 1 LINES;
