@@ -1,13 +1,15 @@
-﻿/*
-$.jgrid = {
-	defaults : {
-		recordtext: "View {0} - {1} of {2}",
-	    emptyrecords: "No records to view",
-		loadtext: "Loading...",
-		pgtext : "Page {0} of {1}"
-	},
-}
-*/
+﻿	(function($){
+		$.jgrid = {
+			defaults : {
+				//recordtext: "View!!!!!!! {0} - {1} of {2}",
+				//emptyrecords: "No records to view",
+				//loadtext: "Loading...",
+				//pgtext : "Page#### {0} of {1}"
+			},
+		}
+	})(jQuery);
+
+
 $(document).ready(function () {
     CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
 });
@@ -18,7 +20,7 @@ CheckupGrid = {
     setupGrid: function (grid, pager, search) {
         //        debugger; 
         grid.jqGrid({
-			direction: "rtl",
+			//direction: "rtl",
             url: "json_db_crud_pdo.php",
 			postData:{"func": "getCheckups"},
             mtype: "get",
