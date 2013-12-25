@@ -41,6 +41,7 @@ if ($idp == "SAML") {
     <!--script src="js/jquery-1.9.1.min.js" type="text/javascript"></script-->
     <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
     
+    <!--script src="js/jqGridJs/i18n/grid.locale-ar.js" type="text/javascript"></script-->
     <script src="js/jqGridJs/i18n/grid.locale-en.js" type="text/javascript"></script>
 	<script src="js/jqGridJs/jquery.jqGrid.min.js" type="text/javascript"></script>
     <script src="js/jqGridJs/grid.filtergrid.js" type="text/javascript"></script>
