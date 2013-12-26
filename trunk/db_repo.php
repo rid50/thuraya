@@ -169,7 +169,9 @@ class DatabaseRepository {
 
 		$dbh = $this->connect();
 		try {
-			$st = "SELECT COUNT(*) AS count FROM check_form INNER JOIN area ON check_form.area_id = area.id";
+			$st = "SELECT COUNT(*) AS count 
+				FROM check_form LEFT JOIN area ON check_form.area_id = area.id
+								LEFT JOIN checker ON check_form.checker = checker.id";
 			$ds = $dbh->query($st);
 			$r = $ds->fetch(PDO::FETCH_ASSOC);
 
@@ -184,7 +186,11 @@ class DatabaseRepository {
 			if ($page > $total_pages) $page=$total_pages;
 			$start = $limit * $page - $limit;
 
-			$st = "SELECT file_no, form_no, date_ins, area_name FROM check_form INNER JOIN area ON check_form.area_id = area.id ORDER BY $sidx $sord LIMIT $start, $limit";
+			$st = "SELECT file_no, form_no, date_ins, area_name, checker.ch_name, check_1_dt, result_1
+				FROM check_form LEFT JOIN area ON check_form.area_id = area.id 
+								LEFT JOIN checker ON check_form.checker = checker.id 
+				ORDER BY $sidx $sord LIMIT $start, $limit";
+				
 			$ds = $dbh->query($st);
 		} catch (PDOException $e) {
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());

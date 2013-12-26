@@ -62,6 +62,63 @@ CREATE TABLE `area` (
 
 -- ------------------------------------------------------------------------------------------------------------
 
+DROP TABLE IF EXISTS `checker`;
+CREATE TABLE `checker` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ch_name` varchar(55) NOT NULL,
+  `date_off_from` date DEFAULT NULL,
+  `date_off_to` date DEFAULT NULL,
+  `tel` varchar(15) DEFAULT NULL,
+  `tel2` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ------------------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS check_form;
+CREATE TABLE `check_form` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `form_no` int(11) NOT NULL DEFAULT '1',
+  `year` varchar(4) COLLATE utf8_unicode_ci NOT NULL DEFAULT '2010',
+  `file_no` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `cs_id` int(11) NOT NULL,
+  `bldt_id` int(11) NOT NULL,
+  `area_id` int(11) NOT NULL,
+  `sector_addrs` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `qasimaa` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `date_ins` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `usr_ins` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '0',
+  `usr_update` varchar(120) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `gdate_chek` date DEFAULT NULL,
+  `checker` int(11) DEFAULT '0',
+  `sponser` int(11) NOT NULL DEFAULT '0',
+  `elc_load_new` float(11,3) DEFAULT NULL,
+  `elc_load_old` float(11,3) DEFAULT NULL,
+  `check_1_dt` date DEFAULT NULL,
+  `result_1` int(11) DEFAULT NULL,
+  `notes_1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `check_2_dt` date DEFAULT NULL,
+  `checker_2` int(11) DEFAULT NULL,
+  `recept_2` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `result_2` int(11) DEFAULT NULL,
+  `notes_2` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `check_3_dt` date DEFAULT NULL,
+  `checker_3` int(11) DEFAULT NULL,
+  `recept_3` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `result_3` int(11) DEFAULT NULL,
+  `notes_3` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `chk_status` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `notes_all` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `date_conduction` date DEFAULT NULL,
+  `prnt_tamdet_type` varchar(150) CHARACTER SET utf8 DEFAULT NULL,
+  `prnt_date_certificate` date DEFAULT NULL,
+  `prnt_feerder_no` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `form_no_2` (`form_no`,`year`)
+) ENGINE=InnoDB AUTO_INCREMENT=14030 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ------------------------------------------------------------------------------------------------------------
+
 DROP TABLE IF EXISTS userRepository;
 CREATE TABLE userRepository (
 loginName VARCHAR(32) PRIMARY KEY NOT NULL,
@@ -284,6 +341,54 @@ INSERT INTO `area` VALUES ('267', null, 'المسايل', null);
 INSERT INTO `area` VALUES ('268', null, 'ab', null);
 INSERT INTO `area` VALUES ('269', null, 'abc', null);
 
+-- ------------------------------------------------------------------------------------------------------------
+
+INSERT INTO `checker` VALUES ('17', 'عبد المنعم القطان', null, null, null, null);
+INSERT INTO `checker` VALUES ('18', 'يعقوب اسماعيل', null, null, null, null);
+INSERT INTO `checker` VALUES ('19', 'مساعد القفيدي', null, null, null, null);
+INSERT INTO `checker` VALUES ('20', 'مشعل شبكوه', null, null, null, null);
+INSERT INTO `checker` VALUES ('21', 'مشعل العازمي', null, null, null, null);
+INSERT INTO `checker` VALUES ('22', 'عدنان الكندري', null, null, null, null);
+INSERT INTO `checker` VALUES ('23', 'جاسم المفتاح', null, null, null, null);
+INSERT INTO `checker` VALUES ('24', 'طلال شهاب', null, null, null, null);
+INSERT INTO `checker` VALUES ('25', 'طارق المطيري', null, null, null, null);
+INSERT INTO `checker` VALUES ('26', 'حمد الحساوي', null, null, null, null);
+INSERT INTO `checker` VALUES ('27', 'حمود الشمري', null, null, null, null);
+INSERT INTO `checker` VALUES ('28', 'وليد الشايجي', null, null, null, null);
+INSERT INTO `checker` VALUES ('29', 'مشعل الحاي', null, null, null, null);
+INSERT INTO `checker` VALUES ('30', 'بدر الشمري', null, null, null, null);
+INSERT INTO `checker` VALUES ('31', 'محمد السالم', null, null, null, null);
+INSERT INTO `checker` VALUES ('32', 'خالد غازي', null, null, null, null);
+INSERT INTO `checker` VALUES ('33', 'فيصل جوهر', null, null, null, null);
+INSERT INTO `checker` VALUES ('34', 'محمد الحربي', null, null, null, null);
+INSERT INTO `checker` VALUES ('35', 'داود الحمدان', null, null, null, null);
+INSERT INTO `checker` VALUES ('36', 'مبارك الوايلي', null, null, null, null);
+INSERT INTO `checker` VALUES ('37', 'عبدالعزيز الثويني', null, null, null, null);
+INSERT INTO `checker` VALUES ('38', 'فيصل ارتي', null, null, null, null);
+INSERT INTO `checker` VALUES ('39', 'فارس البالول', null, null, null, null);
+INSERT INTO `checker` VALUES ('40', 'احمد المطيري', null, null, null, null);
+INSERT INTO `checker` VALUES ('41', 'اسلام', null, null, null, null);
+INSERT INTO `checker` VALUES ('42', 'حميدو', null, null, null, null);
+INSERT INTO `checker` VALUES ('43', 'محمد اعجاز', null, null, null, null);
+INSERT INTO `checker` VALUES ('44', 'عبدالسلام مزعل', null, null, null, null);
+INSERT INTO `checker` VALUES ('45', 'ضاري الحربي', null, null, null, null);
+INSERT INTO `checker` VALUES ('46', 'وليد الدماك', null, null, null, null);
+INSERT INTO `checker` VALUES ('47', 'ناصر الزقاح', null, null, null, null);
+INSERT INTO `checker` VALUES ('48', 'سلطان الهندال', null, null, null, null);
+INSERT INTO `checker` VALUES ('49', 'علي الوزان', null, null, null, null);
+INSERT INTO `checker` VALUES ('50', 'فهد الحمادي', null, null, null, null);
+INSERT INTO `checker` VALUES ('51', 'محمد معرفي', null, null, null, null);
+INSERT INTO `checker` VALUES ('52', 'محمد الخرينيج', null, null, null, null);
+INSERT INTO `checker` VALUES ('53', 'ماجد العتيبي', null, null, null, null);
+INSERT INTO `checker` VALUES ('54', 'عبدالله المطيري', null, null, null, null);
+INSERT INTO `checker` VALUES ('55', 'فهد العتيبي', null, null, null, null);
+INSERT INTO `checker` VALUES ('56', 'خالد العريعر', null, null, null, null);
+INSERT INTO `checker` VALUES ('57', 'محمد العرادي', null, null, null, null);
+INSERT INTO `checker` VALUES ('58', 'علي بخش', null, null, null, null);
+INSERT INTO `checker` VALUES ('59', 'خالد جمعان', null, null, null, null);
+INSERT INTO `checker` VALUES ('60', 'محمد الحمدان', null, null, '', '');
+INSERT INTO `checker` VALUES ('61', 'فيصل الدوسري', null, null, '', '');
+	
 -- ------------------------------------------------------------------------------------------------------------
 
 INSERT INTO doc (docFileNumber, docDate, docApprover, docAreaId, docBlock, docPlot, docTitle) VALUES (12345, STR_TO_DATE('1/08/2013', '%d/%m/%Y'), 'Abdalla Masri', '32', '6', '66', 'Assemble, install, test, and maintain electrical or electronic wiring, equipment, appliances, apparatus, and fixtures, using hand tools and power tools');

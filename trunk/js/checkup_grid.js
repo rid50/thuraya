@@ -1,4 +1,5 @@
-﻿	(function($){
+﻿/*
+	(function($){
 		$.jgrid = {
 			defaults : {
 				//recordtext: "View!!!!!!! {0} - {1} of {2}",
@@ -8,7 +9,7 @@
 			},
 		}
 	})(jQuery);
-
+*/
 
 $(document).ready(function () {
     CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
@@ -25,13 +26,16 @@ CheckupGrid = {
 			postData:{"func": "getCheckups"},
             mtype: "get",
             datatype: "json",
-            colNames: ['File#', 'Checkup#', 'Area', 'Date'],
+            colNames: ['File#', 'Checkup#', 'Area', 'Date', 'Checker', "Check Date", "Result"],
             colModel: [             //http://php.net/manual/en/function.date.php
                         {name: 'file_no', index: 'file_no', align: 'left', width: '80px', sortable: true, resizable: false },
                         {name: 'form_no', index: 'form_no', align: 'right', width: '60px', sortable: true, editable: false, resizable: false },
-                        {name: 'area_name', index: 'area_name', align: 'left', width: '100px', sortable: true, editable: false, resizable: false },
+                        {name: 'area_name', index: 'area_name', align: 'right', width: '100px', sortable: true, editable: false, resizable: false },
             //{ name: 'DateEntry', index: 'DateEntry', align: 'left', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'M j Y h:i A', newformat: 'd-M-Y h:iA'} },  //DateEntry = "Dec 31 1999 12:00AM"
-                        {name: 'date_ins', index: 'date_ins', align: 'center', width: '100px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'date_ins', index: 'date_ins', align: 'center', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'ch_name', index: 'ch_name', align: 'right', width: '100px', sortable: true, editable: false, resizable: false },
+                        {name: 'check_1_dt', index: 'check_1_dt', align: 'center', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'result_1', index: 'result_1', align: 'right', sortable: false, editable: false, resizable: false },
                         //{name: 'ContractValue', index: 'contract_value', align: 'right', width: '45', sortable: false, hidden: false, editable: true },
                         //{name: 'Currency', index: 'currency', align: 'left', width: '15', sortable: false, hidden: false, editable: false },
                       ],
@@ -51,7 +55,7 @@ CheckupGrid = {
             width: 682,
             height: '352px',
             /*rowheight: '30px',*/
-            shrinkToFit: false,
+            shrinkToFit: true,
             autowidth: false,
             rownumbers: true,
             caption: 'Checkup',
@@ -67,6 +71,25 @@ CheckupGrid = {
 				id: "Id"
 			},
 			*/
+			afterInsertRow: function(rowid, rowdata, rowelem) {
+				var i = 1;
+				
+				if (rowelem.result_1 != null) {
+					for (var key in result_enum) {
+					//'result_enum'.some(function(key, index) {
+						if (i == parseInt(rowelem.result_1)) {
+							$(this).setCell(rowid, "result_1", jQuery.i18n.prop(key));
+							//rowdata.result_1 = jQuery.i18n.prop(i);
+							return true;
+						}
+						i++;
+					}
+				}
+				
+				//var i = 0;
+				//i = 2;
+				//$(this).setCell(id, "column_name", "<input type='hidden'>");
+			},			
             loadError: function (xhr, st, err) {
                 if (window.console) window.console.log('failed');
                 $('#alertContent').html("Type: " + st + "; Response: " + xhr.status + " " + xhr.statusText);
