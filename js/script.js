@@ -1925,7 +1925,7 @@ this.checkupFormDialog = function(that) {
 			$(this).find("#address").val(address);
 			//$(this).find("#address").prop("disabled", "true");
 			
-			var selectTag;
+			var selectTag, i;
 			var a = ["case", "result", "postponement", "unsatisfactory_case"];
 			a.forEach(function(name) {
 				selectTag = $('#' + name);
