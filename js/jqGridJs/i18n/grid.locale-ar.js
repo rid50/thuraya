@@ -7,8 +7,9 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
 **/
-$.jgrid = $.jgrid || {};
-$.extend($.jgrid,{
+//$.jgrid = $.jgrid || {};
+//$.extend($.jgrid,{
+var locInfo = {
 	defaults : {
 		recordtext: "تسجيل {0} - {1} على {2}",
 		emptyrecords: "لا يوجد تسجيل",
@@ -122,5 +123,14 @@ $.extend($.jgrid,{
 		checkbox : {disabled:true},
 		idName : 'id'
 	}
-});
+};
+//});
+
+$.jgrid = $.jgrid || {};
+if (!$.jgrid.hasOwnProperty("regional")) {
+    $.jgrid.regional = {};
+}
+$.jgrid.regional.ar = $.jgrid.regional["ar-KW"] = locInfo;
+$.extend($.jgrid, locInfo);
+
 })(jQuery);

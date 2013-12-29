@@ -374,109 +374,50 @@ $(document).ready(function () {
 		//});
 	});
 	
-	$(function() {
-	//if (documentSource == "XML")
-	//	url = "areas.xml";
-	//else
+	(function() {
 		url = "json_db_crud_pdo.php";
 
-	$.get(url, {"func":"getAreas", "param":{}})
-		.done(function( data ) {
-			if (data.constructor == Array) {
-				if (data[0].error != undefined) {
-					alert (data[0].error);
-					return;
-				}
-			}
-			
-			areaNames = [];
-			//rootAreas = data;
-/*			if (data.constructor == XMLDocument) {
-				var a = [], name;
-				$(data).find('areas>area').each(function() {
-					name = $(this).text();
-						
-					if (a.indexOf(name) == -1)
-						a.push(name);
-				});
-
-				a.sort(
-					function(a, b) {
-						if (a.toLowerCase() < b.toLowerCase()) return -1;
-						if (a.toLowerCase() > b.toLowerCase()) return 1;
-						return 0;
+		$.get(url, {"func":"getAreas", "param":{}})
+			.done(function( data ) {
+				if (data.constructor == Array) {
+					if (data[0].error != undefined) {
+						alert (data[0].error);
+						return;
 					}
-				);
+				}
+				
+				areaNames = [];
+				var o, result;
+				if (data.d == undefined)
+					result = data;
+				else
+					result = data.d.Data;
+				
+				//data.d.Data.forEach(function(o) {
+				result.forEach(function(r) {
+					o = {};
+					o.id = r.id;
+					o.label = r.area_name;
+					areaNames.push(o);
 
-				//selectTag.append('<option value="0"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
-				a.forEach(function(name){
-					areaNames.push(name);
-					//selectTag.append('<option value="' + name + '">' + name + '</option>');
+					//areaNames.push(r.area_name);
 				});
-			} else {
-*/
-			var o, result;
-			if (data.d == undefined)
-				result = data;
-			else
-				result = data.d.Data;
-			
-			//data.d.Data.forEach(function(o) {
-			result.forEach(function(r) {
-				o = {};
-				o.id = r.id;
-				o.label = r.area_name;
-				areaNames.push(o);
-
-				//areaNames.push(r.area_name);
+				
+				
+				//areaNames = [];
+				//areaNames = [{label: 1, value: "kuku"}, {label: 2, value: "kuku2"}];
+				//areaNames.push({label: 1, value: "kuku"});
+				//areaNames.push({label: 12, value: "kuku2"});
+				
+				
+	//			}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				alert("getAreas - error: " + errorThrown);
 			});
-			
-			
-			//areaNames = [];
-			//areaNames = [{label: 1, value: "kuku"}, {label: 2, value: "kuku2"}];
-			//areaNames.push({label: 1, value: "kuku"});
-			//areaNames.push({label: 12, value: "kuku2"});
-			
-			
-//			}
-		})
-		.fail(function(jqXHR, textStatus, errorThrown) {
-			alert("getAreas - error: " + errorThrown);
-		});
 		
 		var area = $("#area");
 		var selectedItem;
-		//area.focus(function() {
-		//	selectedItem = null;
-		//});
-		
-//		area.blur(function() {
-			//if (selectedItem != null && selectedItem.length == 0) {
-//			if (selectedItem != undefined && selectedItem.length == 0) {
-//				selectedAreaId = null;
-//			}
-			//	alert (selectedItem + " ---- " + selectedAreaId);
-			//else
-			//	alert (selectedItem + " ---- " + selectedAreaId);
-			/*
-				areaNames.push(area.val());
-			
-				//selectedItem = null;
-				var areas = $(rootAreas).find("areas");
-				areas.attr("dirty", "yes");
-				areas.append(createSpaceElement(1));
-				areas.append(createElement("area", area.val()));
-				areas.append(createNewLineElement(1));
-			*/	
-//				$.post("xml-write.php", {'fileName': 'areas.xml', 'xml' : $.xml(rootAreas)},
-//				function(data, status){
-//					if (data.error) {
-//						alert("Data: " + data + "\nStatus: " + status);
-//					}
-//				}, "text");
-				
-			//}
-//		});
 		
 		area.autocomplete({
 			autoFocus: true,
@@ -515,13 +456,7 @@ $(document).ready(function () {
 		$("#area_search").autocomplete({
 			source: areaNames,
 		});
-		
-		//var autoSuggestion = document.getElementsByClassName('ui-autocomplete');
-		//if(autoSuggestion.length > 0){
-		//	autoSuggestion[0].style.zIndex = 1051;
-		//}
-					
-	});
+	})();
 
 	if (navigator.appName == 'Microsoft Internet Explorer')
 	{
@@ -949,11 +884,21 @@ function initTabs() {
 						$("#searchButton").data("search", 0);
 						return;
 					}
-					
-					if (ui.newTab.index() != activeTab_enum.edit && ui.newTab.index() != activeTab_enum.users)
-						getDocs();
-					else
-						cleanDocTabs();
+
+					switch (ui.newTab.index()) {
+						case activeTab_enum.edit:
+						case activeTab_enum.users:
+						case activeTab_enum.checkup_grid:
+							cleanDocTabs();
+							break;
+						default:
+							getDocs();
+					}
+						
+					//if (ui.newTab.index() != activeTab_enum.edit && ui.newTab.index() != activeTab_enum.users)
+					//	getDocs();
+					//else
+					//	cleanDocTabs();
 
 					//if (ui.newTab.index() == activeTab_enum.edit)
 					//	resetForm();
@@ -3594,15 +3539,21 @@ function toggleLanguage(lang, dir) {
 
 	//$('#myjqGrid').attr('dir', dir);
 	
-/*
+
+	$('#grid').jqGrid('GridUnload');
+	if ($.jgrid.hasOwnProperty("regional") && $.jgrid.regional.hasOwnProperty(lang))
+		$.extend($.jgrid,$.jgrid.regional[lang]);
+	
+	CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
+	
 	if (lang == "en") {	
-		jQuery.extend(jQuery.jgrid.defaults, { direction: "ltr" });
-		loadJSFile("js/jqGridJs/i18n/grid.locale-en.js");
+		//jQuery.extend(jQuery.jgrid.defaults, { direction: "ltr" });
+		//loadJSFile("js/jqGridJs/i18n/grid.locale-en.js");
 	} else {
-		jQuery.extend(jQuery.jgrid.defaults, { direction: "rtl" });
-		loadJSFile("js/jqGridJs/i18n/grid.locale-ar.js");
+		//jQuery.extend(jQuery.jgrid.defaults, { direction: "rtl" });
+		//loadJSFile("js/jqGridJs/i18n/grid.locale-ar.js");
 	}
-*/	
+	
 	jQuery.i18n.properties({
 		name:'Messages', 
 		path:'bundle/', 
@@ -3614,6 +3565,12 @@ function toggleLanguage(lang, dir) {
 			if (lang == "ar")
 				change = false;
 		*/	
+		
+		
+		if (lang == "en")
+			$("body").css("font-size", "80%");
+		else
+			$("body").css("font-size", "84%");
 		
 		if (lang == "en") {
 			$.datepicker.setDefaults( $.datepicker.regional[ lang == "en" ? "" : lang ] );
