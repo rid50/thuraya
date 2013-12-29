@@ -27,7 +27,7 @@ var activeTab_enum = {
 	vault: 2,
 	rejected: 3,
 	edafat: 4,
-	checkup_grid: 5,
+	checkup: 5,
 	edit: 6,
 	users: 7,
 };
@@ -557,14 +557,16 @@ function start(userLoginName, func) {
 		$("#customFlagKuwait").off("click").on("click", function(event){
 			if ($("body[dir='ltr']").length) {
 				toggleLanguage('ar', 'rtl');
-				selectJsonNodes();
+				if ($("#tabs").tabs( "option", "active" ) != activeTab_enum.checkup)
+					selectJsonNodes();
 			}
 		});
 
 		$("#customFlagUK").off("click").on("click", function(event){
 			if ($("body[dir='rtl']").length) {
 				toggleLanguage('en', 'ltr');
-				selectJsonNodes();
+				if ($("#tabs").tabs( "option", "active" ) != activeTab_enum.checkup)
+					selectJsonNodes();
 			}
 		});
 	/*
@@ -888,7 +890,7 @@ function initTabs() {
 					switch (ui.newTab.index()) {
 						case activeTab_enum.edit:
 						case activeTab_enum.users:
-						case activeTab_enum.checkup_grid:
+						case activeTab_enum.checkup:
 							cleanDocTabs();
 							break;
 						default:
@@ -933,7 +935,7 @@ function initTabs() {
 	$("#tabs>ul>li").find('a[href="#tab-edit"]').parent().hide();
 	$("#tabs").tabs( "disable", activeTab_enum.users );
 	$("#tabs>ul>li").find('a[href="#tab-users"]').parent().hide();
-	$("#tabs").tabs( "disable", activeTab_enum.checkup_grid );
+	$("#tabs").tabs( "disable", activeTab_enum.checkup );
 	$("#tabs>ul>li").find('a[href="#tab-checkup-grid"]').parent().hide();
 	
 	switch (sectionId) {
@@ -955,7 +957,7 @@ function initTabs() {
 			break;
 		case sectionId_enum.checkup:
 			if (actor == actor_enum.manager) {
-				$("#tabs").tabs( "enable", activeTab_enum.checkup_grid );
+				$("#tabs").tabs( "enable", activeTab_enum.checkup );
 				$("#tabs>ul>li").find('a[href="#tab-checkup-grid"]').parent().show();
 				$("#tabs").tabs( "enable", activeTab_enum.users );
 				$("#tabs>ul>li").find('a[href="#tab-users"]').parent().show();
@@ -3540,18 +3542,22 @@ function toggleLanguage(lang, dir) {
 	//$('#myjqGrid').attr('dir', dir);
 	
 
-	$('#grid').jqGrid('GridUnload');
-	if ($.jgrid.hasOwnProperty("regional") && $.jgrid.regional.hasOwnProperty(lang))
-		$.extend($.jgrid,$.jgrid.regional[lang]);
+	if (sectionId == sectionId_enum.checkup) {
+		$(".tagButton").text($.i18n.prop('Checkup'));
 	
-	CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
-	
-	if (lang == "en") {	
-		//jQuery.extend(jQuery.jgrid.defaults, { direction: "ltr" });
-		//loadJSFile("js/jqGridJs/i18n/grid.locale-en.js");
-	} else {
-		//jQuery.extend(jQuery.jgrid.defaults, { direction: "rtl" });
-		//loadJSFile("js/jqGridJs/i18n/grid.locale-ar.js");
+		$('#grid').jqGrid('GridUnload');
+		if ($.jgrid.hasOwnProperty("regional") && $.jgrid.regional.hasOwnProperty(lang))
+			$.extend($.jgrid,$.jgrid.regional[lang]);
+		
+		CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
+		
+		if (lang == "en") {	
+			//jQuery.extend(jQuery.jgrid.defaults, { direction: "ltr" });
+			//loadJSFile("js/jqGridJs/i18n/grid.locale-en.js");
+		} else {
+			//jQuery.extend(jQuery.jgrid.defaults, { direction: "rtl" });
+			//loadJSFile("js/jqGridJs/i18n/grid.locale-ar.js");
+		}
 	}
 	
 	jQuery.i18n.properties({
@@ -3658,10 +3664,7 @@ function toggleLanguage(lang, dir) {
 			//	$(".docDetailDiv select").css({'margin-left':0, 'margin-right':'20px'});
 			//	$(".docPACINumber").css({'margin-left':'20px', 'margin-right':0});
 			}
-			
-			if (sectionId == sectionId_enum.checkup)
-				$(".tagButton").text($.i18n.prop('Checkup'));
-			
+						
 			//$("#newForm").attr('title', jQuery.i18n.prop('RegisterNewDoc'));
 			$("#saveButton").button({label: jQuery.i18n.prop('Save')});
 			$("#saveButton").attr({title: jQuery.i18n.prop('InsertOrUpdate')});
