@@ -3544,20 +3544,28 @@ function toggleLanguage(lang, dir) {
 
 	if (sectionId == sectionId_enum.checkup) {
 		$(".tagButton").text($.i18n.prop('Checkup'));
-	
-		$('#grid').jqGrid('GridUnload');
+		var jgrid = $('#grid');
+		jgrid.jqGrid('GridUnload');
 		if ($.jgrid.hasOwnProperty("regional") && $.jgrid.regional.hasOwnProperty(lang))
 			$.extend($.jgrid,$.jgrid.regional[lang]);
-		
-		CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
-		
-		if (lang == "en") {	
+
+		var direction = "ltr";
+		if (lang == "en") {
+			direction = "ltr";
+			//jgrid.jqGrid('setGridParam', { direction: "ltr" }).trigger('reloadGrid');
+			//jgrid.jqGrid({ direction: "ltr" });
 			//jQuery.extend(jQuery.jgrid.defaults, { direction: "ltr" });
 			//loadJSFile("js/jqGridJs/i18n/grid.locale-en.js");
 		} else {
+			direction = "rtl";
+			//jgrid.jqGrid('setGridParam', { direction: "rtl" }).trigger('reloadGrid');
+			//jgrid.jqGrid({ direction: "rtl" });
 			//jQuery.extend(jQuery.jgrid.defaults, { direction: "rtl" });
 			//loadJSFile("js/jqGridJs/i18n/grid.locale-ar.js");
 		}
+
+		CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"), direction);
+	
 	}
 	
 	jQuery.i18n.properties({
