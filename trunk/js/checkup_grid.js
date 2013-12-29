@@ -26,16 +26,22 @@ CheckupGrid = {
 			postData:{"func": "getCheckups"},
             mtype: "get",
             datatype: "json",
-            colNames: ['File#', 'Checkup#', 'Area', 'Date', 'Checker', "Check Date", "Result"],
+            colNames: ['File#', 'Checkup#', 'Area', 'Date', 'Checker', "Check Date", "Result", 'Checker2', "Check Date2", "Result2", 'Checker3', "Check Date3", "Result3"],
             colModel: [             //http://php.net/manual/en/function.date.php
-                        {name: 'file_no', index: 'file_no', align: 'left', width: '80px', sortable: true, resizable: false },
+                        {name: 'file_no', index: 'file_no', align: 'left', width: '80px', sortable: true, resizable: true, frozen: true },
                         {name: 'form_no', index: 'form_no', align: 'right', width: '60px', sortable: true, editable: false, resizable: false },
-                        {name: 'area_name', index: 'area_name', align: 'right', width: '100px', sortable: true, editable: false, resizable: false },
+                        {name: 'area_name', index: 'area_name', align: 'right', width: '80px', sortable: true, editable: false, resizable: true },
             //{ name: 'DateEntry', index: 'DateEntry', align: 'left', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'M j Y h:i A', newformat: 'd-M-Y h:iA'} },  //DateEntry = "Dec 31 1999 12:00AM"
-                        {name: 'date_ins', index: 'date_ins', align: 'center', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'date_ins', index: 'date_ins', align: 'center', width: '80px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
                         {name: 'ch_name', index: 'ch_name', align: 'right', width: '100px', sortable: true, editable: false, resizable: false },
-                        {name: 'check_1_dt', index: 'check_1_dt', align: 'center', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
-                        {name: 'result_1', index: 'result_1', align: 'right', sortable: false, editable: false, resizable: false },
+                        {name: 'check_1_dt', index: 'check_1_dt', align: 'center', width: '80px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'result_1', index: 'result_1', align: 'right', width: '60px', sortable: true, editable: false, resizable: true },
+                        {name: 'ch_name_2', index: 'ch_name_2', align: 'right', width: '100px', sortable: true, editable: false, resizable: false },
+                        {name: 'check_2_dt', index: 'check_2_dt', align: 'center', width: '80px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'result_2', index: 'result_2', align: 'right', width: '60px', sortable: false, editable: false, resizable: true },
+                        {name: 'ch_name_3', index: 'ch_name_3', align: 'right', width: '100px', sortable: true, editable: false, resizable: false },
+                        {name: 'check_3_dt', index: 'check_3_dt', align: 'center', width: '80px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'result_3', index: 'result_3', align: 'right', width: '60px', sortable: false, editable: false, resizable: true },
                         //{name: 'ContractValue', index: 'contract_value', align: 'right', width: '45', sortable: false, hidden: false, editable: true },
                         //{name: 'Currency', index: 'currency', align: 'left', width: '15', sortable: false, hidden: false, editable: false },
                       ],
@@ -53,9 +59,9 @@ CheckupGrid = {
             viewrecords: true,
             //editurl: "Checkup/Edit",
             width: 682,
-            height: '352px',
+            height: '362px',
             /*rowheight: '30px',*/
-            shrinkToFit: true,
+            shrinkToFit: false,
             autowidth: false,
             rownumbers: true,
             caption: 'Checkup',
@@ -71,9 +77,11 @@ CheckupGrid = {
 				id: "Id"
 			},
 			*/
+			gridComplete:  function() {
+				//jQuery("#grid").jqGrid('setFrozenColumns');
+			},
 			afterInsertRow: function(rowid, rowdata, rowelem) {
 				var i = 1;
-				
 				if (rowelem.result_1 != null) {
 					for (var key in result_enum) {
 					//'result_enum'.some(function(key, index) {
@@ -112,6 +120,12 @@ CheckupGrid = {
 
                 //jQuery('#grid_d').trigger("reloadGrid");
                 //grid.jqGrid('setSelection', "1");
+				//jQuery("#grid").jqGrid('setFrozenColumns');
+				//jQuery("#grid").trigger("reloadGrid", [{ current: true}]);
+				//$("#grid").jqGrid("destroyFrozenColumns")
+				//	.jqGrid("setColProp", "file_no", { frozen: true })
+				//	.jqGrid("setFrozenColumns")
+				//	.trigger("reloadGrid", [{ current: true}]);
             },
             onSelectRow: function (ids) {
                 //grid.jqGrid('setSelection', "1");

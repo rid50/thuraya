@@ -7,8 +7,9 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
 **/
-$.jgrid = $.jgrid || {};
-$.extend($.jgrid,{
+//$.jgrid = $.jgrid || {};
+//$.extend($.jgrid,{
+var locInfo = {
 	defaults : {
 		recordtext: "View {0} - {1} of {2}",
 		emptyrecords: "No records to view",
@@ -164,5 +165,14 @@ $.extend($.jgrid,{
 		checkbox : {disabled:true},
 		idName : 'id'
 	}
-});
+};
+//});
+
+$.jgrid = $.jgrid || {};
+if (!$.jgrid.hasOwnProperty("regional")) {
+    $.jgrid.regional = {};
+}
+$.jgrid.regional.en = $.jgrid.regional["en-US"] = locInfo;
+$.extend($.jgrid, locInfo);
+
 })(jQuery);

@@ -186,9 +186,12 @@ class DatabaseRepository {
 			if ($page > $total_pages) $page=$total_pages;
 			$start = $limit * $page - $limit;
 
-			$st = "SELECT file_no, form_no, date_ins, area_name, checker.ch_name, check_1_dt, result_1
+			$st = "SELECT file_no, form_no, date_ins, area.area_name, 
+				checker.ch_name, check_1_dt, result_1, checker_2.ch_name AS ch_name_2, check_2_dt, result_2, checker_3.ch_name AS ch_name_3, check_3_dt, result_3
 				FROM check_form LEFT JOIN area ON check_form.area_id = area.id 
 								LEFT JOIN checker ON check_form.checker = checker.id 
+								LEFT JOIN checker AS checker_2 ON check_form.checker_2 = checker_2.id 
+								LEFT JOIN checker AS checker_3 ON check_form.checker_3 = checker_3.id 
 				ORDER BY $sidx $sord LIMIT $start, $limit";
 				
 			$ds = $dbh->query($st);

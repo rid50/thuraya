@@ -41,7 +41,7 @@ if ($idp == "SAML") {
     <!--script src="js/jquery-1.9.1.min.js" type="text/javascript"></script-->
     <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
     
-    <!--script src="js/jqGridJs/i18n/grid.locale-ar.js" type="text/javascript"></script-->
+    <script src="js/jqGridJs/i18n/grid.locale-ar.js" type="text/javascript"></script>
     <script src="js/jqGridJs/i18n/grid.locale-en.js" type="text/javascript"></script>
 	<script src="js/jqGridJs/jquery.jqGrid.min.js" type="text/javascript"></script>
     <script src="js/jqGridJs/grid.filtergrid.js" type="text/javascript"></script>
@@ -165,9 +165,10 @@ if ($idp == "SAML") {
 					<!--div><span>Area</span>:&nbsp;<select id="area_search" style="width:120px"  class="ui-widget-content ui-corner-all"></select></div-->
 					<div><span>Area</span>:&nbsp;<input type="text" id="area_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
 					<div><span>Block</span>:&nbsp;<input type="text" id="block_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
-					<div><span>Plot</span>:&nbsp;<input type="text" id="plot_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
+					<div><span>Plot</span>:&nbsp;<input type="text" id="plot_search" style="width:100px"  size="16" class="text ui-widget-content ui-corner-all"/></div>
 					<button id="searchButton">Search</button>
 					<button id="searchResetButton" title="Set fields empty">Reset</button>
+					<div style="height:8px"></div>
 				</div>
 				<span>Report</span>
 				<div style="text-align:center;">
@@ -435,7 +436,7 @@ if ($idp == "SAML") {
 	</form>
 </div>
 
-<div id="divGrid" style="margin-left:4px; display:none">
+<div id="divGrid">
     <div style="padding-top: 10px; padding-left: 10px; height:24px;">
         Search:
         <input type="text" id="item" onkeydown="doSearch(arguments[0]||event)" style="float:none; padding: 0;" />
