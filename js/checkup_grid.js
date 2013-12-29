@@ -12,16 +12,16 @@
 */
 
 $(document).ready(function () {
-    CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"));
+    CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"), "ltr");
 });
 
 w = 500;
 
 CheckupGrid = {
-    setupGrid: function (grid, pager, search) {
+    setupGrid: function (grid, pager, search, direction) {
         //        debugger; 
         grid.jqGrid({
-			//direction: "rtl",
+			direction: direction,
             url: "json_db_crud_pdo.php",
 			postData:{"func": "getCheckups"},
             mtype: "get",
