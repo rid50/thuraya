@@ -11,11 +11,18 @@
 	})(jQuery);
 */
 
-$(document).ready(function () {
-    CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"), "ltr");
-});
+//$(document).ready(function () {
+//    CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"), (lang == 'en') ? 'ltr' : 'rtl');
+//});
+function toggleGrid(lang) {
+	//$(".tagButton").text($.i18n.prop('Checkup'));
+	var jgrid = $('#grid');
+	jgrid.jqGrid('GridUnload');
+	if ($.jgrid.hasOwnProperty("regional") && $.jgrid.regional.hasOwnProperty(lang))
+		$.extend($.jgrid,$.jgrid.regional[lang]);
 
-w = 500;
+	CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"), (lang == 'en') ? 'ltr' : 'rtl');
+}
 
 CheckupGrid = {
     setupGrid: function (grid, pager, search, direction) {
@@ -26,21 +33,21 @@ CheckupGrid = {
 			postData:{"func": "getCheckups"},
             mtype: "get",
             datatype: "json",
-            colNames: ['File#', 'Checkup#', 'Area', 'Date', 'Checker', "Check Date", "Result", 'Checker2', "Check Date2", "Result2", 'Checker3', "Check Date3", "Result3"],
-            colModel: [             //http://php.net/manual/en/function.date.php
+            colNames: [$.i18n.prop('FileNumber'), $.i18n.prop('CheckupNumber'), $.i18n.prop('Address'), $.i18n.prop('DateOfCheckup'), $.i18n.prop('Checker'), $.i18n.prop('CheckDate'), $.i18n.prop('Result'), $.i18n.prop('Checker')+'2', $.i18n.prop('CheckDate')+'2', $.i18n.prop('Result')+'2', $.i18n.prop('Checker')+'3', $.i18n.prop('CheckDate')+'3', $.i18n.prop('Result')+'3'],
+            colModel: [ //http://php.net/manual/en/function.date.php
                         {name: 'file_no', index: 'file_no', align: 'left', width: '80px', sortable: true, resizable: true, frozen: true },
                         {name: 'form_no', index: 'form_no', align: 'right', width: '60px', sortable: true, editable: false, resizable: false },
-                        {name: 'area_name', index: 'area_name', align: 'right', width: '80px', sortable: true, editable: false, resizable: true },
+                        {name: 'address', index: 'address', align: 'right', width: '190px', sortable: true, editable: false, resizable: true },
             //{ name: 'DateEntry', index: 'DateEntry', align: 'left', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'M j Y h:i A', newformat: 'd-M-Y h:iA'} },  //DateEntry = "Dec 31 1999 12:00AM"
-                        {name: 'date_ins', index: 'date_ins', align: 'center', width: '80px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
-                        {name: 'ch_name', index: 'ch_name', align: 'right', width: '100px', sortable: true, editable: false, resizable: false },
-                        {name: 'check_1_dt', index: 'check_1_dt', align: 'center', width: '80px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'date_ins', index: 'date_ins', align: 'center', width: '84px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'ch_name', index: 'ch_name', align: 'right', width: '80px', sortable: true, editable: false, resizable: false },
+                        {name: 'check_1_dt', index: 'check_1_dt', align: 'center', width: '84px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
                         {name: 'result_1', index: 'result_1', align: 'right', width: '60px', sortable: true, editable: false, resizable: true },
-                        {name: 'ch_name_2', index: 'ch_name_2', align: 'right', width: '100px', sortable: true, editable: false, resizable: false },
-                        {name: 'check_2_dt', index: 'check_2_dt', align: 'center', width: '80px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'ch_name_2', index: 'ch_name_2', align: 'right', width: '80px', sortable: true, editable: false, resizable: false },
+                        {name: 'check_2_dt', index: 'check_2_dt', align: 'center', width: '84px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
                         {name: 'result_2', index: 'result_2', align: 'right', width: '60px', sortable: false, editable: false, resizable: true },
-                        {name: 'ch_name_3', index: 'ch_name_3', align: 'right', width: '100px', sortable: true, editable: false, resizable: false },
-                        {name: 'check_3_dt', index: 'check_3_dt', align: 'center', width: '80px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
+                        {name: 'ch_name_3', index: 'ch_name_3', align: 'right', width: '80px', sortable: true, editable: false, resizable: false },
+                        {name: 'check_3_dt', index: 'check_3_dt', align: 'center', width: '84px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
                         {name: 'result_3', index: 'result_3', align: 'right', width: '60px', sortable: false, editable: false, resizable: true },
                         //{name: 'ContractValue', index: 'contract_value', align: 'right', width: '45', sortable: false, hidden: false, editable: true },
                         //{name: 'Currency', index: 'currency', align: 'left', width: '15', sortable: false, hidden: false, editable: false },
@@ -64,7 +71,7 @@ CheckupGrid = {
             shrinkToFit: false,
             autowidth: false,
             rownumbers: true,
-            caption: 'Checkup',
+            caption: $.i18n.prop('Checkup'),
             toppager: false,
 			/*
 			jsonReader: {
@@ -100,14 +107,17 @@ CheckupGrid = {
 			},			
             loadError: function (xhr, st, err) {
                 if (window.console) window.console.log('failed');
+				alert ("Type: " + st + "; Response: " + xhr.status + " " + xhr.statusText);
                 $('#alertContent').html("Type: " + st + "; Response: " + xhr.status + " " + xhr.statusText);
                 //$('#alertContent').html(xhr.responseText);
                 $('#alert').dialog('open');
                 //$('#info').text(event.toString()).css({ 'color': 'orange', 'fontweight': 'bold' });
             },
             loadComplete: function (event) {
-                if (event && event[0] && event[0].error != "" && window.console)
-					window.console.log(event[0].error);
+                if (event && event[0] && event[0].error != "") {
+					if (window.console) window.console.log(event[0].error);
+					alert (event[0].error);
+				}
                 //debugger;
                 //jQuery('#grid_d').setGridParam({ url: "ContractDetails/List?contract_id=0", page: 1 }).trigger('reloadGrid');
                 //$('.ui-pg-table').css({ 'width': '600px', 'width': 'auto', 'table-layout': 'auto', 'border': '0px solid green' });
@@ -168,7 +178,8 @@ CheckupGrid = {
                                 {}, // settings for edit
                                 {}, // settings for add
                                 {}, // settings for delete
-                                {sopt: ["cn"]} // Search options. Some options can be set on column level        
+								{}
+                                //{sopt: ["cn"]} // Search options. Some options can be set on column level        
                   );
         search.filterGrid("#" + grid.attr("id"), {
             gridModel: false,

@@ -168,7 +168,7 @@ if ($idp == "SAML") {
 					<div><span>Plot</span>:&nbsp;<input type="text" id="plot_search" style="width:100px"  size="16" class="text ui-widget-content ui-corner-all"/></div>
 					<button id="searchButton">Search</button>
 					<button id="searchResetButton" title="Set fields empty">Reset</button>
-					<div style="height:8px"></div>
+					<!--div style="height:8px"></div-->
 				</div>
 				<span>Report</span>
 				<div style="text-align:center;">

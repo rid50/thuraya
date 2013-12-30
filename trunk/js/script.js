@@ -66,7 +66,7 @@ if (!String.prototype.format) {
   String.prototype.format = function() {
     var args = arguments;
     return this.replace(/{(\d+)}/g, function(match, number) { 
-      return typeof args[number] != 'undefined'
+      return typeof args[number] != undefined
         ? args[number]
         : match
       ;
@@ -847,7 +847,8 @@ function initTabs() {
 						$("#userAssignmentDiv").show();
 					}
 					
-					if ($("#divGrid").css("display") == "none") {
+					if ($("#divGrid").css("display") == "none" && ui.newTab.index() == activeTab_enum.checkup) {
+						toggleGrid(lang);
 						$("#divGrid").show();
 					}
 					
@@ -3539,68 +3540,37 @@ function toggleLanguage(lang, dir) {
 	$('body').attr('dir', dir);
 	$('html').attr('lang', lang);
 
-	//$('#myjqGrid').attr('dir', dir);
-	
-
-	if (sectionId == sectionId_enum.checkup) {
-		$(".tagButton").text($.i18n.prop('Checkup'));
-		var jgrid = $('#grid');
-		jgrid.jqGrid('GridUnload');
-		if ($.jgrid.hasOwnProperty("regional") && $.jgrid.regional.hasOwnProperty(lang))
-			$.extend($.jgrid,$.jgrid.regional[lang]);
-
-		var direction = "ltr";
-		if (lang == "en") {
-			direction = "ltr";
-			//jgrid.jqGrid('setGridParam', { direction: "ltr" }).trigger('reloadGrid');
-			//jgrid.jqGrid({ direction: "ltr" });
-			//jQuery.extend(jQuery.jgrid.defaults, { direction: "ltr" });
-			//loadJSFile("js/jqGridJs/i18n/grid.locale-en.js");
-		} else {
-			direction = "rtl";
-			//jgrid.jqGrid('setGridParam', { direction: "rtl" }).trigger('reloadGrid');
-			//jgrid.jqGrid({ direction: "rtl" });
-			//jQuery.extend(jQuery.jgrid.defaults, { direction: "rtl" });
-			//loadJSFile("js/jqGridJs/i18n/grid.locale-ar.js");
-		}
-
-		CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"), direction);
-	
-	}
-	
 	jQuery.i18n.properties({
 		name:'Messages', 
 		path:'bundle/', 
 		mode:'both',
 		language: lang,
 		callback: function() {
-		/*	
-			var change = true;
-			if (lang == "ar")
-				change = false;
-		*/	
 		
-		
-		if (lang == "en")
-			$("body").css("font-size", "80%");
-		else
-			$("body").css("font-size", "84%");
-		
-		if (lang == "en") {
-			$.datepicker.setDefaults( $.datepicker.regional[ lang == "en" ? "" : lang ] );
+			if (sectionId != undefined && sectionId == sectionId_enum.checkup) {
+				toggleGrid(lang);
+			}
+			
+			if (lang == "en")
+				$("body").css("font-size", "80%");
+			else
+				$("body").css("font-size", "84%");
+			
+			if (lang == "en") {
+				$.datepicker.setDefaults( $.datepicker.regional[ lang == "en" ? "" : lang ] );
 
-			$(".rid50-datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
-			//$("#datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
-			//$("#datepicker2").datepicker("option", "changeMonth", lang == "en" ? true : false);
-			//$("#date_submission").datepicker("option", "changeMonth", lang == "en" ? true : false);
-		} else {
-			$(".rid50-datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
-			//$("#datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
-			//$("#datepicker2").datepicker("option", "changeMonth", lang == "en" ? true : false);
-			//$("#date_submission").datepicker("option", "changeMonth", lang == "en" ? true : false);
+				$(".rid50-datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
+				//$("#datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
+				//$("#datepicker2").datepicker("option", "changeMonth", lang == "en" ? true : false);
+				//$("#date_submission").datepicker("option", "changeMonth", lang == "en" ? true : false);
+			} else {
+				$(".rid50-datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
+				//$("#datepicker").datepicker("option", "changeMonth", lang == "en" ? true : false);
+				//$("#datepicker2").datepicker("option", "changeMonth", lang == "en" ? true : false);
+				//$("#date_submission").datepicker("option", "changeMonth", lang == "en" ? true : false);
 
-			$.datepicker.setDefaults( $.datepicker.regional[ lang == "en" ? "" : lang ] );
-		}
+				$.datepicker.setDefaults( $.datepicker.regional[ lang == "en" ? "" : lang ] );
+			}
 			
 /*
 			$("#datepicker").datepicker( "option", $.datepicker.regional[ (lang == "en") ? "" : lang ] );

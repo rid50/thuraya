@@ -165,34 +165,97 @@ class DatabaseRepository {
 		$limit = $_GET['rows']; // get how many rows we want to have into the grid
 		$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
 		$sord = $_GET['sord']; // get the direction
+		$searchField = $_GET['searchField'];
+		$searchOper = $_GET['searchOper'];	// eq, bw, bn, ew, en, cn, nc, ne, lt, le, gt, ge, in, ni
+		$searchString = $_GET['searchString'];
+		
 		if(!$sidx) $sidx = 1;
+
+		$where = "";
+		switch ($searchOper) {
+			case eq:
+				$where .= "$searchField = '$searchString'";
+				break;
+			case ne:
+				$where .= "$searchField <> '$searchString'";
+				break;
+			case bw:	//begin with
+				$where .= "$searchField LIKE '$searchString%'";
+				break;
+			case bn:	//doesn't begin with
+				$where .= "$searchField NOT LIKE '$searchString%'";
+				break;
+			case ew:	//ends with
+				$where .= "$searchField LIKE '%$searchString'";
+				break;
+			case en:	//doesn't end with
+				$where .= "$searchField NOT LIKE '%$searchString'";
+				break;
+			case cn:	//contains
+				$where .= "$searchField LIKE '%$searchString%'";
+				break;
+			case nc:	//doesn't contain
+				$where .= "$searchField NOT LIKE '%$searchString%'";
+				break;
+			case lt:	// less then
+				$where .= "$searchField < '$searchString'";
+				break;
+			case le:	// less or equal
+				$where .= "$searchField <= '$searchString'";
+				break;
+			case gt:	//more then
+				$where .= "$searchField > '$searchString'";
+				break;
+			case ge:	//more or equal
+				$where .= "$searchField >= '$searchString'";
+				break;
+			case in:	//in
+				$where .= "$searchField IN($searchString)";
+				break;
+			case ni:	// not in
+				$where .= "$searchField NOT IN ($searchString)";
+				break;
+		}
+
+		//throw new Exception('Where: ' . ($where == ""));
+		//throw new Exception('Where: ' . $where);
 
 		$dbh = $this->connect();
 		try {
-			$st = "SELECT COUNT(*) AS count 
-				FROM check_form LEFT JOIN area ON check_form.area_id = area.id
-								LEFT JOIN checker ON check_form.checker = checker.id";
+			
+			$st = "SELECT COUNT(*) AS count FROM check_form ";
+			if ($where != "")
+				$st .= " WHERE " . $where;
+				
+				//FROM check_form LEFT JOIN area ON check_form.area_id = area.id
+				//				LEFT JOIN checker ON check_form.checker = checker.id";
 			$ds = $dbh->query($st);
 			$r = $ds->fetch(PDO::FETCH_ASSOC);
 
 			$count = $r['count'];
 
-			if( $count >0 ) {
+			if( $count > 0 ) {
 				$total_pages = ceil($count/$limit);
+				if ($page > $total_pages) $page = $total_pages;
 			} else {
 				$total_pages = 0;
 			}
 
-			if ($page > $total_pages) $page=$total_pages;
+			//if ($page > $total_pages) $page = $total_pages;
 			$start = $limit * $page - $limit;
 
-			$st = "SELECT file_no, form_no, date_ins, area.area_name, 
+			$st = "SELECT file_no, form_no, date_ins, CONCAT(area.area_name, ' منع ', sector_addrs, ' قطعة أرض ', qasimaa) AS address, 
 				checker.ch_name, check_1_dt, result_1, checker_2.ch_name AS ch_name_2, check_2_dt, result_2, checker_3.ch_name AS ch_name_3, check_3_dt, result_3
 				FROM check_form LEFT JOIN area ON check_form.area_id = area.id 
 								LEFT JOIN checker ON check_form.checker = checker.id 
 								LEFT JOIN checker AS checker_2 ON check_form.checker_2 = checker_2.id 
-								LEFT JOIN checker AS checker_3 ON check_form.checker_3 = checker_3.id 
-				ORDER BY $sidx $sord LIMIT $start, $limit";
+								LEFT JOIN checker AS checker_3 ON check_form.checker_3 = checker_3.id ";
+			if ($where == "")
+				$st .= " ORDER BY $sidx $sord LIMIT $start, $limit";
+			else
+				$st .= " WHERE " . $where . " ORDER BY $sidx $sord LIMIT $start, $limit";
+				
+			//throw new Exception('Statement: ' . $st);
 				
 			$ds = $dbh->query($st);
 		} catch (PDOException $e) {
