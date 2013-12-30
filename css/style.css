@@ -64,11 +64,16 @@ input.text, textarea, select#approver_search { margin-bottom:10px; padding: .4em
 #divGrid { 
 	margin-left:4px;
 	display:none;
+	font-size:0.8em;	
 }
 
 #myjqGrid {
 	padding: 20px 10px 0 10px;
 	//width: 682px;
+}
+
+.ui-jqgrid tr.jqgrow td {
+	font-size:1.1em
 }
 
 //#newForm  { z-index: 80; }
@@ -286,6 +291,7 @@ a:hover {
 .customMiddleSide {
 	box-shadow: 4px 4px 2px #999;
 	border: 1px solid #000;
+	font-size:1em;
 
 	width: 714px;
 	height: 100%;
