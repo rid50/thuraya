@@ -66,10 +66,10 @@ if ($idp == "SAML") {
 		}
 	
 		.ui-accordion .ui-accordion-content {
-			padding: 1em 4px;
+			padding: 1em 8px 1em 0px;
+			//padding: 1em 4px;
 			overflow: hidden;
 		}
-
 	</style>
 
 </head>
@@ -156,19 +156,19 @@ if ($idp == "SAML") {
 			<div id="accordion">
 				<span>Search</span>
 				<div>
-					<div><span>File</span>#:&nbsp;<input type="text" id="file_number_search" size="17" class="text ui-widget-content ui-corner-all" /></div>
+					<div><span>File</span>#&nbsp;<input type="text" id="file_number_search" maxlength="24" size="16" class="text ui-widget-content ui-corner-all" /></div>
 					<!--div><span>PACI</span>#:&nbsp;<input type="text" id="paci_number_search" maxlength="8" size="10" class="text ui-widget-content ui-corner-all" /></div-->
-					<div><span>Approver</span>:&nbsp;<select id="approver_search" style="width:120px"  class="ui-widget-content ui-corner-all"></select></div>
+					<div><span>Approver</span>&nbsp;<select id="approver_search" style="width:120px" class="ui-widget-content ui-corner-all"></select></div>
 					<!--div><span>From</span>:&nbsp;<div dir="ltr"><input type="text" id="datepicker" maxlength="10" size="10" class="text ui-widget-content ui-corner-all"/></div></div-->
-					<div><span>From</span>:&nbsp;<input type="text" id="datepicker" maxlength="10" size="10" class="rid50-datepicker text ui-widget-content ui-corner-all"/></div>
-					<div><span>To</span>:&nbsp;<input type="text" id="datepicker2" maxlength="10" size="10" class="rid50-datepicker text ui-widget-content ui-corner-all"/></div>
+					<div><span>From</span>&nbsp;<input type="text" id="datepicker" maxlength="10" size="10" class="rid50-datepicker text ui-widget-content ui-corner-all"/></div>
+					<div><span>To</span>&nbsp;<input type="text" id="datepicker2" maxlength="10" size="10" class="rid50-datepicker text ui-widget-content ui-corner-all"/></div>
 					<!--div><span>Area</span>:&nbsp;<select id="area_search" style="width:120px"  class="ui-widget-content ui-corner-all"></select></div-->
-					<div><span>Area</span>:&nbsp;<input type="text" id="area_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
-					<div><span>Block</span>:&nbsp;<input type="text" id="block_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
-					<div><span>Plot</span>:&nbsp;<input type="text" id="plot_search" style="width:100px"  size="16" class="text ui-widget-content ui-corner-all"/></div>
+					<div><span>Area</span>&nbsp;<input type="text" id="area_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
+					<div><span>Block</span>&nbsp;<input type="text" id="block_search" size="16" class="text ui-widget-content ui-corner-all"/></div>
+					<div><span>Plot</span>&nbsp;<input type="text" id="plot_search" style="width:100px" size="16" class="text ui-widget-content ui-corner-all"/></div>
 					<button id="searchButton">Search</button>
 					<button id="searchResetButton" title="Set fields empty">Reset</button>
-					<!--div style="height:8px"></div-->
+					<div style="height:8px"></div>
 				</div>
 				<span>Report</span>
 				<div style="text-align:center;">
@@ -438,13 +438,13 @@ if ($idp == "SAML") {
 
 <div id="divGrid">
     <div style="padding-top: 10px; padding-left: 10px; height:24px;">
-        Search:
-        <input type="text" id="item" onkeydown="doSearch(arguments[0]||event)" style="float:none; padding: 0;" />
-        <button onclick="gridReload()" id="submitButton">Search</button>
+        <span>Search File#:</span>
+        <input type="text" id="griid_search_field" onkeydown="doSearch(arguments[0]||event)" style="direction:ltr; text-align:left; float:none; padding:0;" />
+        <button onclick="gridReload()" id="gridSubmitButton">Go</button>
         <!--button onclick="f()" id="submitButton">Search</button-->
         <input type="checkbox" id="autosearch" onclick="enableAutosubmit(this.checked)" style="padding: 0; float:none; width:auto; border: 0" />
-        Enable Autosearch
-        <div id="search" style="visibility: hidden; width:10px; height: 10px"></div>
+        <span>Enable Autosearch</span>
+        <div id="grid_search_hidden_field" style="visibility: hidden; width:10px; height: 10px"></div>
     </div>
 
     <div id="myjqGrid">
