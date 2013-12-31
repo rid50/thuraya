@@ -171,6 +171,11 @@ class DatabaseRepository {
 		
 		if(!$sidx) $sidx = 1;
 
+		$addressPieces = null;
+		if ($searchField == 'address') {
+			$addressPieces = explode("|", $searchString);
+		}
+		
 		$where = "";
 		switch ($searchOper) {
 			case eq:
@@ -180,7 +185,15 @@ class DatabaseRepository {
 				$where .= "$searchField <> '$searchString'";
 				break;
 			case bw:	//begin with
-				$where .= "$searchField LIKE '$searchString%'";
+				if ($searchField == 'address') {
+					if (isset($addressPieces[0]))
+						$where .= "area.area_name LIKE '$addressPieces[0]%'";
+					if (isset($addressPieces[1]))
+						$where .= " AND sector_addrs == '$addressPieces[1]'";
+					if (isset($addressPieces[2]))
+						$where .= " AND qasimaa == '$addressPieces[2]'";
+				} else
+					$where .= "$searchField LIKE '$searchString%'";
 				break;
 			case bn:	//doesn't begin with
 				$where .= "$searchField NOT LIKE '$searchString%'";
@@ -192,7 +205,15 @@ class DatabaseRepository {
 				$where .= "$searchField NOT LIKE '%$searchString'";
 				break;
 			case cn:	//contains
-				$where .= "$searchField LIKE '%$searchString%'";
+				if ($searchField == 'address') {
+					if (isset($addressPieces[0]))
+						$where .= "area.area_name LIKE '%$addressPieces[0]%'";
+					if (isset($addressPieces[1]))
+						$where .= " AND sector_addrs == '$addressPieces[1]'";
+					if (isset($addressPieces[2]))
+						$where .= " AND qasimaa == '$addressPieces[2]'";
+				} else
+					$where .= "$searchField LIKE '%$searchString%'";
 				break;
 			case nc:	//doesn't contain
 				$where .= "$searchField NOT LIKE '%$searchString%'";
@@ -244,7 +265,7 @@ class DatabaseRepository {
 			//if ($page > $total_pages) $page = $total_pages;
 			$start = $limit * $page - $limit;
 
-			$st = "SELECT file_no, form_no, date_ins, CONCAT(area.area_name, ', منع: ', sector_addrs, ', قطعة أرض: ', qasimaa) AS address, 
+			$st = "SELECT file_no, form_no, date_ins, CONCAT(area.area_name, ' منع: ', sector_addrs, ' قطعة أرض: ', qasimaa) AS address, 
 				checker.ch_name, check_1_dt, result_1, checker_2.ch_name AS ch_name_2, check_2_dt, result_2, checker_3.ch_name AS ch_name_3, check_3_dt, result_3
 				FROM check_form LEFT JOIN area ON check_form.area_id = area.id 
 								LEFT JOIN checker ON check_form.checker = checker.id 

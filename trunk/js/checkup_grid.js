@@ -37,7 +37,7 @@ CheckupGrid = {
             colModel: [ //http://php.net/manual/en/function.date.php
                         {name: 'file_no', index: 'file_no', align: 'left', width: '80px', sortable: true, resizable: true, frozen: true },
                         {name: 'form_no', index: 'form_no', align: 'right', width: '60px', sortable: true, editable: false, resizable: false },
-                        {name: 'address', index: 'address', align: 'right', width: '190px', sortable: true, editable: false, resizable: true },
+                        {name: 'address', index: 'address', align: 'right', width: '190px', sortable: true, editable: false, resizable: true, searchoptions: { sopt: ['bw', 'cn']} },
             //{ name: 'DateEntry', index: 'DateEntry', align: 'left', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'M j Y h:i A', newformat: 'd-M-Y h:iA'} },  //DateEntry = "Dec 31 1999 12:00AM"
                         {name: 'date_ins', index: 'date_ins', align: 'center', width: '84px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
                         {name: 'ch_name', index: 'ch_name', align: 'right', width: '80px', sortable: true, editable: false, resizable: false },
