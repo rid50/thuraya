@@ -119,6 +119,7 @@ CheckupGrid = {
 					alert (event[0].error);
 				}
 				
+				//var ur = jQuery("#grid").getGridParam("url");
 				jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php", page: 1 });
 				
 				//$("#grid").jqGrid("setColProp", "file_no", { searchoptions: { } });
