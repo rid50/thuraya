@@ -556,6 +556,7 @@ function start(userLoginName, func) {
 			
 		$("#customFlagKuwait").off("click").on("click", function(event){
 			if ($("body[dir='ltr']").length) {
+				lang = 'ar';
 				toggleLanguage('ar', 'rtl');
 				if ($("#tabs").tabs( "option", "active" ) != activeTab_enum.checkup)
 					selectJsonNodes();
@@ -564,6 +565,7 @@ function start(userLoginName, func) {
 
 		$("#customFlagUK").off("click").on("click", function(event){
 			if ($("body[dir='rtl']").length) {
+				lang = 'en';
 				toggleLanguage('en', 'ltr');
 				if ($("#tabs").tabs( "option", "active" ) != activeTab_enum.checkup)
 					selectJsonNodes();
@@ -848,6 +850,7 @@ function initTabs() {
 					}
 					
 					if ($("#divGrid").css("display") == "none" && ui.newTab.index() == activeTab_enum.checkup) {
+					//if ($("#divGrid").css("display") == "none" && sectionId == sectionId_enum.checkup) {
 						toggleGrid(lang);
 						$("#divGrid").show();
 					}
@@ -3623,6 +3626,13 @@ function toggleLanguage(lang, dir) {
 			$("#tabs>ul>li").find('a[href="#tab-edit"] span').text(jQuery.i18n.prop("CreateUpdateDocumentTab"));
 			$("#tabs>ul>li").find('a[href="#tab-checkup-grid"]').text(jQuery.i18n.prop("CheckUpCompleteTab"));
 
+			//$("#divGrid>div").find('a[href="#tab-pending"]').text(jQuery.i18n.prop("PendingDocsListTab"));
+			$($("#divGrid>div:first:nth-child(1)>span")[0]).text(($.i18n.prop('SearchByFileNumber')));
+			$($("#divGrid>div:first:nth-child(1)>span")[1]).text(($.i18n.prop('EnableAutosearch')));
+			$('#gridSubmitButton').button({ label: $.i18n.prop('Go')});
+			//$("#divGrid>div:nth-child(2)>span").text(jQuery.i18n.prop('EnableAutosearch'));
+ //$("#divGrid>div:first>span:first")
+			
 			
 			if (dir == 'ltr') {
 				$(".tagButton").css("left", ""); 
@@ -3630,6 +3640,8 @@ function toggleLanguage(lang, dir) {
 				$(".customRightSide").css("text-align", "right");
 				$(".customMiddleSide, .customRightSide, #userList").css("box-shadow", "4px 4px 2px #999");
 				$(".customMiddleSide #docs li, .docButtons").css("box-shadow", "2px 2px 2px #999");
+
+				$(".ui-accordion .ui-accordion-content").css({'padding': '1em 8px 1em 0px'});
 
 			//	$(".docDetailDiv select").css({'margin-left':'20px', 'margin-right':0});
 			//	$(".docPACINumber").css({'margin-left': 0, 'margin-right':'20px'});
@@ -3639,7 +3651,10 @@ function toggleLanguage(lang, dir) {
 				$(".customRightSide").css("text-align", "left"); 
 				$(".customMiddleSide, .customRightSide, #userList").css("box-shadow", "-4px 4px 2px #999");
 				$(".customMiddleSide #docs li, .docButtons").css("box-shadow", "-2px 2px 2px #999");
-			//	$(".docDetailDiv select").css({'margin-left':0, 'margin-right':'20px'});
+
+				$(".ui-accordion .ui-accordion-content").css({'padding': '1em 0px 1em 8px'});
+
+				//	$(".docDetailDiv select").css({'margin-left':0, 'margin-right':'20px'});
 			//	$(".docPACINumber").css({'margin-left':'20px', 'margin-right':0});
 			}
 						

@@ -118,6 +118,11 @@ CheckupGrid = {
 					if (window.console) window.console.log(event[0].error);
 					alert (event[0].error);
 				}
+				
+				jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php", page: 1 });
+				
+				//$("#grid").jqGrid("setColProp", "file_no", { searchoptions: { } });
+
                 //debugger;
                 //jQuery('#grid_d').setGridParam({ url: "ContractDetails/List?contract_id=0", page: 1 }).trigger('reloadGrid');
                 //$('.ui-pg-table').css({ 'width': '600px', 'width': 'auto', 'table-layout': 'auto', 'border': '0px solid green' });
@@ -178,7 +183,8 @@ CheckupGrid = {
                                 {}, // settings for edit
                                 {}, // settings for add
                                 {}, // settings for delete
-								{}
+								{},
+								{closeOnEscape:true}
                                 //{sopt: ["cn"]} // Search options. Some options can be set on column level        
                   );
         search.filterGrid("#" + grid.attr("id"), {
@@ -247,28 +253,48 @@ CheckupGrid = {
             }
         };
 */
-        var timeoutHnd;
+        var timeoutHnd = null;
         var flAuto = false;
         function doSearch(ev) {
+            if (timeoutHnd) {
+                clearTimeout(timeoutHnd)
+				timeoutHnd = null;
+            }
+			
             if (ev.keyCode == 13) {
                 timeoutHnd = setTimeout(gridReload, 500);
                 return;
             }
             if (!flAuto) return;
             // var elem = ev.target||ev.srcElement;
-            if (timeoutHnd) {
-                clearTimeout(timeoutHnd)
-            }
+            //if (timeoutHnd) {
+            //    clearTimeout(timeoutHnd)
+            //}
+			
+			// 65-90 	: A to Z
+			// 8 		: Backspace
+			// 46		: Delete
+			// 48-57	: 0 to 9
+			// 96-105	: 0 to 9 (Numpad)
             if ((ev.keyCode >= 65 && ev.keyCode <= 90) || ev.keyCode == 8 || ev.keyCode == 46 || (ev.keyCode >= 48 && ev.keyCode <= 57) || (ev.keyCode >= 96 && ev.keyCode <= 105)) {
                 timeoutHnd = setTimeout(gridReload, 500)
             }
         }
         function gridReload() {
-            var search = $('#item').val();
-            jQuery("#grid").setGridParam({ url: "Checkup/List?search=" + search, page: 1 }).trigger("reloadGrid");
+            if (timeoutHnd) {
+                clearTimeout(timeoutHnd);
+				timeoutHnd = null;
+            }
+            var searchField = "file_no";
+            var searchString = $('#griid_search_field').val();
+			var searchOper = "bw";
+            jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php?searchField=" + searchField + "&searchString=" + searchString + "&searchOper=" + searchOper, page: 1 }).trigger("reloadGrid");
+			//$("#grid").jqGrid("setColProp", "file_no", { searchoptions: { sopt: ['cn']} }).trigger("reloadGrid");
+            //jQuery("#grid").setGridParam({ url: "Checkup/List?search=" + search, page: 1 }).trigger("reloadGrid");
         }
 
         function enableAutosubmit(state) {
             flAuto = state;
-            jQuery("#submitButton").attr("disabled", state);
+            jQuery("#gridSubmitButton").attr("disabled", state);
+			$('#griid_search_field').focus();
         } 
