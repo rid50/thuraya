@@ -437,11 +437,11 @@ if ($idp == "SAML") {
 </div>
 
 <div id="divGrid">
+	<!--div id="mysearch"></div-->
     <div style="padding-top: 10px; padding-left: 10px; height:24px;">
         <span>Search File#:</span>
-        <input type="text" id="griid_search_field" onkeydown="doSearch(arguments[0]||event)" style="direction:ltr; text-align:left; float:none; padding:0;" />
+        <input type="text" id="grid_search_field" onkeydown="doSearch(arguments[0]||event)" style="direction:ltr; text-align:left; float:none; padding:0;" />
         <button onclick="gridReload()" id="gridSubmitButton">Go</button>
-        <!--button onclick="f()" id="submitButton">Search</button-->
         <input type="checkbox" id="autosearch" onclick="enableAutosubmit(this.checked)" style="padding: 0; float:none; width:auto; border: 0" />
         <span>Enable Autosearch</span>
         <div id="grid_search_hidden_field" style="visibility: hidden; width:10px; height: 10px"></div>
