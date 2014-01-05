@@ -14,6 +14,8 @@
 //$(document).ready(function () {
 //    CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"), (lang == 'en') ? 'ltr' : 'rtl');
 //});
+var myCustomSearch;
+
 function toggleGrid(lang) {
 	//$(".tagButton").text($.i18n.prop('Checkup'));
 	var jgrid = $('#grid');
@@ -21,7 +23,8 @@ function toggleGrid(lang) {
 	if ($.jgrid.hasOwnProperty("regional") && $.jgrid.regional.hasOwnProperty(lang))
 		$.extend($.jgrid,$.jgrid.regional[lang]);
 
-	CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#search"), (lang == 'en') ? 'ltr' : 'rtl');
+	CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#grid_search_field"), (lang == 'en') ? 'ltr' : 'rtl');
+	//CheckupGrid.setupGrid($("#grid"), $("#pager"), $("#mysearch"), (lang == 'en') ? 'ltr' : 'rtl');
 }
 
 CheckupGrid = {
@@ -66,7 +69,8 @@ CheckupGrid = {
             viewrecords: true,
             //editurl: "Checkup/Edit",
             width: 682,
-            height: '362px',
+            //height: '362px',
+            height: 'auto',
             /*rowheight: '30px',*/
             shrinkToFit: false,
             autowidth: false,
@@ -88,16 +92,22 @@ CheckupGrid = {
 				//jQuery("#grid").jqGrid('setFrozenColumns');
 			},
 			afterInsertRow: function(rowid, rowdata, rowelem) {
-				var i = 1;
-				if (rowelem.result_1 != null) {
-					for (var key in result_enum) {
-					//'result_enum'.some(function(key, index) {
-						if (i == parseInt(rowelem.result_1)) {
-							$(this).setCell(rowid, "result_1", jQuery.i18n.prop(key));
-							//rowdata.result_1 = jQuery.i18n.prop(i);
-							return true;
+				var i;
+				var eresult;
+				var ar = ['result_1', 'result_2', 'result_3'];
+				for (var j in ar) {
+					eresult = eval('rowelem.' + ar[j]);
+					if (eresult != null) {
+						i = 1;
+						for (var key in result_enum) {
+						//'result_enum'.some(function(key, index) {	//does not work
+							if (i == parseInt(eresult)) {
+								$(this).setCell(rowid, ar[j], jQuery.i18n.prop(key));
+								//rowdata.result_1 = jQuery.i18n.prop(i);
+								break;
+							}
+							i++;
 						}
-						i++;
 					}
 				}
 				
@@ -120,7 +130,7 @@ CheckupGrid = {
 				}
 				
 				//var ur = jQuery("#grid").getGridParam("url");
-				jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php", page: 1 });
+				//jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php", page: 1 });
 				
 				//$("#grid").jqGrid("setColProp", "file_no", { searchoptions: { } });
 
@@ -181,21 +191,35 @@ CheckupGrid = {
             }
             //        }).jqGrid('navGrid', pager, { edit: true, add: false, del: false, search: false, refresh: true });
         }).navGrid("#pager", { view: true, edit: false, add: false, del: false, search: true, refresh: true },
-                                {}, // settings for edit
-                                {}, // settings for add
-                                {}, // settings for delete
-								{},
-								{closeOnEscape:true}
-                                //{sopt: ["cn"]} // Search options. Some options can be set on column level        
-                  );
-        search.filterGrid("#" + grid.attr("id"), {
+                            {}, // settings for edit
+                            {}, // settings for add
+                            {}, // settings for delete
+							{
+								closeOnEscape:true, 
+								onClose: function(){
+									delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchField'];
+									delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchString'];
+									delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchOper'];
+								}
+							}  // search options
+                            //{sopt: ["cn"]} // Search options. Some options can be set on column level        
+        );
+/*				  
+        myCustomSearch = search.filterGrid("#" + grid.attr("id"), {
             gridModel: false,
             filterModel: [{
-                label: 'Search',
-                name: 'search',
+                label: 'Search#',
+                name: 'file_no',
                 stype: 'text'
-            }]
-        });
+            }],
+			searchButton: $.i18n.prop('Go'),
+			clearButton: $.i18n.prop('Clear'),
+			enableSearch: true,
+			enableClear: true,
+			
+        })[0];
+*/
+		//jQuery("#grid").jqGrid('setFrozenColumns');
 
     }
 };
@@ -286,10 +310,33 @@ CheckupGrid = {
                 clearTimeout(timeoutHnd);
 				timeoutHnd = null;
             }
-            var searchField = "file_no";
-            var searchString = $('#griid_search_field').val();
-			var searchOper = "bw";
-            jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php?searchField=" + searchField + "&searchString=" + searchString + "&searchOper=" + searchOper, page: 1 }).trigger("reloadGrid");
+
+			$('#grid').jqGrid('setGridParam',{postData:{'searchField':'file_no'} });
+			$('#grid').jqGrid('setGridParam',{postData:{'searchString':$('#grid_search_field').val()} });
+			$('#grid').jqGrid('setGridParam',{postData:{'searchOper':'bw'} });
+			
+			//$($("#grid").navGrid("#pager")[0]).prop('p').postData.searchField = "file_no";
+			//$($("#grid").navGrid("#pager")[0]).prop('p').postData.searchString = $('#grid_search_field').val();
+			//$($("#grid").navGrid("#pager")[0]).prop('p').postData.searchOper = "bw";
+			jQuery("#grid").trigger("reloadGrid");
+
+			delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchField'];
+			delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchString'];
+			delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchOper'];
+
+
+            //var searchField = "file_no";
+            //var searchString = $('#grid_search_field').val();
+			//var searchOper = "bw";
+			
+			//myCustomSearch.triggerSearch();
+			
+			//jQuery("#grid").jqGrid('searchGrid', options );
+
+			
+            //jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php?searchField=" + searchField + "&searchString=" + searchString + "&searchOper=" + searchOper, page: 1 }).trigger("reloadGrid");
+			//jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php", page: 1 });
+
 			//$("#grid").jqGrid("setColProp", "file_no", { searchoptions: { sopt: ['cn']} }).trigger("reloadGrid");
             //jQuery("#grid").setGridParam({ url: "Checkup/List?search=" + search, page: 1 }).trigger("reloadGrid");
         }
