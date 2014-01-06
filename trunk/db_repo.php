@@ -167,14 +167,19 @@ class DatabaseRepository {
 		$sord = $_GET['sord']; // get the direction
 		$searchField = $_GET['searchField'];
 		$searchOper = $_GET['searchOper'];	// eq, bw, bn, ew, en, cn, nc, ne, lt, le, gt, ge, in, ni
-		$searchString = $_GET['searchString'];
+		//$searchString = $_GET['searchString'];
 		
+		if (isset($_GET['searchString']))
+			$searchString = trim($_GET['searchString']);
+
+		//throw new Exception('searchString: ' . $searchString);
+			
 		if(!$sidx) $sidx = 1;
 
-		$addressPieces = null;
-		if ($searchField == 'address') {
-			$addressPieces = explode("|", $searchString);
-		}
+		//$addressPieces = null;
+		//if ($searchField == 'address') {
+		//	$addressPieces = explode("|", $searchString);
+		//}
 		
 		$where = "";
 		switch ($searchOper) {
@@ -186,12 +191,16 @@ class DatabaseRepository {
 				break;
 			case bw:	//begin with
 				if ($searchField == 'address') {
-					if (isset($addressPieces[0]))
-						$where .= "area.area_name LIKE '$addressPieces[0]%'";
-					if (isset($addressPieces[1]))
-						$where .= " AND sector_addrs == '$addressPieces[1]'";
-					if (isset($addressPieces[2]))
-						$where .= " AND qasimaa == '$addressPieces[2]'";
+					$where .= " CONCAT(area.area_name, ' ', IF(sector_addrs = '-' AND qasimaa = '-', '', sector_addrs), ' ', IF(qasimaa = '-', '', qasimaa)) LIKE '$searchString%'";
+					//$where .= " CONCAT(file_no, form_no) LIKE '$searchString%'";
+					//$where .= " CONCAT(file_no, '', form_no) LIKE '1041/20085%'";
+					//$where .= " area.area_name LIKE '$searchString%'";
+					//if (isset($addressPieces[0]))
+					//	$where .= "area.area_name LIKE '$addressPieces[0]%'";
+					//if (isset($addressPieces[1]))
+					//	$where .= " AND sector_addrs == '$addressPieces[1]'";
+					//if (isset($addressPieces[2]))
+					//	$where .= " AND qasimaa == '$addressPieces[2]'";
 				} else
 					$where .= "$searchField LIKE '$searchString%'";
 				break;
@@ -206,12 +215,13 @@ class DatabaseRepository {
 				break;
 			case cn:	//contains
 				if ($searchField == 'address') {
-					if (isset($addressPieces[0]))
-						$where .= "area.area_name LIKE '%$addressPieces[0]%'";
-					if (isset($addressPieces[1]))
-						$where .= " AND sector_addrs == '$addressPieces[1]'";
-					if (isset($addressPieces[2]))
-						$where .= " AND qasimaa == '$addressPieces[2]'";
+					$where .= " CONCAT(area.area_name, ' ', IF(sector_addrs = '-' AND qasimaa = '-', '', sector_addrs), ' ', IF(qasimaa = '-', '', qasimaa)) LIKE '%$searchString%'";
+					//if (isset($addressPieces[0]))
+					//	$where .= "area.area_name LIKE '%$addressPieces[0]%'";
+					//if (isset($addressPieces[1]))
+					//	$where .= " AND sector_addrs == '$addressPieces[1]'";
+					//if (isset($addressPieces[2]))
+					//	$where .= " AND qasimaa == '$addressPieces[2]'";
 				} else
 					$where .= "$searchField LIKE '%$searchString%'";
 				break;
@@ -243,11 +253,21 @@ class DatabaseRepository {
 
 		$dbh = $this->connect();
 		try {
+			$st = "SELECT COUNT(*) AS count";
 			
-			$st = "SELECT COUNT(*) AS count FROM check_form ";
-			if ($where != "")
-				$st .= " WHERE " . $where;
-				
+			if ($where == "") {
+				$st .= " FROM check_form"; 
+			} else {
+				$st .= " FROM check_form LEFT JOIN area ON check_form.area_id = area.id 
+						LEFT JOIN checker ON check_form.checker = checker.id 
+						LEFT JOIN checker AS checker_2 ON check_form.checker_2 = checker_2.id 
+						LEFT JOIN checker AS checker_3 ON check_form.checker_3 = checker_3.id
+						WHERE " . $where;
+			}
+			
+			//throw new Exception('Statement: ' . $st);
+//			الشويخ الصناعية 2 71
+			
 				//FROM check_form LEFT JOIN area ON check_form.area_id = area.id
 				//				LEFT JOIN checker ON check_form.checker = checker.id";
 			$ds = $dbh->query($st);

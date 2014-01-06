@@ -303,7 +303,7 @@ a:hover {
 .tabs-bottom .ui-tabs-nav { clear: left; padding: 0 .2em .2em .2em; position:absolute; width: 98%; bottom: 0px; line-height: 0.8;}
 .tabs-bottom .ui-tabs-nav li { top: auto; bottom: 0; margin: 0 .2em 1px 0; border-bottom: auto; border-top: 0; }
 .tabs-bottom .ui-tabs-nav li.ui-tabs-active { margin-top: -1px; padding-top: 1px; }
-.ui-tabs .ui-tabs-panel { padding: 0; height: 90%;}  
+.ui-tabs .ui-tabs-panel { padding: 0; height: 90%; }  
   
 #custom_jsTree {
 	//border: 1px solid #000;
@@ -365,6 +365,11 @@ a:hover {
     display: none;
 }
 */
+
+#tabs>ul {
+ font-size: 0.9em;
+}
+ 
 #tabs>div>ul {
 /* #docs, #inProcessDocs, #checkupDocs, #rejectedDocs  { */
 	height: 100%;

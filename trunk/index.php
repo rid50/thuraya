@@ -438,7 +438,7 @@ if ($idp == "SAML") {
 
 <div id="divGrid">
 	<!--div id="mysearch"></div-->
-    <div style="padding-top: 10px; padding-left: 10px; height:24px;">
+    <div id="myGridSearch" style="padding-top: 10px; padding-left: 10px; height:24px; display:none">
         <span>Search File#:</span>
         <input type="text" id="grid_search_field" onkeydown="doSearch(arguments[0]||event)" style="direction:ltr; text-align:left; float:none; padding:0;" />
         <button onclick="gridReload()" id="gridSubmitButton">Go</button>
