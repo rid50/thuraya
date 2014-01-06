@@ -32,15 +32,6 @@ var activeTab_enum = {
 	users: 7,
 };
 
-/*
-var tab_enum = {
-	pending: 0,
-	inprocess: 1,
-	complete: 2,
-	rejected: 3,
-	users: 4,
-};
-*/
 var idp, idpSource;
 var documentSource;
 var lang;
@@ -241,6 +232,16 @@ $(document).ready(function () {
 			//active: false,
 			collapsible: true
 		});
+		
+		$("#accordion").bind("keydown", function (event) {
+			var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
+			if (keycode == 13) {
+				event.stopPropagation();
+				$('#searchButton').click();
+				//document.getElementById(btnFocus).click();
+			}
+        });
+		
 /*		
 		$.datepicker.setDefaults( $.datepicker.regional[ "" ] );
 		$.datepicker.setDefaults({
@@ -314,8 +315,11 @@ $(document).ready(function () {
 			}
 		});
 
-		$("#searchButton").on("click", function(){
+		$("#searchButton").on("click", function(event){
 			//$("#tabs").tabs( "option", "search", true );
+			event.stopPropagation();
+
+			//alert("kuku");
 			if ($("#file_number_search").val() != "")
 				$("#file_number_search").val($("#file_number_search").val().trim());
 				
@@ -838,49 +842,23 @@ function initTabs() {
 			beforeActivate: function( event, ui ) {
 				$("#addUserError").detach();
 				//if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.pending) {
-					if ($("#newForm").css("display") == "none") {
-						//$("#tabs-9").append($("#newForm"));
-						$("#newForm").show();
-					}
-					
-					//resetForm();
-					
-					if ($("#userAssignmentDiv").css("display") == "none") {
-						$("#userAssignmentDiv").show();
-					}
-					
-					if ($("#divGrid").css("display") == "none" && ui.newTab.index() == activeTab_enum.checkup) {
-					//if ($("#divGrid").css("display") == "none" && sectionId == sectionId_enum.checkup) {
-						toggleGrid(lang);
-						$("#divGrid").show();
-					}
-					
-				//}
-
-				
-/*
-				if ( actor == actor_enum.employee && $("#tabs").tabs( "option", "active" ) == 0) {
-					if ($("#newForm").css("display") == "none") {
-						//$("#tabs-9").append($("#newForm"));
-						$("#newForm").show();
-					}
-					resetForm();
-				} else
-				if ( actor == actor_enum.manager && $("#tabs").tabs( "option", "active" ) == 0 && $("#userAssignmentDiv").css("display") == "none") {
-				//if ( actor == actor_enum.manager && $( "#tabs" ).tabs( "option", "active" ) == 0 && $("#userList").css("display") == "none") {
-					//$("#tabs-9").append($("#userAssignmentDiv"));
-
-					//$("#tabs-9").append($("#custom_jsTree"));
-					//$("#tabs-9").append($("#userList"));
-					//if (!$("#custom_jsTree").hasClass("jstree"))
-					//	userAssignment();
-					//else {
-						$("#userAssignmentDiv").show();
-						//$("#custom_jsTree").show();
-						//$("#userList").show();
-					//}
+				if ($("#newForm").css("display") == "none") {
+					//$("#tabs-9").append($("#newForm"));
+					$("#newForm").show();
 				}
-*/				
+				
+				//resetForm();
+				
+				if ($("#userAssignmentDiv").css("display") == "none") {
+					$("#userAssignmentDiv").show();
+				}
+				
+				if ($("#divGrid").css("display") == "none" && ui.newTab.index() == activeTab_enum.checkup) {
+				//if ($("#divGrid").css("display") == "none" && sectionId == sectionId_enum.checkup) {
+					toggleGrid(lang);
+					$("#myGridSearch").show();
+					$("#divGrid").show();
+				}
 			},
 
 			activate: function( event, ui ) {
@@ -922,6 +900,7 @@ function initTabs() {
 			}
 		});
 
+		//$('#searchButton').focus();
 	}
 
 	$("#tabs").tabs( "enable", activeTab_enum.pending );
@@ -957,6 +936,8 @@ function initTabs() {
 				$("#tabs>ul>li").find('a[href="#tab-edafat"]').parent().show();
 				$("#tabs").tabs( "enable", activeTab_enum.users );
 				$("#tabs>ul>li").find('a[href="#tab-users"]').parent().show();
+				$("#tabs").tabs( "enable", activeTab_enum.checkup );
+				$("#tabs>ul>li").find('a[href="#tab-checkup-grid"]').parent().show();
 			}
 			break;
 		case sectionId_enum.checkup:
@@ -1369,31 +1350,33 @@ var activeTab_enum = {
 	users: 6,
 };
 */		
-		if ($("#searchButton").data("search") == 1 &&
-			$("#file_number_search").val() != ""  &&
-			sectionId == sectionId_enum.followup )
-		{
-			if (key.doc.sectionId == sectionId_enum.followup) {
+		if ($("#searchButton").data("search") == 1 && $("#file_number_search").val() != "") {
+			if ( sectionId == sectionId_enum.followup )
+			{
+				if (key.doc.sectionId == sectionId_enum.followup) {
+					docListSelector = $("#docs");
+					$("#tabs").tabs( "option", "active", activeTab_enum.pending );
+				} else if (key.doc.sectionId == sectionId_enum.ac ||
+						key.doc.sectionId == sectionId_enum.electricity ||
+						key.doc.sectionId == sectionId_enum.checkup) 
+				{
+					docListSelector = $("#inProcessDocs");
+					$("#tabs").tabs( "option", "active", activeTab_enum.inprocess );
+				} else if (key.doc.sectionId > -30 && key.doc.sectionId < -19 ) {
+					docListSelector = $("#vaultDocs");
+					$("#tabs").tabs( "option", "active", activeTab_enum.vault );
+				} else if (key.doc.sectionId > -20 && key.doc.sectionId < -9 ) {
+					docListSelector = $("#rejectedDocs");
+					$("#tabs").tabs( "option", "active", activeTab_enum.rejected );
+				} else if (key.doc.sectionId == sectionId_enum.edafat ) {
+					docListSelector = $("#edafatDocs");
+					$("#tabs").tabs( "option", "active", activeTab_enum.edafat );
+				}
+			} else {
 				docListSelector = $("#docs");
 				$("#tabs").tabs( "option", "active", activeTab_enum.pending );
-			} else if (key.doc.sectionId == sectionId_enum.ac ||
-					key.doc.sectionId == sectionId_enum.electricity ||
-					key.doc.sectionId == sectionId_enum.checkup) 
-			{
-				docListSelector = $("#inProcessDocs");
-				$("#tabs").tabs( "option", "active", activeTab_enum.inprocess );
-			} else if (key.doc.sectionId > -30 && key.doc.sectionId < -19 ) {
-				docListSelector = $("#vaultDocs");
-				$("#tabs").tabs( "option", "active", activeTab_enum.vault );
-			} else if (key.doc.sectionId > -20 && key.doc.sectionId < -9 ) {
-				docListSelector = $("#rejectedDocs");
-				$("#tabs").tabs( "option", "active", activeTab_enum.rejected );
-			} else if (key.doc.sectionId == sectionId_enum.edafat ) {
-				docListSelector = $("#edafatDocs");
-				$("#tabs").tabs( "option", "active", activeTab_enum.edafat );
 			}
 		}
-		
 		var dates = [];
 		var names = [];
 		if (key.doc != undefined) {
@@ -3550,14 +3533,17 @@ function toggleLanguage(lang, dir) {
 		language: lang,
 		callback: function() {
 		
-			if (sectionId != undefined && sectionId == sectionId_enum.checkup) {
+			if (sectionId != undefined && sectionId == sectionId_enum.followup || sectionId == sectionId_enum.checkup) {
 				toggleGrid(lang);
 			}
 			
-			if (lang == "en")
+			if (lang == "en") {
 				$("body").css("font-size", "80%");
-			else
+				$("#tabs>ul").css("font-size", "0.9em");
+			} else {
 				$("body").css("font-size", "84%");
+				$("#tabs>ul").css("font-size", "1.0em");
+			}
 			
 			if (lang == "en") {
 				$.datepicker.setDefaults( $.datepicker.regional[ lang == "en" ? "" : lang ] );
