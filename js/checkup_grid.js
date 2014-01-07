@@ -280,13 +280,13 @@ CheckupGrid = {
 */
         var timeoutHnd = null;
         var flAuto = false;
-        function doSearch(ev) {
+        function doSearch(e) {
             if (timeoutHnd) {
                 clearTimeout(timeoutHnd)
 				timeoutHnd = null;
             }
 			
-            if (ev.keyCode == 13) {
+            if (e.keyCode == 13) {
                 timeoutHnd = setTimeout(gridReload, 500);
                 return;
             }
@@ -296,12 +296,14 @@ CheckupGrid = {
             //    clearTimeout(timeoutHnd)
             //}
 			
+			var keyCode = (e.keyCode ? e.keyCode : (e.which ? e.which : e.charCode));
 			// 65-90 	: A to Z
 			// 8 		: Backspace
 			// 46		: Delete
 			// 48-57	: 0 to 9
 			// 96-105	: 0 to 9 (Numpad)
-            if ((ev.keyCode >= 65 && ev.keyCode <= 90) || ev.keyCode == 8 || ev.keyCode == 46 || (ev.keyCode >= 48 && ev.keyCode <= 57) || (ev.keyCode >= 96 && ev.keyCode <= 105)) {
+            //if ((ev.keyCode >= 65 && ev.keyCode <= 90) || ev.keyCode == 8 || ev.keyCode == 46 || (ev.keyCode >= 48 && ev.keyCode <= 57) || (ev.keyCode >= 96 && ev.keyCode <= 105)) {
+            if ((keyCode >= 65 && keyCode <= 90) || keyCode == 8 || keyCode == 46 || (keyCode >= 48 && keyCode <= 57) || (keyCode >= 96 && keyCode <= 105)) {
                 timeoutHnd = setTimeout(gridReload, 500)
             }
         }
