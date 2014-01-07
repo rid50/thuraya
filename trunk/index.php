@@ -437,26 +437,28 @@ if ($idp == "SAML") {
 </div>
 
 <div id="divGrid">
-	<!--div id="mysearch"></div-->
-    <div id="myGridSearch" style="padding-top: 10px; padding-left: 10px; height:24px; display:none">
-        <span>Search File#:</span>
-        <input type="text" id="grid_search_field" onkeydown="doSearch(arguments[0]||event)" style="direction:ltr; text-align:left; float:none; padding:0;" />
-        <button onclick="gridReload()" id="gridSubmitButton">Go</button>
-        <input type="checkbox" id="autosearch" onclick="enableAutosubmit(this.checked)" style="padding: 0; float:none; width:auto; border: 0" />
-        <span>Enable Autosearch</span>
-        <div id="grid_search_hidden_field" style="visibility: hidden; width:10px; height: 10px"></div>
-    </div>
+	<form>
+		<!--div id="mysearch"></div-->
+		<div style="padding-top: 10px; padding-left: 10px; height:24px;">
+			<span>Search File#:</span>
+			<input type="text" id="grid_search_field" onkeydown="doSearch(arguments[0]||event)" style="direction:ltr; text-align:left; float:none; padding:0;" />
+			<button onclick="gridReload()" id="gridSubmitButton">Go</button>
+			<input type="checkbox" id="autosearch" onclick="enableAutosubmit(this.checked)" style="padding: 0; float:none; width:auto; border: 0" />
+			<span>Enable Autosearch</span>
+			<div id="grid_search_hidden_field" style="visibility: hidden; width:10px; height: 10px"></div>
+		</div>
 
-    <div id="myjqGrid">
-        <div>
-			<table id="grid" ></table>
-			<div id="pager"></div>
-        </div>
-        <!--div style="padding-top:10px;">
-        <table id="grid_d"></table>
-        <div id="pager_d"></div>
-        </div-->
-    </div>
+		<div id="myjqGrid">
+			<div>
+				<table id="grid" ></table>
+				<div id="pager"></div>
+			</div>
+			<!--div style="padding-top:10px;">
+			<table id="grid_d"></table>
+			<div id="pager_d"></div>
+			</div-->
+		</div>
+	</form>
 </div>
 
 </html>
