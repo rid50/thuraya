@@ -1304,19 +1304,47 @@ function selectJsonNodes() {
 
 	cleanDocTabs();
 	
-	if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.pending) 		// pending
-		docListSelector = $("#docs");
-	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edit)		// update form
-		docListSelector = $("#docs");
-	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess)	// in process
-		docListSelector = $("#inProcessDocs");
-	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.vault)		// return
-		docListSelector = $("#vaultDocs");
-	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected)	// rejected
-		docListSelector = $("#rejectedDocs");
-	else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat)	// edafat
-		docListSelector = $("#edafatDocs");
-	
+	//if ($("#searchButton").data("search") == 1 && $("#file_number_search").val() != "") {
+	if ($("#searchButton").data("search") == 1) {
+		if ( sectionId == sectionId_enum.followup )
+		{
+			if (key.doc.sectionId == sectionId_enum.followup) {
+				docListSelector = $("#docs");
+				$("#tabs").tabs( "option", "active", activeTab_enum.pending );
+			} else if (key.doc.sectionId == sectionId_enum.ac ||
+					key.doc.sectionId == sectionId_enum.electricity ||
+					key.doc.sectionId == sectionId_enum.checkup) 
+			{
+				docListSelector = $("#inProcessDocs");
+				$("#tabs").tabs( "option", "active", activeTab_enum.inprocess );
+			} else if (key.doc.sectionId > -30 && key.doc.sectionId < -19 ) {
+				docListSelector = $("#vaultDocs");
+				$("#tabs").tabs( "option", "active", activeTab_enum.vault );
+			} else if (key.doc.sectionId > -20 && key.doc.sectionId < -9 ) {
+				docListSelector = $("#rejectedDocs");
+				$("#tabs").tabs( "option", "active", activeTab_enum.rejected );
+			} else if (key.doc.sectionId == sectionId_enum.edafat ) {
+				docListSelector = $("#edafatDocs");
+				$("#tabs").tabs( "option", "active", activeTab_enum.edafat );
+			}
+		} else {
+			docListSelector = $("#docs");
+			$("#tabs").tabs( "option", "active", activeTab_enum.pending );
+		}
+	} else {
+		if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.pending) 		// pending
+			docListSelector = $("#docs");
+		else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edit)		// update form
+			docListSelector = $("#docs");
+		else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess)	// in process
+			docListSelector = $("#inProcessDocs");
+		else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.vault)		// return
+			docListSelector = $("#vaultDocs");
+		else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.rejected)	// rejected
+			docListSelector = $("#rejectedDocs");
+		else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.edafat)	// edafat
+			docListSelector = $("#edafatDocs");
+	}
 	//cleanDocTabs();
 	//docListSelector.empty();
 
@@ -1349,7 +1377,8 @@ var activeTab_enum = {
 	edit: 5,
 	users: 6,
 };
-*/		
+*/
+/*		
 		if ($("#searchButton").data("search") == 1 && $("#file_number_search").val() != "") {
 			if ( sectionId == sectionId_enum.followup )
 			{
@@ -1377,6 +1406,7 @@ var activeTab_enum = {
 				$("#tabs").tabs( "option", "active", activeTab_enum.pending );
 			}
 		}
+*/		
 		var dates = [];
 		var names = [];
 		if (key.doc != undefined) {
