@@ -363,8 +363,8 @@ class DatabaseRepository {
 					$where = " doc.docDate BETWEEN '$dtFrom' AND '$dtTo'";
 					//if ($param[filter][paciNumber] != null)
 					//	$where .= " AND doc.docPACINumber = '{$param[filter][paciNumber]}'";
-					if ($param[filter][area] != null)
-						$where .= " AND doc.docArea = '{$param[filter][area]}'";
+					if ($param[filter][areaId] != null)
+						$where .= " AND doc.docAreaId = '{$param[filter][areaId]}'";
 					if ($param[filter][block] != null)
 						$where .= " AND doc.docBlock = '{$param[filter][block]}'";
 					if ($param[filter][plot] != null)

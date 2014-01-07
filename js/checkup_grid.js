@@ -296,7 +296,9 @@ CheckupGrid = {
             //    clearTimeout(timeoutHnd)
             //}
 			
-			var keyCode = (e.keyCode ? e.keyCode : (e.which ? e.which : e.charCode));
+			//var keyCode = (e.keyCode ? e.keyCode : (e.which ? e.which : e.charCode));
+			var keyCode = e.keyCode || e.which;
+
 			// 65-90 	: A to Z
 			// 8 		: Backspace
 			// 46		: Delete
