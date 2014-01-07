@@ -357,6 +357,8 @@ $(document).ready(function () {
 		});
 		
 		$("#searchResetButton").on("click", function(){
+			$("#searchButton").data("search", 0);
+
 			localStorage.removeItem("dateFrom");
 			localStorage.removeItem("dateTo");
 
@@ -820,8 +822,11 @@ function getSearchFilter() {
 	
 	var fileNumber = null;
 	
-	if ($("#searchButton").data("search") == 1 && $("#file_number_search").val() != "" ) {
-		fileNumber = $("#file_number_search").val();
+//	if ($("#searchButton").data("search") == 1 && $("#file_number_search").val() != "" ) {
+	if ($("#searchButton").data("search") == 1) {
+		if ($("#file_number_search").val() != "" )
+			fileNumber = $("#file_number_search").val();
+		
 		if (sectionId == sectionId_enum.followup) {
 			secId = null;
 			empId = null;
@@ -899,7 +904,7 @@ function initTabs() {
 				//if (actor == actor_enum.manager && actorSectionNumber == 0) {
 				//if (actor == actor_enum.manager) {
 					if ($("#searchButton").data("search") == 1 ) {
-						$("#searchButton").data("search", 0);
+						//$("#searchButton").data("search", 0);
 						return;
 					}
 
@@ -1361,32 +1366,37 @@ function selectJsonNodes() {
 	if (rootDoc[0].docs == undefined)
 		return;
 		
-	var i = 0;
+	var i = 0, firstSectionIdReturned;
 	rootDoc[0].docs.forEach(function(key) {
 		//if (docListSelector == null && $("#searchButton").data("search") == 1 && $("#file_number_search").val() != "") {
 		if ($("#searchButton").data("search") == 1) {
-			if ( sectionId == sectionId_enum.followup )
-			{
-				if (key.doc.sectionId == sectionId_enum.followup) {
+			if (docListSelector == null) {
+				if ( sectionId == sectionId_enum.followup )
+				{
+					if (key.doc.sectionId == sectionId_enum.followup) {
+						docListSelector = $("#docs");
+						$("#tabs").tabs( "option", "active", activeTab_enum.pending );
+					} else if (key.doc.sectionId == sectionId_enum.ac || key.doc.sectionId == sectionId_enum.electricity ||	key.doc.sectionId == sectionId_enum.checkup) {
+						docListSelector = $("#inProcessDocs");
+						$("#tabs").tabs( "option", "active", activeTab_enum.inprocess );
+					} else if (key.doc.sectionId > -30 && key.doc.sectionId < -19 ) {
+						docListSelector = $("#vaultDocs");
+						$("#tabs").tabs( "option", "active", activeTab_enum.vault );
+					} else if (key.doc.sectionId > -20 && key.doc.sectionId < -9 ) {
+						docListSelector = $("#rejectedDocs");
+						$("#tabs").tabs( "option", "active", activeTab_enum.rejected );
+					} else if (key.doc.sectionId == sectionId_enum.edafat ) {
+						docListSelector = $("#edafatDocs");
+						$("#tabs").tabs( "option", "active", activeTab_enum.edafat );
+					}
+				} else {
 					docListSelector = $("#docs");
 					$("#tabs").tabs( "option", "active", activeTab_enum.pending );
-				} else if (key.doc.sectionId == sectionId_enum.ac || key.doc.sectionId == sectionId_enum.electricity ||	key.doc.sectionId == sectionId_enum.checkup) {
-					docListSelector = $("#inProcessDocs");
-					$("#tabs").tabs( "option", "active", activeTab_enum.inprocess );
-				} else if (key.doc.sectionId > -30 && key.doc.sectionId < -19 ) {
-					docListSelector = $("#vaultDocs");
-					$("#tabs").tabs( "option", "active", activeTab_enum.vault );
-				} else if (key.doc.sectionId > -20 && key.doc.sectionId < -9 ) {
-					docListSelector = $("#rejectedDocs");
-					$("#tabs").tabs( "option", "active", activeTab_enum.rejected );
-				} else if (key.doc.sectionId == sectionId_enum.edafat ) {
-					docListSelector = $("#edafatDocs");
-					$("#tabs").tabs( "option", "active", activeTab_enum.edafat );
 				}
-			} else {
-				docListSelector = $("#docs");
-				$("#tabs").tabs( "option", "active", activeTab_enum.pending );
-			}
+
+				firstSectionIdReturned = key.doc.sectionId;
+			} else if (firstSectionIdReturned != key.doc.sectionId)
+				return;
 		}
 		
 		var dates = [];
