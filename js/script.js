@@ -48,7 +48,7 @@ var sectionId;				// id of  section of the department, like: follow_up, ac...
 var reportTo = null;
 var asyncSuccess;
 var areaNames;
-var selectedAreaId = null;
+//var selectedAreaId = null;
 //var filter;
 var searchInterval;
 
@@ -326,11 +326,23 @@ $(document).ready(function () {
 			//event.preventDefault();
 			//console.log("click2");
 
-			//alert("kuku");
-			if ($("#file_number_search").val() != "")
-				$("#file_number_search").val($("#file_number_search").val().trim());
-				
+
+			//if ($("#file_number_search").val() != "") {
+			//	$("#file_number_search").val($("#file_number_search").val().trim());
+			//}
+/*
+			else 
+			if ($('#area_search').val() == "") {
+				selectedAreaId = null;
+				if ($("#approver_search").val() == 0)
+					if ($("#approver_search").val() == 0) 
+						if ($("#block_search").val() == 0) 
+							if ($("#plot_search").val() == 0) 
+								$(this).data( "search", 0 );		// refresh
+			}
+*/			
 			$(this).data( "search", 1 );
+			//$("#tabs").tabs( "option", "active", activeTab_enum.pending );
 			getDocs();
 			$(this).data( "search", 0 );
 		//}
@@ -357,8 +369,6 @@ $(document).ready(function () {
 		});
 		
 		$("#searchResetButton").on("click", function(){
-			$("#searchButton").data("search", 0);
-
 			localStorage.removeItem("dateFrom");
 			localStorage.removeItem("dateTo");
 
@@ -373,11 +383,16 @@ $(document).ready(function () {
 			$("#datepicker2").removeClass( "ui-state-error" );
 			//$("#area_search").val("0");
 			$("#area_search").val("");
-			selectedAreaId = null;
+			//selectedAreaId = null;
 			$("#block_search").val("");
 			$("#plot_search").val("");
 			$("#searchButton").removeClass( "ui-state-error" );
 			$("#searchButton").removeAttr("disabled");
+
+			$("#searchButton").data("search", 2);
+			//$("#tabs").tabs( "option", "active", activeTab_enum.pending );
+			getDocs();
+			$("#searchButton").data("search", 0);
 		});
 		
 		
@@ -438,6 +453,7 @@ $(document).ready(function () {
 		area.autocomplete({
 			autoFocus: true,
 			source: areaNames,
+/*
 			change: function( event, ui ) {
 				//selectedItem = ui.content;
 				if (selectedItem != undefined && selectedItem.length == 0) {
@@ -453,7 +469,7 @@ $(document).ready(function () {
 			select: function( event, ui ) {
 				selectedAreaId = ui.item.id;
 			},
-/*			
+			
 			open: function( event, ui ) {
 				var i = 0;
 			},
@@ -469,9 +485,9 @@ $(document).ready(function () {
 */			
 		});
 		
-		$("#area_search").autocomplete({
-			source: areaNames,
-		});
+		//$("#area_search").autocomplete({
+		//	source: areaNames,
+		//});
 	})();
 
 	if (navigator.appName == 'Microsoft Internet Explorer')
@@ -512,6 +528,30 @@ $(document).ready(function () {
 	$("#accordion").show();
 	
 });
+
+function getAreaId(areaName) {
+	var areaId = null;
+	if (areaName != "") {
+		areaNames.some(function(o){
+			if (o.label == areaName) {
+				areaId = o.id;
+				return true;
+			}
+		});
+	}
+	return areaId;
+}
+
+function getAreaName(areaId) {
+	var areaName = "";
+	areaNames.some(function(o){
+		if (o.id == areaId) {
+			areaName = o.label;
+			return true;
+		}
+	});
+	return areaName;
+}
 
 /*
 function searchOnClick() {
@@ -795,7 +835,7 @@ function getSearchFilter() {
 		dt2 = getToDate();
 	}	
 	
-	var selVal = "", selVal2 = "";
+	var selVal = "";
 	var selTag = $("#approver_search");
 	if (selTag.val() && selTag.val() != 0)
 		selVal = $("#approver_search option:selected").text()
@@ -824,8 +864,10 @@ function getSearchFilter() {
 	
 //	if ($("#searchButton").data("search") == 1 && $("#file_number_search").val() != "" ) {
 	if ($("#searchButton").data("search") == 1) {
-		if ($("#file_number_search").val() != "" )
+		if ($("#file_number_search").val() != "") {
+			$("#file_number_search").val($("#file_number_search").val().trim());
 			fileNumber = $("#file_number_search").val();
+		}
 		
 		if (sectionId == sectionId_enum.followup) {
 			secId = null;
@@ -833,13 +875,13 @@ function getSearchFilter() {
 		}
 	}
 	
-	var areaId = null;
+	//var areaId = null;
 	//if (selectedAreaId == -1) {
 	//	areaId = null;
 	//} else
-	if (selectedAreaId != null) {
-		areaId = selectedAreaId;
-	}
+	//if (selectedAreaId != null) {
+	//	areaId = selectedAreaId;
+	//}
 	
 	return {
 		//actorRole:actorSectionNumber,
@@ -849,7 +891,8 @@ function getSearchFilter() {
 		dateFrom: dt,
 		dateTo: dt2,
 		//area: selVal2,
-		areaId: areaId,
+		//areaId: areaId,
+		areaId: getAreaId($("#area_search").val()),
 		//area: $("#area_search").val(),
 		block: $("#block_search").val(),
 		plot: $("#plot_search").val(),
@@ -901,38 +944,18 @@ function initTabs() {
 			},
 
 			activate: function( event, ui ) {
-				//if (actor == actor_enum.manager && actorSectionNumber == 0) {
-				//if (actor == actor_enum.manager) {
-					if ($("#searchButton").data("search") == 1 ) {
-						//$("#searchButton").data("search", 0);
-						return;
-					}
+				if ($("#searchButton").data("search") != 0 )
+					return;
 
-					switch (ui.newTab.index()) {
-						case activeTab_enum.edit:
-						case activeTab_enum.users:
-						case activeTab_enum.checkup:
-							cleanDocTabs();
-							break;
-						default:
-							getDocs();
-					}
-						
-					//if (ui.newTab.index() != activeTab_enum.edit && ui.newTab.index() != activeTab_enum.users)
-					//	getDocs();
-					//else
-					//	cleanDocTabs();
-
-					//if (ui.newTab.index() == activeTab_enum.edit)
-					//	resetForm();
-						
-					//if (ui.newTab.index() == 1 || ui.newTab.index() == 2 || ui.newTab.index() == 3)
-					//	getDocs();
-					//else if (ui.newTab.index() == 0 || ui.newTab.index() == 4)
-					//	cleanDocTabs();
-				//} else if (sectionId == sectionId_enum.followup && $("#tabs").tabs("option", "active") == 0) {
-					//resetForm();
-				//}
+				switch (ui.newTab.index()) {
+					case activeTab_enum.edit:
+					case activeTab_enum.users:
+					case activeTab_enum.checkup:
+						cleanDocTabs();
+						break;
+					default:
+						getDocs();
+				}
 				
 				if ($("#tabs").tabs("option", "active") == activeTab_enum.edit)
 					resetForm();
@@ -1342,7 +1365,7 @@ function selectJsonNodes() {
 	//}
 
 	cleanDocTabs();
-	
+/*	
 	//if ($("#searchButton").data("search") == 1 && $("#file_number_search").val() != "") {
 	if ($("#searchButton").data("search") != 1) {
 		if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.pending) 		// pending
@@ -1360,17 +1383,17 @@ function selectJsonNodes() {
 	}
 	//cleanDocTabs();
 	//docListSelector.empty();
-
+*/
 	//$(".customMiddleSide #docs").empty();
 	
 	if (rootDoc[0].docs == undefined)
 		return;
 		
-	var i = 0, firstSectionIdReturned;
+	var i = 0; //, firstSectionIdReturned;
 	rootDoc[0].docs.forEach(function(key) {
 		//if (docListSelector == null && $("#searchButton").data("search") == 1 && $("#file_number_search").val() != "") {
-		if ($("#searchButton").data("search") == 1) {
-			if (docListSelector == null) {
+		//if ($("#searchButton").data("search") == 1) {
+			//if (docListSelector == null) {
 				if ( sectionId == sectionId_enum.followup )
 				{
 					if (key.doc.sectionId == sectionId_enum.followup) {
@@ -1394,10 +1417,10 @@ function selectJsonNodes() {
 					$("#tabs").tabs( "option", "active", activeTab_enum.pending );
 				}
 
-				firstSectionIdReturned = key.doc.sectionId;
-			} else if (firstSectionIdReturned != key.doc.sectionId)
-				return;
-		}
+				//firstSectionIdReturned = key.doc.sectionId;
+			//} else if (firstSectionIdReturned != key.doc.sectionId)
+			//	return;
+		//}
 		
 		var dates = [];
 		var names = [];
@@ -1472,6 +1495,7 @@ function addDocToList(list, id, file_number, date, name, areaId, block, plot, se
 		i++;
 	});
 
+/*	
 	//$.inArray(value, array)
 	areaNames.some(function(o){
 		if (o.id == areaId) {
@@ -1479,8 +1503,8 @@ function addDocToList(list, id, file_number, date, name, areaId, block, plot, se
 			return true;
 		}
 	});
-
-	var address = areaId + "; " + 
+*/
+	var address = getAreaName(areaId) + "; " + 
 					$.i18n.prop('Block') + ": " + block + "; " + 
 					$.i18n.prop('Plot') + ": " + plot;
 //					+ "; " + 
@@ -2807,6 +2831,7 @@ $(function() {
 				data = {'fileName': 'docs.xml', 'xml' : $.xml(rootDoc)};
 				//dataType = "text";
 			} else {
+/*			
 				var areaName = "";
 				//var areaId = selectedAreaId;
 				//$( "#area" ).autocomplete( "search", area.val() );
@@ -2818,15 +2843,17 @@ $(function() {
 				if (selectedAreaId != null) {
 					areaId = selectedAreaId;
 				}
-			
+*/
 				url = "json_db_crud_pdo.php";
 				data = {"func":"createUpdate",
 					"param":{
 						docFileNumber:file_number.val(),
 						docApprover:userInfo[0].displayName,
 						docDate:getDate(),
-						docAreaId:areaId,
-						docAreaName:areaName,
+						//docAreaId:areaId,
+						docAreaId:getAreaId(area.val()),
+						docAreaName:area.val(),
+						//docAreaName:areaName,
 						docBlock:block.val(),
 						docPlot:plot.val(),
 						//docBuilding: building.val(),
