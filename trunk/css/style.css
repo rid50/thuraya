@@ -48,9 +48,23 @@ th, td
 	border-collapse:collapse;
 }
 
-fieldset { padding:0; border:0; margin-top:10px; }
-input.text, textarea, select#approver_search { margin-bottom:10px; padding: .4em; }
+
+fieldset { padding:0; border: 0px #ccc solid; margin-top:10px; }
+//input.text, textarea, select#approver_search { margin-bottom:10px; padding: .4em; }
+input.text, textarea, select { margin-bottom:10px; padding: .4em; }
 //select#area_search { margin-bottom:10px; padding: .4em; }
+
+
+fieldset.checkers {
+  //-webkit-box-sizing: border-box;
+  //-moz-box-sizing: border-box;
+  //box-sizing: border-box;
+	padding: 10px;
+	border: 1px #ccc solid;
+	border-radius: 4px;
+}
+
+
  
 //.ui-autocomplete {z-index:1000}
 .ui-autocomplete {
@@ -86,15 +100,15 @@ input.text, textarea, select#approver_search { margin-bottom:10px; padding: .4em
 #area {width:220px;}
 #block {width:70px;}
 #plot {width:70px;}
-#address {width:240px;}
+#address {width:280px;}
 // input#building {width:70px;}
 // input#paci_number {width:20%}
 textarea#title {width: 500px;}
 
-#date_checkup, #date_submission {width:85px;}
+#date_checkup, #date_submission, #check_1_dt, #check_2_dt, #check_3_dt {width:85px;}
 
 //#checkupForm  form{ width: 740px }
-#checkupForm table { width: 700px }
+#checkupForm table { width: 560px }
 
 .hiddenElement {display: none}
 
@@ -444,6 +458,8 @@ a:hover {
 	//font-size: 100%;
 	background-color: #eee;
 	border: 0px;
+	padding:0px;
+	margin-bottom:0px;
 	//margin: 0 0 0 20px;
 }
 

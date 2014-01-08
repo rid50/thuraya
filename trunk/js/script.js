@@ -1874,8 +1874,8 @@ this.checkupFormDialog = function(that) {
     form.dialog({
 		title:jQuery.i18n.prop('FileNumber') + ": " + fileNumber,
 		//dialogClass: "no-close",
-        height: "auto",
-        width: 730,
+        height: 'auto',
+        width: 'auto',
         modal: true,
 		autoOpen: true,
 		resizable: false,
@@ -1895,6 +1895,49 @@ this.checkupFormDialog = function(that) {
 				}]
 			); 
 
+		url = "json_db_crud_pdo.php";
+
+		var chNames;
+		$.get(url, {"func":"getCheckers", "param":{}})
+			.done(function( data ) {
+				if (data.constructor == Array) {
+					if (data[0].error != undefined) {
+						alert (data[0].error);
+						return;
+					}
+				}
+				
+				chNames = [];
+				var o, result;
+				if (data.d == undefined)
+					result = data;
+				else
+					result = data.d.Data;
+				
+				//data.d.Data.forEach(function(o) {
+				var selectTag, i;
+				var a = ['ch_name', 'ch_name_2', 'ch_name_3'];
+				a.forEach(function(name) {
+					selectTag = $('#' + name);
+					if (selectTag.children().length != 0)
+						selectTag.find('option').remove();
+
+					selectTag.append('<option value="' + (0) + '"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
+
+					result.forEach(function(r) {
+						selectTag.append('<option value="' + r.id + '">' + r.ch_name + '</option>');
+					})
+				
+					//o = {};
+					//o.id = r.id;
+					//o.label = r.ch_name;
+					//chNames.push(o);
+				});
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				alert("getCheckers - error: " + errorThrown);
+			});
+			
 			$(this).find("#file_number_checkup").val(fileNumber);
 			//$(this).find("#file_number_checkup").prop("disabled", "true");
 
@@ -1906,6 +1949,18 @@ this.checkupFormDialog = function(that) {
 			//$(this).find("#address").prop("disabled", "true");
 			
 			var selectTag, i;
+			var a = [["result_1","result"], ["result_2","result"], ["result_3","result"]];
+			a.forEach(function(name) {
+				selectTag = $('#' + name[0]);
+				if (selectTag.children().length != 0)
+					selectTag.find('option').remove();
+
+				selectTag.append('<option value="' + (0) + '"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
+				for (i in eval(name[1] + '_enum')) {
+					selectTag.append('<option value="' + (i) + '">' + jQuery.i18n.prop(i) + '</option>');
+				}
+			})
+/*			
 			var a = ["case", "result", "postponement", "unsatisfactory_case"];
 			a.forEach(function(name) {
 				selectTag = $('#' + name);
@@ -1917,7 +1972,7 @@ this.checkupFormDialog = function(that) {
 					selectTag.append('<option value="' + (i) + '">' + jQuery.i18n.prop(i) + '</option>');
 				}
 			})
-
+*/
 			$('label[for="checkup_number"]').html('<strong>' + jQuery.i18n.prop('CheckupNumber') + '</strong>');
 			$('label[for="date_submission"]').html('<strong>' + jQuery.i18n.prop('DateOfSubmission') + '</strong>');
 			$('label[for="file_number_checkup"]').html('<strong>' + jQuery.i18n.prop('FileNumber') + '</strong>');

@@ -361,16 +361,16 @@ if ($idp == "SAML") {
 						<input type="text" name="checkup_number" id="checkup_number" autofocus="autofocus" maxlength="24" class="text ui-widget-content ui-corner-all" />
 					</td>
 					<td>
-						<input type="text" name="date_submission" id="date_submission" maxlength="10" size="10" class="rid50-datepicker text ui-widget-content ui-corner-all" />
+						<input type="text" name="date_submission" id="date_submission" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" />
 					</td>
 				</tr>	
 				<tr>
 					<td>
 						<label for="file_number_checkup"><strong>File#</strong></label>
 					</td>
-					<td>
+					<!--td>
 						<label for="date_checkup"><strong>Date of checkup</strong></label>
-					</td>
+					</td-->
 					<td>
 						<label for="address"><strong>Address</strong></label>
 					</td>
@@ -379,15 +379,63 @@ if ($idp == "SAML") {
 					<td>
 						<input type="text" name="file_number_checkup" id="file_number_checkup" disabled="disabled" maxlength="24" class="text ui-widget-content ui-corner-all" />
 					</td>
-					<td>
+					<!--td>
 						<input type="text" name="date_checkup" id="date_checkup" disabled="disabled" class="rid50-datepicker text ui-widget-content ui-corner-all" />
-					</td>
+					</td-->
 					<td>
 						<input type="text" name="address" id="address" disabled="disabled" class="text ui-widget-content ui-corner-all" />
 					</td>
 				</tr>
 			</table>
 
+			<table>
+				<tr>
+					<td>
+						<fieldset class="checkers">
+							<legend>Check 1</legend>
+
+							<label for="ch_name"><strong>Checker</strong></label><br/>
+							<select id="ch_name" style="width:150px" class="ui-widget-content ui-corner-all"></select><br/>
+
+							<label for="check_1_dt"><strong>Date of checkup</strong></label><br/>
+							<input type="text" name="check_1_dt" id="check_1_dt" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+
+							<label for="result_1"><strong>Result</strong></label><br/>
+							<select id="result_1" style="width:150px" class="ui-widget-content ui-corner-all"></select>
+						</fieldset>
+					</td>
+					<td>
+						<fieldset class="checkers">
+							<legend>Check 2</legend>
+
+							<label for="ch_name_2"><strong>Checker</strong></label><br/>
+							<select id="ch_name_2" style="width:150px" class="ui-widget-content ui-corner-all"></select><br/>
+
+							<label for="check_2_dt"><strong>Date of checkup</strong></label><br/>
+							<input type="text" name="check_2_dt" id="check_2_dt" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+
+							<label for="result_2"><strong>Result</strong></label><br/>
+							<select id="result_2" style="width:150px" class="ui-widget-content ui-corner-all"></select>
+						</fieldset>
+					</td>
+					<td>
+						<fieldset class="checkers">
+							<legend>Check 3</legend>
+
+							<label for="ch_name_3"><strong>Checker</strong></label><br/>
+							<select id="ch_name_3" style="width:150px" class="ui-widget-content ui-corner-all"></select><br/>
+
+							<label for="check_3_dt"><strong>Date of checkup</strong></label><br/>
+							<input type="text" name="check_3_dt" id="check_3_dt" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+
+							<label for="result_3"><strong>Result</strong></label><br/>
+							<select id="result_3" style="width:150px" class="ui-widget-content ui-corner-all"></select>
+						</fieldset>
+					</td>
+				</tr>
+			</table>
+
+<!--			
 			<table>
 				<tr>
 					<td>
@@ -423,6 +471,7 @@ if ($idp == "SAML") {
 				
 				
 			</table>
+-->			
 <!--
 			<hr style="margin: 20px 0"/>
 
