@@ -1,6 +1,23 @@
-DROP DATABASE IF EXISTS tamdidat;
-CREATE DATABASE IF NOT EXISTS tamdidat DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_unicode_ci;
+-- DROP DATABASE IF EXISTS tamdidat;
+-- CREATE DATABASE IF NOT EXISTS tamdidat DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_unicode_ci;
 USE tamdidat;
+
+DROP TABLE IF EXISTS docHistory;
+DROP TABLE IF EXISTS checker;
+-- ------------------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS area;
+CREATE TABLE `area` (
+  `id` SMALLINT NOT NULL AUTO_INCREMENT,
+  `group_id` SMALLINT DEFAULT NULL,
+  `area_name` VARCHAR(55) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `emergid` SMALLINT DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `area_name_UNIQUE` (`area_name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=268 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ------------------------------------------------------------------------------------------------------------
+
 DROP TABLE IF EXISTS doc;
 CREATE TABLE `doc` (
 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -17,13 +34,17 @@ CREATE TABLE `doc` (
 `time` TIMESTAMP
 )
 CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
-ALTER TABLE `doc` 
+
+ ALTER TABLE doc ADD 
+    CONSTRAINT FK_docAreaId
+    FOREIGN    KEY (docAreaId)
+    REFERENCES area(id);
+
+ALTER TABLE doc
 	ADD UNIQUE INDEX `file_number_UNIQUE` (`docFileNumber` ASC);
---	ADD INDEX `docArea_INDEX` (`docArea` ASC);
 	
 -- ------------------------------------------------------------------------------------------------------------
 
-DROP TABLE IF EXISTS docHistory;
 CREATE TABLE `docHistory` (
 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 `docFileNumber` VARCHAR( 24 ) NOT NULL,
@@ -33,7 +54,7 @@ CREATE TABLE `docHistory` (
 )
 CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
 
- ALTER TABLE `docHistory` 
+ ALTER TABLE docHistory 
  	ADD INDEX `file_number_INDEX` (`docFileNumber` ASC) ;
 
  ALTER TABLE docHistory ADD 
@@ -45,24 +66,6 @@ CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
 	
 -- ------------------------------------------------------------------------------------------------------------
 
-DROP TABLE IF EXISTS area;
-CREATE TABLE `area` (
-  `id` SMALLINT NOT NULL AUTO_INCREMENT,
-  `group_id` SMALLINT DEFAULT NULL,
-  `area_name` VARCHAR(55) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `emergid` SMALLINT DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `area_name_UNIQUE` (`area_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=268 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
- ALTER TABLE doc ADD 
-    CONSTRAINT FK_docAreaId
-    FOREIGN    KEY (docAreaId)
-    REFERENCES area(id);
-
--- ------------------------------------------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `checker`;
 CREATE TABLE `checker` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ch_name` varchar(55) NOT NULL,
