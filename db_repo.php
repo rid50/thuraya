@@ -334,6 +334,22 @@ class DatabaseRepository {
 		return $this->result;
 	}
 	
+	public function getCheckers() {
+		$dbh = $this->connect();
+		try {
+			$st = "SELECT id, ch_name FROM checker ORDER BY ch_name ASC";
+
+			$ds = $dbh->query($st);
+		} catch (PDOException $e) {
+			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
+		}
+		
+		$this->result = array();
+		while($r = $ds->fetch(PDO::FETCH_ASSOC)) {
+			$this->result[] = (object)$r;
+		}
+		return $this->result;
+	}
 	
 	public function getDocs($param) {
 		return $this->get($param);
