@@ -3717,8 +3717,8 @@ function toggleLanguage(lang, dir) {
 			$("#tabs>ul>li").find('a[href="#tab-checkup-grid"]').text(jQuery.i18n.prop("CheckUpCompleteTab"));
 
 			//$("#divGrid>div").find('a[href="#tab-pending"]').text(jQuery.i18n.prop("PendingDocsListTab"));
-			$($("#divGrid>div:first:nth-child(1)>span")[0]).text(($.i18n.prop('SearchByFileNumber')));
-			$($("#divGrid>div:first:nth-child(1)>span")[1]).text(($.i18n.prop('EnableAutosearch')));
+			$($("#divGrid>form>div:first:nth-child(1)>span")[0]).text(($.i18n.prop('SearchByFileNumber')));
+			$($("#divGrid>form>div:first:nth-child(1)>span")[1]).text(($.i18n.prop('EnableAutosearch')));
 			$('#gridSubmitButton').button({ label: $.i18n.prop('Go')});
 			//$("#divGrid>div:nth-child(2)>span").text(jQuery.i18n.prop('EnableAutosearch'));
  //$("#divGrid>div:first>span:first")
