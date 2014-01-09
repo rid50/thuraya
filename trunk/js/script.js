@@ -944,7 +944,7 @@ function initTabs() {
 			},
 
 			activate: function( event, ui ) {
-				if ($("#searchButton").data("search") != 0 )
+				if ($("#searchButton").data("search") == 1 )
 					return;
 
 				switch (ui.newTab.index()) {
@@ -1898,7 +1898,7 @@ this.checkupFormDialog = function(that) {
 		url = "json_db_crud_pdo.php";
 
 		var chNames;
-		$.get(url, {"func":"getCheckers", "param":{}})
+		$.get(url, {"func":"getCheckers", "param":{dbName:"ecabling"}})
 			.done(function( data ) {
 				if (data.constructor == Array) {
 					if (data[0].error != undefined) {

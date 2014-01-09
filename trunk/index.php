@@ -2,7 +2,7 @@
 session_start();
 require_once('c:/simplesaml/lib/_autoload.php');
 //require_once('/var/www/html/simplesamlphp/lib/_autoload.php');
-//require_once('/home/yarussor/public_html/simplesamlphp/lib/_autoload.php');
+//require_once('/home/y...../public_html/simplesamlphp/lib/_autoload.php');
 
 //$url = 'http://mewdesigncomps/index.html';
 

@@ -2,12 +2,15 @@
 require('db_repo.php');
 session_start();
 
+$param = null;
 if (isset($_POST['func'])) {
 	$func = $_POST['func'];
-	$param = $_POST['param'];
+	if (isset($_POST['param'])){ $param = $_POST['param']; }
+	//$param = $_POST['param'];
 } else {
 	$func = $_GET['func'];
-	$param = $_GET['param'];
+	if (isset($_GET['param'])){ $param = $_GET['param']; }
+	//$param = $_GET['param'];
 }
 
 try {
