@@ -35,11 +35,25 @@ class DatabaseRepository {
 	 * Create a database connection.
 	 * @return PDO  The database connection.
 	 */
-	private function connect() {
+	private function connect($dbName = "tamdidat") {								//!!!!!!!!!!!!!!!!!!!!!!!!!!! hard coded database name
 		//throw new Exception('Domain: ' . $_SERVER["USERDOMAIN"]);
 
+		//error_log('dbName: ' . $this->dsn . 'dbname=' . $dbName . " \n", 3, "error.log");
+/*
+		if ($dbName == "")
+			$dsn = $this->dsn . 'dbname=' . $dbName;
+		else {
+			$dsn = 
+			$dsn = explode(';', $this->dsn, 2);
+			error_log('json_encode($dsn): ' . json_encode($dsn) . " \n", 3, "error.log");
+		
+		}
+*/	
+		if ($dbName == '')
+			$dbName = "tamdidat";													//!!!!!!!!!!!!!!!!!!!!!!!!!!! hard coded database name
+			
 		try {
-			$dbh = new PDO($this->dsn, $this->username, $this->password);
+			$dbh = new PDO($this->dsn . 'dbname=' . $dbName, $this->username, $this->password);
 		} catch (PDOException $e) {
 			throw new Exception('Failed to connect to \'' .	$this->dsn . '\': '. $e->getMessage());
 		}
@@ -54,14 +68,14 @@ class DatabaseRepository {
 
 		/* Driver specific initialization. */
 		switch ($driver) {
-		case 'mysql':
-			/* Use UTF-8. */
-			$dbh->exec("SET NAMES 'utf8'");
-			break;
-		case 'pgsql':
-			/* Use UTF-8. */
-			$dbh->exec("SET NAMES 'UTF8'");
-			break;
+			case 'mysql':
+				/* Use UTF-8. */
+				$dbh->exec("SET NAMES 'utf8'");
+				break;
+			case 'pgsql':
+				/* Use UTF-8. */
+				$dbh->exec("SET NAMES 'UTF8'");
+				break;
 		}
 
 		return $dbh;
@@ -160,13 +174,17 @@ class DatabaseRepository {
 */
 	}
 
-	public function getCheckups() {
+	public function getCheckups($param) {
 		$page = $_GET['page']; // get the requested page
 		$limit = $_GET['rows']; // get how many rows we want to have into the grid
 		$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
 		$sord = $_GET['sord']; // get the direction
-		$searchField = $_GET['searchField'];
-		$searchOper = $_GET['searchOper'];	// eq, bw, bn, ew, en, cn, nc, ne, lt, le, gt, ge, in, ni
+		$searchField = null;
+		if (isset($_GET['searchField'])){ $searchField = $_GET['searchField']; }
+		$searchOper = null;		// eq, bw, bn, ew, en, cn, nc, ne, lt, le, gt, ge, in, ni
+		if (isset($_GET['searchOper'])){ $searchOper = $_GET['searchOper']; }
+
+		//$searchOper = $_GET['searchOper'];	// eq, bw, bn, ew, en, cn, nc, ne, lt, le, gt, ge, in, ni
 		//$searchString = $_GET['searchString'];
 		
 		if (isset($_GET['searchString']))
@@ -183,13 +201,13 @@ class DatabaseRepository {
 		
 		$where = "";
 		switch ($searchOper) {
-			case eq:
+			case 'eq':
 				$where .= "$searchField = '$searchString'";
 				break;
-			case ne:
+			case 'ne':
 				$where .= "$searchField <> '$searchString'";
 				break;
-			case bw:	//begin with
+			case 'bw':	//begin with
 				if ($searchField == 'address') {
 					$where .= " CONCAT(area.area_name, ' ', IF(sector_addrs = '-' AND qasimaa = '-', '', sector_addrs), ' ', IF(qasimaa = '-', '', qasimaa)) LIKE '$searchString%'";
 					//$where .= " CONCAT(file_no, form_no) LIKE '$searchString%'";
@@ -204,16 +222,16 @@ class DatabaseRepository {
 				} else
 					$where .= "$searchField LIKE '$searchString%'";
 				break;
-			case bn:	//doesn't begin with
+			case 'bn':	//doesn't begin with
 				$where .= "$searchField NOT LIKE '$searchString%'";
 				break;
-			case ew:	//ends with
+			case 'ew':	//ends with
 				$where .= "$searchField LIKE '%$searchString'";
 				break;
-			case en:	//doesn't end with
+			case 'en':	//doesn't end with
 				$where .= "$searchField NOT LIKE '%$searchString'";
 				break;
-			case cn:	//contains
+			case 'cn':	//contains
 				if ($searchField == 'address') {
 					$where .= " CONCAT(area.area_name, ' ', IF(sector_addrs = '-' AND qasimaa = '-', '', sector_addrs), ' ', IF(qasimaa = '-', '', qasimaa)) LIKE '%$searchString%'";
 					//if (isset($addressPieces[0]))
@@ -225,25 +243,25 @@ class DatabaseRepository {
 				} else
 					$where .= "$searchField LIKE '%$searchString%'";
 				break;
-			case nc:	//doesn't contain
+			case 'nc':	//doesn't contain
 				$where .= "$searchField NOT LIKE '%$searchString%'";
 				break;
-			case lt:	// less then
+			case 'lt':	// less then
 				$where .= "$searchField < '$searchString'";
 				break;
-			case le:	// less or equal
+			case 'le':	// less or equal
 				$where .= "$searchField <= '$searchString'";
 				break;
-			case gt:	//more then
+			case 'gt':	//more then
 				$where .= "$searchField > '$searchString'";
 				break;
-			case ge:	//more or equal
+			case 'ge':	//more or equal
 				$where .= "$searchField >= '$searchString'";
 				break;
-			case in:	//in
+			case 'in':	//in
 				$where .= "$searchField IN($searchString)";
 				break;
-			case ni:	// not in
+			case 'ni':	// not in
 				$where .= "$searchField NOT IN ($searchString)";
 				break;
 		}
@@ -251,7 +269,8 @@ class DatabaseRepository {
 		//throw new Exception('Where: ' . ($where == ""));
 		//throw new Exception('Where: ' . $where);
 
-		$dbh = $this->connect();
+		//$dbh = $this->connect();
+		$dbh = $this->connect(isset($param['dbName']) ? $param['dbName'] : '');
 		try {
 			$st = "SELECT COUNT(*) AS count";
 			
@@ -306,6 +325,7 @@ class DatabaseRepository {
 		}
 
 		//$this->result = array();
+		if (!isset($this->result)) $this->result = new stdClass();
 		$this->result->page = $page;
 		$this->result->total = $total_pages;
 		$this->result->records = $count;
@@ -334,8 +354,11 @@ class DatabaseRepository {
 		return $this->result;
 	}
 	
-	public function getCheckers() {
-		$dbh = $this->connect();
+	public function getCheckers($param) {
+		//error_log('isset($param[dbName]): ' . isset($param[dbName]) . " \n", 3, "error.log");
+		//error_log('$param[dbName]: ' . $param[dbName] . " \n", 3, "error.log");
+
+		$dbh = $this->connect(isset($param['dbName']) ? $param['dbName'] : '');
 		try {
 			$st = "SELECT id, ch_name FROM checker ORDER BY ch_name ASC";
 
@@ -360,59 +383,59 @@ class DatabaseRepository {
 		$dbh = $this->connect();
 
 		try {
-			if ($param[docFileNumber] == null || $param[docFileNumber] == "") {
+			if ($param['docFileNumber'] == null || $param['docFileNumber'] == "") {
 
-				//error_log($param[filter][dateFrom] . "---" . $param[filter][dateTo], 3, "error.log");
+				//error_log($param['filter']['dateFrom'] . "---" . $param['filter'][dateTo], 3, "error.log");
 			
-				$dtFrom = date_create_from_format('d/m/Y', $param[filter][dateFrom])->format('Y-m-d');
-				$dtTo = DateTime::createFromFormat('d/m/Y', $param[filter][dateTo])->format('Y-m-d');
+				$dtFrom = date_create_from_format('d/m/Y', $param['filter']['dateFrom'])->format('Y-m-d');
+				$dtTo = DateTime::createFromFormat('d/m/Y', $param['filter']['dateTo'])->format('Y-m-d');
 
 				//error_log("---- \n ----", 3, "error.log");
 				
 				//error_log($dtFrom . "---" . $dtTo, 3, "error.log");
 
-				if ($param[filter][fileNumber] != null) {
-					$where = " doc.docFileNumber = '{$param[filter][fileNumber]}'";
-					//if ($param[filter][approver] != null)
-					//	$param[filter][approver] = null;
+				if ($param['filter']['fileNumber'] != null) {
+					$where = " doc.docFileNumber = '{$param['filter']['fileNumber']}'";
+					//if ($param['filter'][approver] != null)
+					//	$param['filter'][approver] = null;
 				} else {
 					$where = " doc.docDate BETWEEN '$dtFrom' AND '$dtTo'";
-					//if ($param[filter][paciNumber] != null)
-					//	$where .= " AND doc.docPACINumber = '{$param[filter][paciNumber]}'";
-					if ($param[filter][areaId] != null)
-						$where .= " AND doc.docAreaId = '{$param[filter][areaId]}'";
-					if ($param[filter][block] != null)
-						$where .= " AND doc.docBlock = '{$param[filter][block]}'";
-					if ($param[filter][plot] != null)
-						$where .= " AND doc.docPlot = '{$param[filter][plot]}'";
+					//if ($param['filter'][paciNumber] != null)
+					//	$where .= " AND doc.docPACINumber = '{$param['filter'][paciNumber]}'";
+					if ($param['filter']['areaId'] != null)
+						$where .= " AND doc.docAreaId = '{$param['filter']['areaId']}'";
+					if ($param['filter']['block'] != null)
+						$where .= " AND doc.docBlock = '{$param['filter']['block']}'";
+					if ($param['filter']['plot'] != null)
+						$where .= " AND doc.docPlot = '{$param['filter']['plot']}'";
 /*						
-					if ($param[filter][sectionId] != null) {
-						if ($param[filter][sectionId] == 123)
+					if ($param['filter'][sectionId] != null) {
+						if ($param['filter'][sectionId] == 123)
 							$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2 OR doc.sectionId = 3)";
-						else if ($param[filter][sectionId] == -10)
+						else if ($param['filter'][sectionId] == -10)
 							$where .= " AND (doc.sectionId < -9 AND doc.sectionId > -20)";
-						else if ($param[filter][sectionId] == -20)
+						else if ($param['filter'][sectionId] == -20)
 							$where .= " AND (doc.sectionId < -19 AND doc.sectionId > -30)";
 						else
-							$where .= " AND doc.sectionId = '{$param[filter][sectionId]}'";
+							$where .= " AND doc.sectionId = '{$param['filter'][sectionId]}'";
 					}
 */					
-//					if ($param[filter][employeeId] != null)
-//						$where .= " AND doc.employeeId = '{$param[filter][employeeId]}'";
+//					if ($param['filter'][employeeId] != null)
+//						$where .= " AND doc.employeeId = '{$param['filter'][employeeId]}'";
 				}
 
-				if ($param[filter][employeeId] != null)
-					$where .= " AND doc.employeeId = '{$param[filter][employeeId]}'";
+				if ($param['filter']['employeeId'] != null)
+					$where .= " AND doc.employeeId = '{$param['filter']['employeeId']}'";
 				
-				if ($param[filter][sectionId] != null) {
-					if ($param[filter][sectionId] == 123)
+				if ($param['filter']['sectionId'] != null) {
+					if ($param['filter']['sectionId'] == 123)
 						$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2 OR doc.sectionId = 3)";
-					else if ($param[filter][sectionId] == -10)
+					else if ($param['filter']['sectionId'] == -10)
 						$where .= " AND (doc.sectionId < -9 AND doc.sectionId > -20)";
-					else if ($param[filter][sectionId] == -20)
+					else if ($param['filter']['sectionId'] == -20)
 						$where .= " AND (doc.sectionId < -19 AND doc.sectionId > -30)";
 					else
-						$where .= " AND doc.sectionId = '{$param[filter][sectionId]}'";
+						$where .= " AND doc.sectionId = '{$param['filter']['sectionId']}'";
 				}
 				//else
 				//	throw new Exception($where);
@@ -426,10 +449,10 @@ class DatabaseRepository {
 				//error_log($st . "---", 3, "error.log");
 
 				//throw new Exception($st);
-				//throw new Exception((string)($param[filter][paciNumber] != null));
+				//throw new Exception((string)($param['filter'][paciNumber] != null));
 
-				//if ($param[filter][approver] != null)
-				//	$where .= " AND (doc.docApprover = '{$param[filter][approver]}' OR docHistory.docApprover = '{$param[filter][approver]}')";
+				//if ($param['filter'][approver] != null)
+				//	$where .= " AND (doc.docApprover = '{$param['filter'][approver]}' OR docHistory.docApprover = '{$param['filter'][approver]}')";
 
 				$st2 = "SELECT docHistory.docFileNumber, docHistory.docDate, docHistory.docApprover FROM docHistory INNER JOIN doc ON doc.docFileNumber = docHistory.docFileNumber";
 				$st2 .= " WHERE " . $where;
@@ -457,11 +480,11 @@ class DatabaseRepository {
 		//while($r = mysql_fetch_array($dsHistory, MYSQL_ASSOC))
 		while($r = $stHistory->fetch(PDO::FETCH_ASSOC)) {
 /*
-		if (!$found && $param[filter][approver] != null && $r -> docApprover == $param[filter][approver])
+		if (!$found && $param['filter'][approver] != null && $r -> docApprover == $param['filter'][approver])
 				$found = true;
 				
 			$r2 = (object)$r;
-			if ($r2 -> docApprover != $param[filter][approver])
+			if ($r2 -> docApprover != $param['filter'][approver])
 				throw new Exception((string)($r2 -> docApprover));
 */
 			$result[] = (object)$r;
@@ -481,7 +504,7 @@ class DatabaseRepository {
 		while($r = $stDoc->fetch(PDO::FETCH_ASSOC)) {
 			$r2 = (object)$r;
 
-//			if (!$found && $param[filter][approver] != null && $r2 -> docApprover != $param[filter][approver])
+//			if (!$found && $param['filter'][approver] != null && $r2 -> docApprover != $param['filter'][approver])
 //				continue;
 			
 			//if ($r2->docPACINumber == null)
@@ -508,22 +531,22 @@ class DatabaseRepository {
 				$dsHistoryGr[ $r2 -> docFileNumber ][] = (object)$r3;
 			
 			//throw new Exception(gettype($dsHistoryGr[ $r2 -> docFileNumber ].[docApprover]));
-			//throw new Exception((string)(array_search($param[filter][approver], $dsHistoryGr[ $r2 -> docFileNumber ][1])));
+			//throw new Exception((string)(array_search($param['filter'][approver], $dsHistoryGr[ $r2 -> docFileNumber ][1])));
 			
-			//if ((int)$param[filter][actorRole] + 1 == count($dsHistoryGr[ $r2 -> docFileNumber ]))
+			//if ((int)$param['filter'][actorRole] + 1 == count($dsHistoryGr[ $r2 -> docFileNumber ]))
 			{
 			//if ($r2 -> docFileNumber == 12348)
 				//throw new Exception($r2 -> docFileNumber . " --- " . count($dsHistoryGr[ $r2 -> docFileNumber ]));
 			
-				//throw new Exception ((string)($param[filter][approver] == null));
+				//throw new Exception ((string)($param['filter'][approver] == null));
 			
-				if ($param[filter][approver] != null) {
+				if ($param['filter']['approver'] != null) {
 					$found = false;
 					foreach ($dsHistoryGr[ $r2 -> docFileNumber ] as $history) {
 						//if ($r2 -> docFileNumber == 12348)
 							//throw new Exception($history->docApprover);
 							
-						if ($param[filter][approver] == $history->docApprover) {
+						if ($param['filter']['approver'] == $history->docApprover) {
 							$found = true;
 							break;
 						}
@@ -535,8 +558,8 @@ class DatabaseRepository {
 					if (!$found)
 						continue;
 				}
-				//if ($param[filter][approver] != null)
-				//	if (!in_array($param[filter][approver], $dsHistoryGr[ $r2 -> docFileNumber ][docApprover]))
+				//if ($param['filter'][approver] != null)
+				//	if (!in_array($param['filter'][approver], $dsHistoryGr[ $r2 -> docFileNumber ][docApprover]))
 				//		continue;
 
 				//throw new Exception (print_r($dsHistoryGr[ $r2 -> docFileNumber ]));
