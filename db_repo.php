@@ -373,6 +373,29 @@ class DatabaseRepository {
 		}
 		return $this->result;
 	}
+
+	private function getOngoingCheckups($param) {
+		$dbh = $this->connect(isset($param['dbName']) ? $param['dbName'] : '');
+
+		try {
+			$st = "SELECT check_1_dt, checker, result_1, notes_1, check_2_dt, checker_2, result_3, notes_2, check_3_dt, checker_3, result_3, notes_3";
+			$st .= "FROM ongoing_check WHERE docFileNumber = :docFileNumber";
+
+			//throw new Exception($st2);
+			
+			$ds = $dbh->query($st);
+			$stHistory = $dbh->query($st);
+
+		} catch (PDOException $e) {
+			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
+		}
+		
+		$this->result = array();
+		while($r = $ds->fetch(PDO::FETCH_ASSOC)) {
+			$this->result[] = (object)$r;
+		}
+		return $this->result;
+	}
 	
 	public function getDocs($param) {
 		return $this->get($param);

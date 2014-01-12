@@ -1915,6 +1915,47 @@ this.checkupFormDialog = function(that) {
 			
 			
 			url = "json_db_crud_pdo.php";
+			
+			$.get(url, {"func":"getOngoingCheckups", "param":{dbName:"tamdidat"}})
+			.done(function( data ) {
+				if (data.constructor == Array) {
+					if (data[0].error != undefined) {
+						alert (data[0].error);
+						return;
+					}
+				}
+				
+				chNames = [];
+				var o, result;
+				if (data.d == undefined)
+					result = data;
+				else
+					result = data.d.Data;
+				
+				//data.d.Data.forEach(function(o) {
+				var selectTag, i;
+				var a = ['ch_name', 'ch_name_2', 'ch_name_3'];
+				result.forEach(function(name) {
+					selectTag = $('#' + name);
+					if (selectTag.children().length != 0)
+						selectTag.find('option').remove();
+
+					selectTag.append('<option value="' + (0) + '"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
+
+					result.forEach(function(r) {
+						selectTag.append('<option value="' + r.id + '">' + r.ch_name + '</option>');
+					})
+				
+					//o = {};
+					//o.id = r.id;
+					//o.label = r.ch_name;
+					//chNames.push(o);
+				});
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				alert("getCheckers - error: " + errorThrown);
+			});
+			
 			var chNames;
 			$.get(url, {"func":"getCheckers", "param":{dbName:"ecabling"}})
 			.done(function( data ) {
