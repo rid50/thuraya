@@ -128,18 +128,18 @@ a:hover {
 	text-decoration: underline;
 }
 
-.customClear {
+.clear {
 	height: auto !important;
 	clear: both;
 }
 
-.customPageWidth {
+.wrapper {
 	width: 960px;
 	height: 100%;
 	margin: auto;
 	padding-top: 10px;
 }
-.customPagePadding {
+.pagePadding {
 	padding: 0px 20px;	
 }
 
@@ -259,7 +259,7 @@ a:hover {
 	border-width:0 1px;	
 }
 */
-.customRightSide {
+.rightSection {
 /*	
 	-moz-box-shadow: 4px 4px rgba(0,0,0,0.7);
 	-webkit-box-shadow: 4px 4px rgba(0,0,0,0.7);
@@ -297,12 +297,12 @@ a:hover {
 //	margin-top:16px;
 //}
 
-//.customRightSide ul#ul-status a{
+//.rightSection ul#ul-status a{
 	//margin-top:20px;
 //	line-height:200%;
 //}
 
-.customMiddleSide {
+.leftSection {
 	box-shadow: 4px 4px 2px #999;
 	border: 1px solid #000;
 	font-size:1em;
@@ -604,7 +604,7 @@ background: url('result.png');
 <br /><br /><div style="background-position: -0px -68px; width: 24px; height: 24px">&nbsp;</div>
 <br /><br /><div style="background-position: -0px -102px; width: 24px; height: 24px">&nbsp;</div>
 */
-.customFooter {
+.footer {
 	color:#eee;
 	font-size:130%;
 	padding-top:15px;
@@ -616,14 +616,14 @@ background: url('result.png');
 	height: 120px;
 	
 }
-.customFooter a {
+.footer a {
 	color: #eee;	
 }
-.customFooterLeft {
+.footerLeft {
 	//float: left;	
 	padding-top:10px;
 }
-.customFooterRight {
+.footerRight {
 	//float: right;
 	padding-right:10px;
 }
@@ -633,7 +633,7 @@ background: url('result.png');
 	padding-top:8px;
 	width:auto;
 }
-.customFooterDiv {
+.footerDiv {
 	background-image:url(../images/footer_div.png);
 	background-repeat:no-repeat;
 	display:block;

@@ -1,5 +1,5 @@
 USE tamdidat;
-LOAD DATA INFILE 'c:\\tamdidat\\checkup_form.csv' INTO TABLE check_form
+LOAD DATA LOCAL INFILE 'c:\\tamdidat\\checkup_form.csv' INTO TABLE check_form
   FIELDS TERMINATED BY ',' ENCLOSED BY '"'
   LINES TERMINATED BY '\r\n'
   IGNORE 1 LINES;

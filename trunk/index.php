@@ -76,7 +76,7 @@ if ($idp == "SAML") {
 
 <body dir="ltr">
 <form action="#">
-<div class="customPageWidth">
+<div class="wrapper">
 	<div class="customHead customPagePadding">
 		<?php /* <div><?=$_SESSION['loginName']?></div> */ ?>
 		<div class="floatLeft">
@@ -91,13 +91,13 @@ if ($idp == "SAML") {
 			<a href="#" id="customFlagKuwait"><img src="images/FlagKuwait.png" alt="Arabic" title="Arabic" /></a>
 			<div style="float:inherit; margin-top:6px"><span>User</span>:&nbsp;<select id="userLoginSelect" style="width:140px"></select></div>
 
-			<div class="customClear"></div>
+			<div class="clear"></div>
 					
 			<div class="customSearch floatLeft">
 				<div class="customSearchBox"><input type="text" value="" size="15" /></div>
 				<div class="customSearchGo" title="Go"></div>
 			</div>
-			<!--div class="customClear"></div-->	
+			<!--div class="clear"></div-->	
 		</div>
 	</div>
 <!--	
@@ -114,8 +114,8 @@ if ($idp == "SAML") {
 -->
 	<div class="customBody">
 	
-		<!--div class="customClear"></div-->
-		<div class="customMiddleSide floatLeft ui-corner-all">
+		<!--div class="clear"></div-->
+		<div class="leftSection floatLeft ui-corner-all">
 			<div id="tabs" class="tabs-bottom">
 				<ul>
 					<li><a href="#tab-pending"></a></li>
@@ -152,7 +152,7 @@ if ($idp == "SAML") {
 			</div>
 		</div>
 
-		<div class="customRightSide floatRight ui-corner-all">
+		<div class="rightSection floatRight ui-corner-all">
 			<div id="accordion">
 				<span>Search</span>
 				<div>
@@ -199,10 +199,10 @@ if ($idp == "SAML") {
 			<a href="#" class="customBannerText">Join Our Waffle of the Month Club</a>
 			<a href="#" class="customBannerButton" title="Join Our Waffle of the Month Club"></a>
 		</div>
-		<div class="customClear"></div>
+		<div class="clear"></div>
 		
 		<div class="customGapBeforePod"></div>
-		<div class="customClear"></div>
+		<div class="clear"></div>
 		
 		<div class="customPodHolder">
 			<div class="customPod">
@@ -224,25 +224,25 @@ if ($idp == "SAML") {
 				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. </p>
 			</div>						
 		</div>
-		<div class="customClear"></div>
+		<div class="clear"></div>
 -->		
 	</div>
-	<div class="customFooter customPagePadding">
-		<div id="Copyright" class="customFooterLeft floatLeft">
+	<div class="footer pagePadding">
+		<div id="Copyright" class="footerLeft floatLeft">
 			&copy; Copyright 2013 Ministry of Electricity and Water &nbsp;|&nbsp; All Rights Reserved
 		</div>
-		<div class="customClear"></div>
-		<div class="customFooterRight floatRight">
+		<div class="clear"></div>
+		<div class="footerRight floatRight">
 			<div class="customLinkGroup">
 				<a id="TrainingProgram" href="#">Training Program</a><br/><br/>
 				<a id="PrivacyPolicy" href="#">Privacy Policy</a>
 			</div>
-			<div class="customFooterDiv"></div>
+			<div class="footerDiv"></div>
 			<div class="customLinkGroup">
 				<a id="SiteMap" href="#">Site Map</a><br/><br/>
 				<a id="MediaCenter" href="#">Media Center</a>
 			</div>								
-			<div class="customFooterDiv"></div>
+			<div class="footerDiv"></div>
 			<div class="customLinkGroup">
 				<a id="CustomerService" href="#">Customer Service</a><br/><br/>
 				<a id="ContactUs" href="#">Contact Us</a>
@@ -269,13 +269,13 @@ if ($idp == "SAML") {
 			<!--div class="floatRight" style="border: 1px solid red"><a href="#" class="tagButton"></a></div-->
 			<a href="#" class="tagButton"></a>
 
-			<div class="customClear"></div>
+			<div class="clear"></div>
 			<div class='docAddress floatLeft'>
 				<div style="float:inherit;"><strong>Address:&nbsp;</strong></div>
 				<span/>
 			</div>
 
-			<!--div class="customClear"></div>
+			<!--div class="clear"></div>
 			<div class='docPACINumber floatLeft'>
 				<div style="float:inherit;"><strong>PACI#:&nbsp;</strong></div>
 				<span/>
@@ -337,7 +337,7 @@ if ($idp == "SAML") {
 	<div id="userList" dir="ltr">
 		<input style="margin: 3px 0 3px 13px;" type="text" value="" size="15" />
 		<button id="addUserButton">Add User</button>
-		<div class="customClear"></div>
+		<div class="clear"></div>
 		<ul></ul>
 	</div>
 </div>
@@ -391,45 +391,45 @@ if ($idp == "SAML") {
 			<table>
 				<tr>
 					<td>
-						<fieldset class="checkers">
+						<fieldset id="fch1" class="checkers">
 							<legend>Check 1</legend>
 
 							<label for="ch_name"><strong>Checker</strong></label><br/>
-							<select id="ch_name" style="width:150px" class="ui-widget-content ui-corner-all"></select><br/>
+							<select id="ch_name" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_1_dt"><strong>Date of checkup</strong></label><br/>
-							<input type="text" name="check_1_dt" id="check_1_dt" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+							<input type="text" name="check_1_dt" id="check_1_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_1"><strong>Result</strong></label><br/>
-							<select id="result_1" style="width:150px" class="ui-widget-content ui-corner-all"></select>
+							<select id="result_1" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select>
 						</fieldset>
 					</td>
 					<td>
-						<fieldset class="checkers">
+						<fieldset id="fch2" class="checkers">
 							<legend>Check 2</legend>
 
 							<label for="ch_name_2"><strong>Checker</strong></label><br/>
-							<select id="ch_name_2" style="width:150px" class="ui-widget-content ui-corner-all"></select><br/>
+							<select id="ch_name_2" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_2_dt"><strong>Date of checkup</strong></label><br/>
-							<input type="text" name="check_2_dt" id="check_2_dt" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+							<input type="text" name="check_2_dt" id="check_2_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_2"><strong>Result</strong></label><br/>
-							<select id="result_2" style="width:150px" class="ui-widget-content ui-corner-all"></select>
+							<select id="result_2" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select>
 						</fieldset>
 					</td>
 					<td>
-						<fieldset class="checkers">
+						<fieldset id="fch3" class="checkers">
 							<legend>Check 3</legend>
 
 							<label for="ch_name_3"><strong>Checker</strong></label><br/>
-							<select id="ch_name_3" style="width:150px" class="ui-widget-content ui-corner-all"></select><br/>
+							<select id="ch_name_3" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_3_dt"><strong>Date of checkup</strong></label><br/>
-							<input type="text" name="check_3_dt" id="check_3_dt" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+							<input type="text" name="check_3_dt" id="check_3_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_3"><strong>Result</strong></label><br/>
-							<select id="result_3" style="width:150px" class="ui-widget-content ui-corner-all"></select>
+							<select id="result_3" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select>
 						</fieldset>
 					</td>
 				</tr>
