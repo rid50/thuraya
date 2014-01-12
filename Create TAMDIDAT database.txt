@@ -1,8 +1,9 @@
--- DROP DATABASE IF EXISTS tamdidat;
+﻿-- DROP DATABASE IF EXISTS tamdidat;
 -- CREATE DATABASE IF NOT EXISTS tamdidat DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_unicode_ci;
 USE tamdidat;
 
 DROP TABLE IF EXISTS docHistory;
+DROP TABLE IF EXISTS ongoing_check;
 DROP TABLE IF EXISTS checker;
 -- ------------------------------------------------------------------------------------------------------------
 
@@ -64,6 +65,38 @@ CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
 	ON DELETE CASCADE
 	ON UPDATE CASCADE;
 	
+-- ------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE ongoing_check (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `docFileNumber` VARCHAR( 24 ) NOT NULL,
+  `check_1_dt` date DEFAULT NULL,
+  `checker` int(11) DEFAULT NULL,
+  `result_1` int(11) DEFAULT NULL,
+  `notes_1` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `check_2_dt` date DEFAULT NULL,
+  `checker_2` int(11) DEFAULT NULL,
+  `recept_2` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `result_2` int(11) DEFAULT NULL,
+  `notes_2` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `check_3_dt` date DEFAULT NULL,
+  `checker_3` int(11) DEFAULT NULL,
+  `recept_3` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `result_3` int(11) DEFAULT NULL,
+  `notes_3` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
+)
+CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
+
+ ALTER TABLE ongoing_check ADD  
+	INDEX `file_number_ch_INDEX` (`docFileNumber` ASC) ;
+
+ ALTER TABLE ongoing_check ADD 
+    CONSTRAINT FK_file_number_ch
+    FOREIGN    KEY (docFileNumber)
+    REFERENCES doc(docFileNumber)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE;
+
 -- ------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE `checker` (

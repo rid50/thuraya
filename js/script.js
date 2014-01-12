@@ -644,15 +644,15 @@ function start(userLoginName, func) {
 			}
 		});
 	/*
-		$(".customMiddleSide #tasks").on("mousedown", ".taskItemButtons", function(){
+		$(".leftSection #tasks").on("mousedown", ".taskItemButtons", function(){
 			$(this).animate({'top': '+=1px', 'left': '+=1px'}, 100);
 		});
 
-		$(".customMiddleSide #tasks").on("mouseup", ".taskItemButtons", function(){
+		$(".leftSection #tasks").on("mouseup", ".taskItemButtons", function(){
 			$(this).animate({'top': '-=1px', 'left': '-=1px'}, 100);
 		});
 
-		$('.customMiddleSide').scroll(function() {
+		$('.leftSection').scroll(function() {
 			//$('.customLeftSide').append("<span>" + $(this).scrollTop() + "</span><br/>");
 			//$('.customLeftSide').append("<span>" + $(this).height() + "</span><br/>");
 			//scrollEvent('aeventData');
@@ -1328,7 +1328,7 @@ function selectXmlNodes() {
 			j++;
 		});
 		
-		addDocToList($('.customMiddleSide #docs'), i++,
+		addDocToList($('.leftSection #docs'), i++,
 					that.find('docFileNumber').text(),
 					dates,
 					names,
@@ -1384,7 +1384,7 @@ function selectJsonNodes() {
 	//cleanDocTabs();
 	//docListSelector.empty();
 */
-	//$(".customMiddleSide #docs").empty();
+	//$(".leftSection #docs").empty();
 	
 	if (rootDoc[0].docs == undefined)
 		return;
@@ -1439,7 +1439,7 @@ function selectJsonNodes() {
 				j++;
 			});
 			
-			//addDocToList($('.customMiddleSide #docs'), i++,
+			//addDocToList($('.leftSection #docs'), i++,
 			addDocToList(docListSelector, i++,
 						key.doc.docFileNumber,
 						dates,
@@ -1460,7 +1460,7 @@ function selectJsonNodes() {
 	});					
 }	
 
-//$('.customMiddleSide>ul').empty();
+//$('.leftSection>ul').empty();
 
 //function addDocToList(list, id, file_number, date, name, area, block, street, building, paci_number, secId, empId) {
 function addDocToList(list, id, file_number, date, name, areaId, block, plot, secId, empId) {
@@ -1895,10 +1895,28 @@ this.checkupFormDialog = function(that) {
 				}]
 			); 
 
-		url = "json_db_crud_pdo.php";
-
-		var chNames;
-		$.get(url, {"func":"getCheckers", "param":{dbName:"ecabling"}})
+			//$('.checkers').prop('disabled', true);
+			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('disable');
+			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('enable');
+			$('.checkers').fadeTo(0, 0.5);
+			$('.checkup-group').blur(function(event){
+				var that = this;
+				$(this).parent()[0];
+				//if ($(this).parent()[0].id.lastIndexOf('1') != -1)
+				
+				
+				$($(this).parent().find("select")[1]).val();
+				$($(this).parent().find("input")[0]).val();
+				
+				//if ($("input:checked").val() != undefined)
+				//	$("#buttOk").prop('disabled', false);
+					//$(".ui-dialog-buttonpane").find('button:contains("Ok")').prop('disabled', false);	// it works !!!!
+			});
+			
+			
+			url = "json_db_crud_pdo.php";
+			var chNames;
+			$.get(url, {"func":"getCheckers", "param":{dbName:"ecabling"}})
 			.done(function( data ) {
 				if (data.constructor == Array) {
 					if (data[0].error != undefined) {
@@ -2600,9 +2618,9 @@ $(function() {
 			if (obj.val() == o.loginName) {
 		//html = ('<option {0} disabled="disabled" value="' + i + '">' + nam + '</option>').format((i + 1 == $(date).length) ? 'selected="selected"' : '');
 			
-				//$(".customMiddleSide").append('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">The user ' + obj.val() + ' already exists</div>');
-				//$(".customMiddleSide").append(('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">The user {0} already exists</div>').format(obj.val()));
-				$(".customMiddleSide").append('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">' + (jQuery.i18n.prop("UserExists")).format(obj.val()) + '</div>');
+				//$(".leftSection").append('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">The user ' + obj.val() + ' already exists</div>');
+				//$(".leftSection").append(('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">The user {0} already exists</div>').format(obj.val()));
+				$(".leftSection").append('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">' + (jQuery.i18n.prop("UserExists")).format(obj.val()) + '</div>');
 				
 				obj.val("");
 				found = true;
@@ -2616,9 +2634,9 @@ $(function() {
 		getUserIdentities("GetUserInfo",  [{loginName: obj.val()}], function () {
 			var index = userInfo.length;
 			if (userInfo[index - 1].loginName == userInfo[index - 1].displayName) {
-				//$(".customMiddleSide").append('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">The user ' + obj.val() + ' does not exist</div>');
-				//$(".customMiddleSide").append(('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">The user {0} does not exist</div>').format(obj.val()));
-				$(".customMiddleSide").append('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">' + (jQuery.i18n.prop("UserDoesNotExist")).format(obj.val()) + '</div>');
+				//$(".leftSection").append('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">The user ' + obj.val() + ' does not exist</div>');
+				//$(".leftSection").append(('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">The user {0} does not exist</div>').format(obj.val()));
+				$(".leftSection").append('<div id="addUserError" style="position:absolute; top:0px; right:10px; color:red; font-size:1.3em;">' + (jQuery.i18n.prop("UserDoesNotExist")).format(obj.val()) + '</div>');
 				userInfo.splice(index - 1, 1);
 				obj.val("");
 				found = true;
@@ -3024,7 +3042,7 @@ $(function() {
 			} else {
 				var dates = []; dates[0] = getDate();
 				var names = []; names[0] = userInfo[0].displayName;
-				//addDocToList($('.customMiddleSide #docs'), 0, 
+				//addDocToList($('.leftSection #docs'), 0, 
 				addDocToList($('#docs'), 0, 
 							file_number.val(), dates, names, area.val(), block.val(), plot.val(), sectionId);
 //							file_number.val(), dates, names, area.val(), block.val(), street.val(), building.val(), paci_number.val(), sectionId);
@@ -3308,7 +3326,7 @@ userAssignment = function() {
 			});
 */			
 			//$("#userList>ul").sortable({ revert:true });
-			//$("#userList>ul>li").draggable({helper: "clone", cursor: "move", revert: "valid", containment: ".customMiddleSide", scroll: false, opacity: 0.7, zIndex: 100  });
+			//$("#userList>ul>li").draggable({helper: "clone", cursor: "move", revert: "valid", containment: ".leftSection", scroll: false, opacity: 0.7, zIndex: 100  });
 			$("#userList>ul>li").draggable({helper: "clone", cursor: "move", revert: "valid", scroll: false, opacity: 0.7, zIndex: 100  });
 			$("#sortable>ul").disableSelection();
 			
@@ -3727,9 +3745,9 @@ function toggleLanguage(lang, dir) {
 			if (dir == 'ltr') {
 				$(".tagButton").css("left", ""); 
 				$(".tagButton").css("right", "2px");
-				$(".customRightSide").css("text-align", "right");
-				$(".customMiddleSide, .customRightSide, #userList").css("box-shadow", "4px 4px 2px #999");
-				$(".customMiddleSide #docs li, .docButtons").css("box-shadow", "2px 2px 2px #999");
+				$(".rightSection").css("text-align", "right");
+				$(".leftSection, .rightSection, #userList").css("box-shadow", "4px 4px 2px #999");
+				$(".leftSection #docs li, .docButtons").css("box-shadow", "2px 2px 2px #999");
 
 				$(".ui-accordion .ui-accordion-content").css({'padding': '1em 8px 1em 0px'});
 
@@ -3738,9 +3756,9 @@ function toggleLanguage(lang, dir) {
 			} else {
 				$(".tagButton").css("right", ""); 
 				$(".tagButton").css("left", "2px");
-				$(".customRightSide").css("text-align", "left"); 
-				$(".customMiddleSide, .customRightSide, #userList").css("box-shadow", "-4px 4px 2px #999");
-				$(".customMiddleSide #docs li, .docButtons").css("box-shadow", "-2px 2px 2px #999");
+				$(".rightSection").css("text-align", "left"); 
+				$(".leftSection, .rightSection, #userList").css("box-shadow", "-4px 4px 2px #999");
+				$(".leftSection #docs li, .docButtons").css("box-shadow", "-2px 2px 2px #999");
 
 				$(".ui-accordion .ui-accordion-content").css({'padding': '1em 0px 1em 8px'});
 
@@ -3877,8 +3895,8 @@ $(document).on("click", ".docPrintAnchor", function(e){
 	//$.blockUI();
 
 	//var options = { mode : "iframe", popClose : "false" };
-	//$(".customMiddleSide").printArea({ mode : "iframe", popClose : "false" });
-	//$(".customMiddleSide #docs").printThis();
+	//$(".leftSection").printArea({ mode : "iframe", popClose : "false" });
+	//$(".leftSection #docs").printThis();
 
 	//e.stopImmediatePropagation();
 	//$(this).next().find("span").text()
