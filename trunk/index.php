@@ -394,42 +394,51 @@ if ($idp == "SAML") {
 						<fieldset id="fch1" class="checkers">
 							<legend>Check 1</legend>
 
-							<label for="ch_name"><strong>Checker</strong></label><br/>
-							<select id="ch_name" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
+							<label for="checker_1"><strong>Checker</strong></label><br/>
+							<select id="checker_1" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_1_dt"><strong>Date of checkup</strong></label><br/>
 							<input type="text" name="check_1_dt" id="check_1_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_1"><strong>Result</strong></label><br/>
-							<select id="result_1" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select>
-						</fieldset>
+							<select id="result_1" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
+
+							<label for="note_1"><strong>Note</strong></label><br/>
+							<textarea id="note_1" rows="1" class="checkup-group text ui-widget-content ui-corner-all" ></textarea>
+							</fieldset>
 					</td>
 					<td>
 						<fieldset id="fch2" class="checkers">
 							<legend>Check 2</legend>
 
-							<label for="ch_name_2"><strong>Checker</strong></label><br/>
-							<select id="ch_name_2" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
+							<label for="checker_2"><strong>Checker</strong></label><br/>
+							<select id="checker_2" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_2_dt"><strong>Date of checkup</strong></label><br/>
 							<input type="text" name="check_2_dt" id="check_2_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_2"><strong>Result</strong></label><br/>
-							<select id="result_2" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select>
+							<select id="result_2" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
+
+							<label for="note_2"><strong>Note</strong></label><br/>
+							<textarea id="note_2" rows="1" class="checkup-group text ui-widget-content ui-corner-all" ></textarea>
 						</fieldset>
 					</td>
 					<td>
 						<fieldset id="fch3" class="checkers">
 							<legend>Check 3</legend>
 
-							<label for="ch_name_3"><strong>Checker</strong></label><br/>
-							<select id="ch_name_3" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
+							<label for="checker_3"><strong>Checker</strong></label><br/>
+							<select id="checker_3" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_3_dt"><strong>Date of checkup</strong></label><br/>
 							<input type="text" name="check_3_dt" id="check_3_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_3"><strong>Result</strong></label><br/>
-							<select id="result_3" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select>
+							<select id="result_3" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
+
+							<label for="note_3"><strong>Note</strong></label><br/>
+							<textarea id="note_3" rows="1" class="checkup-group text ui-widget-content ui-corner-all" ></textarea>
 						</fieldset>
 					</td>
 				</tr>

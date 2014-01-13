@@ -374,26 +374,27 @@ class DatabaseRepository {
 		return $this->result;
 	}
 
-	private function getOngoingCheckups($param) {
+	public function getOngoingCheckup($param) {
 		$dbh = $this->connect(isset($param['dbName']) ? $param['dbName'] : '');
-
+		
 		try {
-			$st = "SELECT check_1_dt, checker, result_1, notes_1, check_2_dt, checker_2, result_3, notes_2, check_3_dt, checker_3, result_3, notes_3";
-			$st .= "FROM ongoing_check WHERE docFileNumber = :docFileNumber";
+			$st = "SELECT check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_3, note_2, check_3_dt, checker_3, result_3, note_3";
+			$st .= " FROM ongoing_check WHERE docFileNumber = '{$param['docFileNumber']}'";
 
-			//throw new Exception($st2);
+			//throw new Exception($st);
 			
 			$ds = $dbh->query($st);
-			$stHistory = $dbh->query($st);
-
 		} catch (PDOException $e) {
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
 		}
 		
-		$this->result = array();
+		$this->result = $result = array();
 		while($r = $ds->fetch(PDO::FETCH_ASSOC)) {
-			$this->result[] = (object)$r;
+			$result[] = (object)$r;
 		}
+		
+		$this->result[] = $result;
+
 		return $this->result;
 	}
 	
@@ -771,6 +772,41 @@ class DatabaseRepository {
 		}
 		
 		return $this->result;
+	}
+
+	public function createUpdateOngoingCheckup($param) {
+		$dbh = $this->connect();
+
+		$columnsToUpdate = "check_1_dt";	
+		try {
+			$st = "INSERT INTO ongoing_check (docFileNumber, check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_2, note_2, check_3_dt, checker_3, result_3, note_3)
+					VALUES (:docFileNumber, :check_1_dt, :checker_1, :result_1, :note_1, :check_2_dt, :checker_2, :result_2, :note_2, :check_3_dt, :checker_3, :result_3, :note_3)
+					ON DUPLICATE KEY UPDATE check_1_dt = '{check_1_dt}'"; // . $columnsToUpdate;
+
+			//throw new Exception($st);
+
+			$stp = $dbh->prepare($st);
+
+			$ar = array(
+				'docFileNumber' => $param['docFileNumber'],
+				'check_1_dt' => $param['check_1_dt'],
+				'checker_1' => $param['checker_1'],
+				'result_1' => $param['result_1'],
+				'note_1' => $param['note_1'],
+				'check_2_dt' => $param['check_2_dt'],
+				'checker_2' => $param['checker_2'],
+				'result_2' => $param['result_2'],
+				'note_2' => $param['note_2'],
+				'check_3_dt' => $param['check_1_dt'],
+				'checker_3' => $param['checker_3'],
+				'result_3' => $param['result_3'],
+				'note_3' => $param['note_3'],
+			);
+
+			$stp->execute($ar);
+		} catch (PDOException $e) {
+			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
+		}
 	}
 	
 	public function approve_reject($param) {
