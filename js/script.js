@@ -1885,7 +1885,37 @@ this.checkupFormDialog = function(that) {
 				[{	text: "Save",
 					id: "buttSave",
 					click: function() {
-						$( this ).dialog( "destroy" )
+						var url = "json_db_crud_pdo.php";
+						var data = {"func":"createUpdateOngoingCheckup",
+							"param":{
+								docFileNumber:fileNumber,
+								check_1_dt: $(this).find('#check_1_dt').val(),
+								checker_1: $(this).find('#checker_1').val(),
+								result_1: $(this).find('#result_1').val(),
+								note_1: $(this).find('#note_1').val(),
+								check_2_dt: $(this).find('#check_2_dt').val(),
+								checker_2: $(this).find('#checker_2').val(),
+								result_2: $(this).find('#result_2').val(),
+								note_2: $(this).find('#note_2').val(),
+								check_3_dt: $(this).find('#check_3_dt').val(),
+								checker_3: $(this).find('#checker_3').val(),
+								result_3: $(this).find('#result_3').val(),
+								note_3: $(this).find('#note_3').val(),
+							}};
+
+						$.post(url, data)
+						.done(function(data) {
+							//if (data.error) {
+							//	alert("Data: " + data + "\nStatus: " + status);
+							//}
+							if (data && data.constructor == Array) {
+								if (data[0].error != undefined) {
+									alert(data[0].error);
+								}
+							}
+						
+							//$( this ).dialog( "destroy" )
+						})
 					}
 				},
 				{	text: "Cancel",
@@ -1898,7 +1928,7 @@ this.checkupFormDialog = function(that) {
 			//$('.checkers').prop('disabled', true);
 			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('disable');
 			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('enable');
-			$('.checkers').fadeTo(0, 0.5);
+			//$('.checkers').fadeTo(0, 0.5);
 			$('.checkup-group').blur(function(event){
 				var that = this;
 				$(this).parent()[0];
@@ -1916,9 +1946,9 @@ this.checkupFormDialog = function(that) {
 			
 			url = "json_db_crud_pdo.php";
 			
-			$.get(url, {"func":"getOngoingCheckups", "param":{dbName:"tamdidat"}})
+			$.get(url, {"func":"getOngoingCheckup", "param":{dbName:"tamdidat", docFileNumber:fileNumber}})
 			.done(function( data ) {
-				if (data.constructor == Array) {
+				if (data && data.constructor == Array) {
 					if (data[0].error != undefined) {
 						alert (data[0].error);
 						return;
@@ -1932,9 +1962,11 @@ this.checkupFormDialog = function(that) {
 				else
 					result = data.d.Data;
 				
+				result = [];
+				
 				//data.d.Data.forEach(function(o) {
 				var selectTag, i;
-				var a = ['ch_name', 'ch_name_2', 'ch_name_3'];
+				var a = ['checker_1', 'checker_2', 'checker_3'];
 				result.forEach(function(name) {
 					selectTag = $('#' + name);
 					if (selectTag.children().length != 0)
@@ -1953,7 +1985,7 @@ this.checkupFormDialog = function(that) {
 				});
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
-				alert("getCheckers - error: " + errorThrown);
+				alert("getOngoingCheckup - error: " + errorThrown);
 			});
 			
 			var chNames;
@@ -1975,7 +2007,7 @@ this.checkupFormDialog = function(that) {
 				
 				//data.d.Data.forEach(function(o) {
 				var selectTag, i;
-				var a = ['ch_name', 'ch_name_2', 'ch_name_3'];
+				var a = ['checker_1', 'checker_2', 'checker_3'];
 				a.forEach(function(name) {
 					selectTag = $('#' + name);
 					if (selectTag.children().length != 0)
