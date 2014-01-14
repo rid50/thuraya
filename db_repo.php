@@ -777,32 +777,74 @@ class DatabaseRepository {
 	public function createUpdateOngoingCheckup($param) {
 		$dbh = $this->connect();
 
-		$columnsToUpdate = "check_1_dt";	
+		$columnsToUpdate = "";
+		$ar = [];
+		
+		$ds = $dbh->query("SELECT 1 FROM ongoing_check WHERE docFileNumber = '$param[docFileNumber]'");
+		if($ds->fetchColumn() == 1) {
+			if ($param['check_1_dt'] != "") {
+				$columnsToUpdate .= " check_1_dt = '{$param['check_1_dt']}'";
+			}
+			if ($param['checker_1'] != 0) {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "checker_1 = {$param['checker_1']}";
+			}
+			if ($param['result_1'] != 0) {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "result_1 = {$param['result_1']}";
+			}
+			if ($param['note_1'] != "") {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "note_1 = '{$param['note_1']}'";
+			}
+			if ($param['check_2_dt'] != "") {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "check_2_dt = '{$param['check_2_dt']}'";
+			}
+			if ($param['checker_2'] != 0) {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "checker_2 = {$param['checker_2']}";
+			}
+			if ($param['result_2'] != 0) {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "result_2 = {$param['result_2']}";
+			}
+			if ($param['note_2'] != "") {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "note_2 = '{$param['note_2']}'";
+			}
+			if ($param['check_3_dt'] != "") {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "check_3_dt = '{$param['check_3_dt']}'";
+			}
+			if ($param['checker_3'] != 0) {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "checker_3 = {$param['checker_3']}";
+			}
+			if ($param['result_3'] != 0) {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "result_3 = {$param['result_3']}";
+			}
+			if ($param['note_3'] != "") {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "note_3 = '{$param['note_3']}'";
+			}
+		}
+
+		$ar = array(
+			'docFileNumber' => $param['docFileNumber'],
+			'check_1_dt' => $param['check_1_dt'],
+			'checker_1' => $param['checker_1'],
+			'result_1' => $param['result_1'],
+			'note_1' => $param['note_1'],
+			'check_2_dt' => $param['check_2_dt'],
+			'checker_2' => $param['checker_2'],
+			'result_2' => $param['result_2'],
+			'note_2' => $param['note_2'],
+			'check_3_dt' => $param['check_1_dt'],
+			'checker_3' => $param['checker_3'],
+			'result_3' => $param['result_3'],
+			'note_3' => $param['note_3'],
+		);
+		
 		try {
 			$st = "INSERT INTO ongoing_check (docFileNumber, check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_2, note_2, check_3_dt, checker_3, result_3, note_3)
 					VALUES (:docFileNumber, :check_1_dt, :checker_1, :result_1, :note_1, :check_2_dt, :checker_2, :result_2, :note_2, :check_3_dt, :checker_3, :result_3, :note_3)
-					ON DUPLICATE KEY UPDATE check_1_dt = '{check_1_dt}'"; // . $columnsToUpdate;
+					ON DUPLICATE KEY UPDATE " . $columnsToUpdate;
+					//ON DUPLICATE KEY UPDATE check_1_dt = '{check_1_dt}'"; // . $columnsToUpdate;
 
 			//throw new Exception($st);
 
 			$stp = $dbh->prepare($st);
-
-			$ar = array(
-				'docFileNumber' => $param['docFileNumber'],
-				'check_1_dt' => $param['check_1_dt'],
-				'checker_1' => $param['checker_1'],
-				'result_1' => $param['result_1'],
-				'note_1' => $param['note_1'],
-				'check_2_dt' => $param['check_2_dt'],
-				'checker_2' => $param['checker_2'],
-				'result_2' => $param['result_2'],
-				'note_2' => $param['note_2'],
-				'check_3_dt' => $param['check_1_dt'],
-				'checker_3' => $param['checker_3'],
-				'result_3' => $param['result_3'],
-				'note_3' => $param['note_3'],
-			);
-
 			$stp->execute($ar);
 		} catch (PDOException $e) {
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
