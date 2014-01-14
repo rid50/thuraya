@@ -1943,6 +1943,7 @@ this.checkupFormDialog = function(that) {
 					//$(".ui-dialog-buttonpane").find('button:contains("Ok")').prop('disabled', false);	// it works !!!!
 			});
 			
+			var onGoingCheckupResult;
 			
 			url = "json_db_crud_pdo.php";
 			
@@ -1955,13 +1956,13 @@ this.checkupFormDialog = function(that) {
 					}
 				}
 				
-				chNames = [];
-				var o, result;
+				//chNames = [];
+				//var o, result;
 				if (data.d == undefined)
-					result = data;
+					onGoingCheckupResult = data;
 				else
-					result = data.d.Data;
-				
+					onGoingCheckupResult = data.d.Data;
+/*				
 				result = [];
 				
 				//data.d.Data.forEach(function(o) {
@@ -1983,6 +1984,7 @@ this.checkupFormDialog = function(that) {
 					//o.label = r.ch_name;
 					//chNames.push(o);
 				});
+*/				
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				alert("getOngoingCheckup - error: " + errorThrown);
@@ -2018,7 +2020,10 @@ this.checkupFormDialog = function(that) {
 					result.forEach(function(r) {
 						selectTag.append('<option value="' + r.id + '">' + r.ch_name + '</option>');
 					})
-				
+
+					selectTag.prop('selectedIndex', onGoingCheckupResult[0][0][name]);
+					//selectTag.prop('selectedIndex', eval(onGoingCheckupResult[0][0] + '.' + name));
+					
 					//o = {};
 					//o.id = r.id;
 					//o.label = r.ch_name;
@@ -2028,6 +2033,8 @@ this.checkupFormDialog = function(that) {
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				alert("getCheckers - error: " + errorThrown);
 			});
+			
+			//onGoingCheckupResult
 			
 			$(this).find("#file_number_checkup").val(fileNumber);
 			//$(this).find("#file_number_checkup").prop("disabled", "true");
