@@ -378,7 +378,7 @@ class DatabaseRepository {
 		$dbh = $this->connect(isset($param['dbName']) ? $param['dbName'] : '');
 		
 		try {
-			$st = "SELECT check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_3, note_2, check_3_dt, checker_3, result_3, note_3";
+			$st = "SELECT check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_2, note_2, check_3_dt, checker_3, result_3, note_3";
 			$st .= " FROM ongoing_check WHERE docFileNumber = '{$param['docFileNumber']}'";
 
 			//throw new Exception($st);
@@ -390,6 +390,11 @@ class DatabaseRepository {
 		
 		$this->result = $result = array();
 		while($r = $ds->fetch(PDO::FETCH_ASSOC)) {
+			//throw new Exception(print_r($r));
+			$r['check_1_dt'] = DateTime::createFromFormat('Y-m-d', $r['check_1_dt'])->format('d/m/Y');
+			$r['check_2_dt'] = DateTime::createFromFormat('Y-m-d', $r['check_2_dt'])->format('d/m/Y');
+			$r['check_3_dt'] = DateTime::createFromFormat('Y-m-d', $r['check_3_dt'])->format('d/m/Y');
+
 			$result[] = (object)$r;
 		}
 		
@@ -779,6 +784,13 @@ class DatabaseRepository {
 
 		$columnsToUpdate = "";
 		$ar = [];
+
+		if ($param['check_1_dt'] != "")
+			$param['check_1_dt'] = DateTime::createFromFormat('d/m/Y', $param['check_1_dt'])->format('Y-m-d');
+		if ($param['check_2_dt'] != "")
+			$param['check_2_dt'] = DateTime::createFromFormat('d/m/Y', $param['check_2_dt'])->format('Y-m-d');
+		if ($param['check_3_dt'] != "")
+			$param['check_3_dt'] = DateTime::createFromFormat('d/m/Y', $param['check_3_dt'])->format('Y-m-d');
 		
 		$ds = $dbh->query("SELECT 1 FROM ongoing_check WHERE docFileNumber = '$param[docFileNumber]'");
 		if($ds->fetchColumn() == 1) {
@@ -820,6 +832,8 @@ class DatabaseRepository {
 			}
 		}
 
+
+		
 		$ar = array(
 			'docFileNumber' => $param['docFileNumber'],
 			'check_1_dt' => $param['check_1_dt'],
