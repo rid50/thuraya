@@ -105,7 +105,7 @@ fieldset.checkers {
 // input#paci_number {width:20%}
 textarea#title {width: 500px;}
 
-#date_checkup, #date_submission, #check_1_dt, #check_2_dt, #check_3_dt {width:85px;}
+#date_checkup, #date_submission, #check_1_dt, #check_2_dt, #check_3_dt {width:90px;}
 
 //#checkupForm  form{ width: 740px }
 #checkupForm table { width: 560px }
