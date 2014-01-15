@@ -2008,7 +2008,8 @@ this.checkupFormDialog = function(that) {
 					result = data.d.Data;
 				
 				//data.d.Data.forEach(function(o) {
-				var selectTag, i;
+				
+				var selectTag;
 				var a = ['checker_1', 'checker_2', 'checker_3'];
 				a.forEach(function(name) {
 					selectTag = $('#' + name);
@@ -2017,11 +2018,18 @@ this.checkupFormDialog = function(that) {
 
 					selectTag.append('<option value="' + (0) + '"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
 
+					var i = 1;
 					result.forEach(function(r) {
 						selectTag.append('<option value="' + r.id + '">' + r.ch_name + '</option>');
+						if (r.id == onGoingCheckupResult[0][0][name])
+							selectTag.prop('selectedIndex', i);
+							
+						i++;
 					})
 
-					selectTag.prop('selectedIndex', onGoingCheckupResult[0][0][name]);
+					//selectTag.selectedIndex = onGoingCheckupResult[0][0][name];
+					//selectTag.prop('selectedIndex', onGoingCheckupResult[0][0][name]);
+					
 					//selectTag.prop('selectedIndex', eval(onGoingCheckupResult[0][0] + '.' + name));
 					
 					//o = {};
@@ -2029,12 +2037,15 @@ this.checkupFormDialog = function(that) {
 					//o.label = r.ch_name;
 					//chNames.push(o);
 				});
+				
+				//$('#checker_1').prop('selectedIndex', '2');
+				//$('#checker_1')[0].selectedIndex = "2";
+				//$('#checker_1 option').eq(2).attr('selected', 'selected');
+
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				alert("getCheckers - error: " + errorThrown);
 			});
-			
-			//onGoingCheckupResult
 			
 			$(this).find("#file_number_checkup").val(fileNumber);
 			//$(this).find("#file_number_checkup").prop("disabled", "true");
@@ -2046,7 +2057,7 @@ this.checkupFormDialog = function(that) {
 			$(this).find("#address").val(address);
 			//$(this).find("#address").prop("disabled", "true");
 			
-			var selectTag, i;
+			var selectTag;
 			var a = [["result_1","result"], ["result_2","result"], ["result_3","result"]];
 			a.forEach(function(name) {
 				selectTag = $('#' + name[0]);
@@ -2054,10 +2065,23 @@ this.checkupFormDialog = function(that) {
 					selectTag.find('option').remove();
 
 				selectTag.append('<option value="' + (0) + '"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
-				for (i in eval(name[1] + '_enum')) {
-					selectTag.append('<option value="' + (i) + '">' + jQuery.i18n.prop(i) + '</option>');
+				var i = 1, indx;
+				for (val in eval(name[1] + '_enum')) {
+					indx = eval(name[1]+ '_enum' + "." + val);
+					selectTag.append('<option value="' + (indx) + '">' + jQuery.i18n.prop(val) + '</option>');
+					
+					if (indx == onGoingCheckupResult[0][0][name[0]])
+						selectTag.prop('selectedIndex', i);
+						
+					i++;
 				}
 			})
+			
+			var a = ['check_1_dt', 'note_1', 'check_2_dt', 'note_2', 'check_3_dt', 'note_3'];
+			a.forEach(function(name) {
+				$('#' + name).val(onGoingCheckupResult[0][0][name]);
+			})
+			
 /*			
 			var a = ["case", "result", "postponement", "unsatisfactory_case"];
 			a.forEach(function(name) {
@@ -2643,6 +2667,10 @@ function getDate() {
 	month = (('' + month).length < 2 ? '0' : '') + month;
 	return d.getDate() + "/" + month + "/" + d.getFullYear();
 	//return action + ' \&nbsp;' + dt + ' by ' + displayName;
+}
+
+function formatDateTo_YMD(dt) {
+
 }
 
 function resetForm() {
