@@ -1542,12 +1542,12 @@ function applyButtonBorderStyle(itemTemplate) {
 
 	if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess) {	// in process
 		//if (itemTemplate.find('.docDetailDiv select').children().length == 2)
-		if (itemTemplate.data('secId') == 1)
+		if (itemTemplate.data('secId') == sectionId_enum.ac)
 			itemTemplate.addClass("goldBorder");
 		//else if (itemTemplate.find('.docDetailDiv select').children().length == 3)
-		else if (itemTemplate.data('secId') == 2)
+		else if (itemTemplate.data('secId') == sectionId_enum.electricity)
 			itemTemplate.addClass("blueBorder");
-		else if (itemTemplate.data('secId') == 3)
+		else if (itemTemplate.data('secId') == sectionId_enum.checkup)
 			itemTemplate.addClass("greenBorder");
 		
 
@@ -1624,25 +1624,58 @@ function applyButtonBorderStyle(itemTemplate) {
 					itemTemplate.find("a:nth-of-type(3)").addClass("forwardbackButton");
 					itemTemplate.find("a:nth-of-type(3)").attr('title', $.i18n.prop('ForwardBack'));
 				} else if ($("#tabs").tabs( "option", "active" ) == activeTab_enum.inprocess) {
-					if (itemTemplate.data('empId') != null) {
-						//itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");				//revoke button
-						itemTemplate.find(".tagButton").text(mapLoginNameToDisplayName(itemTemplate, itemTemplate.data('empId')));
-						itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
+					if (itemTemplate.data('secId') == sectionId_enum.checkup || itemTemplate.data('empId') != null) {
+						if (itemTemplate.data('secId') == sectionId_enum.checkup) {
+							itemTemplate.find(".tagButton").addClass("checkupButton");	
+							itemTemplate.find(".tagButton").text($.i18n.prop('Checkup'));
+							itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
+							/*
+							itemTemplate.find(".tagButton").css("display", "block");
+							itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-document'} });
 
+							if ($("body[dir='ltr']").length)
+								itemTemplate.find(".tagButton").css({ right: '2px' });
+							else
+								itemTemplate.find(".tagButton").css({ left: '2px' });
+
+							//itemTemplate.find(".tagButton").css({ bottom: '6px' });
+							itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-top': '0px', 'padding-bottom': '0px' });
+							*/
+						} else
+						if (itemTemplate.data('empId') != null) {
+							//itemTemplate.find("a:nth-of-type(4)").addClass("revokeButton");				//revoke button
+							itemTemplate.find(".tagButton").text(mapLoginNameToDisplayName(itemTemplate, itemTemplate.data('empId')));
+							itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
+							/*
+							itemTemplate.find(".tagButton").css("display", "block");
+							itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-person'} });
+							//itemTemplate.find("a:nth-of-type(1)").button({ disabled: 'true' });
+
+							if ($("body[dir='ltr']").length)
+								itemTemplate.find(".tagButton").css({ right: '2px' });
+							else
+								itemTemplate.find(".tagButton").css({ left: '2px' });
+
+							//itemTemplate.find(".tagButton").css({ bottom: '6px' });
+							itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-top': '0px', 'padding-bottom': '0px' });
+							//itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-top': '0px' });
+							//itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-bottom': '0px' });
+							//itemTemplate.find("div>a").css({ color: 'black' });
+							*/
+						}
+						
+						itemTemplate.find(".tagButton").css("position", "absolute"); 	// CSS works in IE, but not in FF, Chrome; for FF, Chrome set .css("position", "absolute");
 						itemTemplate.find(".tagButton").css("display", "block");
-						itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-person'} });
-						//itemTemplate.find("a:nth-of-type(1)").button({ disabled: 'true' });
+						itemTemplate.find(".tagButton").button({ icons: { primary: 'ui-icon-document'} });
 
 						if ($("body[dir='ltr']").length)
 							itemTemplate.find(".tagButton").css({ right: '2px' });
 						else
 							itemTemplate.find(".tagButton").css({ left: '2px' });
 
-						itemTemplate.find(".tagButton").css({ bottom: '6px' });
+						//itemTemplate.find(".tagButton").css({ bottom: '6px' });
 						itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-top': '0px', 'padding-bottom': '0px' });
-						//itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-top': '0px' });
-						//itemTemplate.find(".tagButton>span:nth-of-type(2)").css({ 'padding-bottom': '0px' });
-						//itemTemplate.find("div>a").css({ color: 'black' });
+						
 					}
 					
 					setPrintCommentLinks(itemTemplate);
@@ -1695,16 +1728,26 @@ function applyButtonBorderStyle(itemTemplate) {
 }
 
 function setPrintCommentLinks(itemTemplate) {
-	var a_tag, a2_tag;
+	var a_tag; //, a2_tag, div_tag,  div2_tag;
+	//div_tag = $('<div>');
 	if ($("body[dir='ltr']").length) {
-		a_tag = $('<a href="#" class="docPrintAnchor floatRight">' + jQuery.i18n.prop('Print') + '</a>');
-		a2_tag = $('<a href="#" class="docCommentAnchor floatRight">' + jQuery.i18n.prop('Comment') + '</a>');
+		a_tag = $('<div class="floatRight"><a href="#" class="docPrintAnchor">' + jQuery.i18n.prop('Print') + '</a>' +
+				'<a href="#" class="docCommentAnchor">' + jQuery.i18n.prop('Comment') + '</a></div>');
+		a_tag.css({position: 'absolute', bottom: '0px', right: '6px'});
 	} else {
-		a_tag = $('<a href="#" class="docPrintAnchor floatLeft">' + jQuery.i18n.prop('Print') + '</a>');
-		a2_tag = $('<a href="#" class="docCommentAnchor floatLeft">' + jQuery.i18n.prop('Comment') + '</a>');
+		a_tag = $('<div class="floatLeft"><a href="#" class="docPrintAnchor">' + jQuery.i18n.prop('Print') + '</a>' +
+				'<a href="#" class="docCommentAnchor">' + jQuery.i18n.prop('Comment') + '</a></div>');
+		a_tag.css({position: 'absolute', bottom: '0px', left: '6px'});
+		//a_tag = $('<a href="#" class="docPrintAnchor floatLeft">' + jQuery.i18n.prop('Print') + '</a>');
+		//a2_tag = $('<a href="#" class="docCommentAnchor floatLeft">' + jQuery.i18n.prop('Comment') + '</a>');
 	}
 	
-	itemTemplate.find(".docDetailDiv").prepend(a2_tag);
+	//a2_tag.css({ bottom: '6px' });
+
+	//a_tag.css("position", "absolute");
+	//a2_tag.css("position", "absolute");
+	
+	//itemTemplate.find(".docDetailDiv").prepend(a2_tag);
 	itemTemplate.find(".docDetailDiv").prepend(a_tag);
 }
 
@@ -1730,8 +1773,8 @@ $(document).on("click", ".revokeButton", function(e, data) {
 	revoke(fn);
 })
 
-$(document).on("click", ".checkupButton", function() {
-	checkupFormDialog(this);
+$(document).on("click", ".checkupButton", function(e, data) {
+	checkupFormDialog(this, (sectionId == sectionId_enum.followup) ? status_enum.readonly : 0);
 })
 
 $(document).on("click", ".approveButton", function() {
@@ -1863,7 +1906,7 @@ var unsatisfactory_case_enum = {
 
 
 //function checkupFormDialog(that) {
-this.checkupFormDialog = function(that) {
+this.checkupFormDialog = function(that, action) {
 	var fileNumber = $(that).closest("div").find(".docFileNumber span").text();
 	var selectTag = $(that).siblings('select');
 	//var l = selectTag.children().length;
@@ -1881,50 +1924,59 @@ this.checkupFormDialog = function(that) {
 		resizable: false,
 		closeOnEscape: false,
 		open: function( event, ui ) {
-			$(this).dialog( "option", "buttons",
-				[{	text: "Save",
-					id: "buttSave",
-					click: function() {
-						var url = "json_db_crud_pdo.php";
-						var data = {"func":"createUpdateOngoingCheckup",
-							"param":{
-								docFileNumber:fileNumber,
-								check_1_dt: $(this).find('#check_1_dt').val(),
-								checker_1: $(this).find('#checker_1').val(),
-								result_1: $(this).find('#result_1').val(),
-								note_1: $(this).find('#note_1').val(),
-								check_2_dt: $(this).find('#check_2_dt').val(),
-								checker_2: $(this).find('#checker_2').val(),
-								result_2: $(this).find('#result_2').val(),
-								note_2: $(this).find('#note_2').val(),
-								check_3_dt: $(this).find('#check_3_dt').val(),
-								checker_3: $(this).find('#checker_3').val(),
-								result_3: $(this).find('#result_3').val(),
-								note_3: $(this).find('#note_3').val(),
-							}};
+			if (action == status_enum.readonly) {
+				$(this).dialog( "option", "buttons",
+					[{	text: "Close",
+						click: function() {
+							$( this ).dialog( "destroy" );
+						}
+					}]
+				); 
+			} else {
+				$(this).dialog( "option", "buttons",
+					[{	text: "Save",
+						id: "buttSave",
+						click: function() {
+							var url = "json_db_crud_pdo.php";
+							var data = {"func":"createUpdateOngoingCheckup",
+								"param":{
+									docFileNumber:fileNumber,
+									check_1_dt: $(this).find('#check_1_dt').val(),
+									checker_1: $(this).find('#checker_1').val(),
+									result_1: $(this).find('#result_1').val(),
+									note_1: $(this).find('#note_1').val(),
+									check_2_dt: $(this).find('#check_2_dt').val(),
+									checker_2: $(this).find('#checker_2').val(),
+									result_2: $(this).find('#result_2').val(),
+									note_2: $(this).find('#note_2').val(),
+									check_3_dt: $(this).find('#check_3_dt').val(),
+									checker_3: $(this).find('#checker_3').val(),
+									result_3: $(this).find('#result_3').val(),
+									note_3: $(this).find('#note_3').val(),
+								}};
 
-						$.post(url, data)
-						.done(function(data) {
-							//if (data.error) {
-							//	alert("Data: " + data + "\nStatus: " + status);
-							//}
-							if (data && data.constructor == Array) {
-								if (data[0].error != undefined) {
-									alert(data[0].error);
+							$.post(url, data)
+							.done(function(data) {
+								//if (data.error) {
+								//	alert("Data: " + data + "\nStatus: " + status);
+								//}
+								if (data && data.constructor == Array) {
+									if (data[0].error != undefined) {
+										alert(data[0].error);
+									}
 								}
-							}
-						
-							//$( this ).dialog( "destroy" )
-						})
-					}
-				},
-				{	text: "Cancel",
-					click: function() {
-						$( this ).dialog( "destroy" )
-					}
-				}]
-			); 
-
+							
+								//$( this ).dialog( "destroy" )
+							})
+						}
+					},
+					{	text: "Cancel",
+						click: function() {
+							$( this ).dialog( "destroy" )
+						}
+					}]
+				); 
+			}
 			//$('.checkers').prop('disabled', true);
 			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('disable');
 			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('enable');
@@ -2136,7 +2188,7 @@ this.checkupFormDialog = function(that) {
 
 this.commentDialog = function(that, action) {
     //$("#commentDialog").dialog( "destroy" );
-	var fileNumber = $(that).closest("div").find(".docFileNumber span").text();
+	var fileNumber = $(that).closest(".docDetailDiv").find(".docFileNumber span").text();
 
 	var commentHistory = "";
 	var sectionIdReturnedFrom;
@@ -3994,7 +4046,7 @@ function printReport() {
 
 $(document).on("click", ".docCommentAnchor", function(e){
 	e.preventDefault();
-	commentDialog(this, "readonly");
+	commentDialog(this, status_enum.readonly);
 })
 
 $(document).on("click", ".docPrintAnchor", function(e){

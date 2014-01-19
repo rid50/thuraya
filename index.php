@@ -262,7 +262,7 @@ if ($idp == "SAML") {
 				<span/>
 			</div>
 
-			<select class="floatLeft" style="width:250px"></select>
+			<select class="floatLeft" style="width:270px"></select>
 
 			<a href="#" class="docButtons floatRight"></a>
 			<a href="#" class="docButtons floatRight"></a>
