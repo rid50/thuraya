@@ -392,8 +392,16 @@ class DatabaseRepository {
 		while($r = $ds->fetch(PDO::FETCH_ASSOC)) {
 			//throw new Exception(print_r($r));
 			$r['check_1_dt'] = DateTime::createFromFormat('Y-m-d', $r['check_1_dt'])->format('d/m/Y');
+			if( DateTime::getLastErrors()['warning_count'] > 0 )
+				$r['check_1_dt'] = "";
+				
 			$r['check_2_dt'] = DateTime::createFromFormat('Y-m-d', $r['check_2_dt'])->format('d/m/Y');
+			if( DateTime::getLastErrors()['warning_count'] > 0 )
+				$r['check_2_dt'] = "";
+
 			$r['check_3_dt'] = DateTime::createFromFormat('Y-m-d', $r['check_3_dt'])->format('d/m/Y');
+			if( DateTime::getLastErrors()['warning_count'] > 0 )
+				$r['check_3_dt'] = "";
 
 			$result[] = (object)$r;
 		}
@@ -830,9 +838,9 @@ class DatabaseRepository {
 			if ($param['note_3'] != "") {
 				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "note_3 = '{$param['note_3']}'";
 			}
+		} else {
+			$columnsToUpdate .= " docFileNumber = '{$param['docFileNumber']}'";
 		}
-
-
 		
 		$ar = array(
 			'docFileNumber' => $param['docFileNumber'],
@@ -844,7 +852,7 @@ class DatabaseRepository {
 			'checker_2' => $param['checker_2'],
 			'result_2' => $param['result_2'],
 			'note_2' => $param['note_2'],
-			'check_3_dt' => $param['check_1_dt'],
+			'check_3_dt' => $param['check_3_dt'],
 			'checker_3' => $param['checker_3'],
 			'result_3' => $param['result_3'],
 			'note_3' => $param['note_3'],

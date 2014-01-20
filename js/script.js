@@ -1954,7 +1954,7 @@ this.checkupFormDialog = function(that, action) {
 									result_3: $(this).find('#result_3').val(),
 									note_3: $(this).find('#note_3').val(),
 								}};
-
+							var that = $( this );
 							$.post(url, data)
 							.done(function(data) {
 								//if (data.error) {
@@ -1964,9 +1964,8 @@ this.checkupFormDialog = function(that, action) {
 									if (data[0].error != undefined) {
 										alert(data[0].error);
 									}
-								}
-							
-								//$( this ).dialog( "destroy" )
+								} else
+									that.dialog( "destroy" );
 							})
 						}
 					},
@@ -1977,23 +1976,6 @@ this.checkupFormDialog = function(that, action) {
 					}]
 				); 
 			}
-			//$('.checkers').prop('disabled', true);
-			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('disable');
-			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('enable');
-			//$('.checkers').fadeTo(0, 0.5);
-			$('.checkup-group').blur(function(event){
-				var that = this;
-				$(this).parent()[0];
-				//if ($(this).parent()[0].id.lastIndexOf('1') != -1)
-				
-				
-				$($(this).parent().find("select")[1]).val();
-				$($(this).parent().find("input")[0]).val();
-				
-				//if ($("input:checked").val() != undefined)
-				//	$("#buttOk").prop('disabled', false);
-					//$(".ui-dialog-buttonpane").find('button:contains("Ok")').prop('disabled', false);	// it works !!!!
-			});
 			
 			var onGoingCheckupResult;
 			
@@ -2008,35 +1990,10 @@ this.checkupFormDialog = function(that, action) {
 					}
 				}
 				
-				//chNames = [];
-				//var o, result;
 				if (data.d == undefined)
 					onGoingCheckupResult = data;
 				else
 					onGoingCheckupResult = data.d.Data;
-/*				
-				result = [];
-				
-				//data.d.Data.forEach(function(o) {
-				var selectTag, i;
-				var a = ['checker_1', 'checker_2', 'checker_3'];
-				result.forEach(function(name) {
-					selectTag = $('#' + name);
-					if (selectTag.children().length != 0)
-						selectTag.find('option').remove();
-
-					selectTag.append('<option value="' + (0) + '"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
-
-					result.forEach(function(r) {
-						selectTag.append('<option value="' + r.id + '">' + r.ch_name + '</option>');
-					})
-				
-					//o = {};
-					//o.id = r.id;
-					//o.label = r.ch_name;
-					//chNames.push(o);
-				});
-*/				
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				alert("getOngoingCheckup - error: " + errorThrown);
@@ -2073,12 +2030,11 @@ this.checkupFormDialog = function(that, action) {
 					var i = 1;
 					result.forEach(function(r) {
 						selectTag.append('<option value="' + r.id + '">' + r.ch_name + '</option>');
-						if (r.id == onGoingCheckupResult[0][0][name])
+						if (onGoingCheckupResult[0].length != 0 && r.id == onGoingCheckupResult[0][0][name])
 							selectTag.prop('selectedIndex', i);
 							
 						i++;
 					})
-
 					//selectTag.selectedIndex = onGoingCheckupResult[0][0][name];
 					//selectTag.prop('selectedIndex', onGoingCheckupResult[0][0][name]);
 					
@@ -2117,12 +2073,13 @@ this.checkupFormDialog = function(that, action) {
 					selectTag.find('option').remove();
 
 				selectTag.append('<option value="' + (0) + '"> --- ' + jQuery.i18n.prop('Select') + ' --- </option>');
+
 				var i = 1, indx;
 				for (val in eval(name[1] + '_enum')) {
 					indx = eval(name[1]+ '_enum' + "." + val);
 					selectTag.append('<option value="' + (indx) + '">' + jQuery.i18n.prop(val) + '</option>');
 					
-					if (indx == onGoingCheckupResult[0][0][name[0]])
+					if (onGoingCheckupResult[0].length != 0 && indx == onGoingCheckupResult[0][0][name[0]])
 						selectTag.prop('selectedIndex', i);
 						
 					i++;
@@ -2131,9 +2088,96 @@ this.checkupFormDialog = function(that, action) {
 			
 			var a = ['check_1_dt', 'note_1', 'check_2_dt', 'note_2', 'check_3_dt', 'note_3'];
 			a.forEach(function(name) {
-				$('#' + name).val(onGoingCheckupResult[0][0][name]);
+				if (onGoingCheckupResult[0].length != 0)
+					$('#' + name).val(onGoingCheckupResult[0][0][name]);
+				else
+					$('#' + name).val("");
 			})
+
+			$('.checkers').prop('disabled', false);
+			$('.checkers').fadeTo(0, 1);
+			$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('enable');
 			
+			if (($('#checker_1').val() == 0 || $('#check_1_dt').val() == "" || $('#result_1').val() == 0) ||
+					$('#result_1').val() == result_enum.Satisfactory)
+			{
+				$('#check_2_dt, #check_3_dt').datepicker('disable');
+				$('#fch2.checkers').prop('disabled', true);
+				$('#fch2.checkers').fadeTo(0, 0.5);
+				$('#fch3.checkers').prop('disabled', true);
+				$('#fch3.checkers').fadeTo(0, 0.5);
+			} else {
+				$('#check_1_dt').datepicker('disable');
+				$('#fch1.checkers').prop('disabled', true);
+				$('#fch1.checkers').fadeTo(0, 0.5);
+
+				if (($('#checker_2').val() == 0 || $('#check_2_dt').val() == "" || $('#result_2').val() == 0) ||
+						$('#result_2').val() == result_enum.Satisfactory)
+				{
+					$('#check_3_dt').datepicker('disable');
+					$('#fch3.checkers').prop('disabled', true);
+					$('#fch3.checkers').fadeTo(0, 0.5);
+				} else {
+					$('#check_2_dt').datepicker('disable');
+					$('#fch2.checkers').prop('disabled', true);
+					$('#fch2.checkers').fadeTo(0, 0.5);
+/*				
+					if (($('#checker_3').val() == 0 || $('#check_3_dt').val() == "" || $('#result_3').val() == 0) ||
+							$('#result_3').val() == result_enum.Satisfactory)
+					{
+						$('#check_1_dt, #check_2_dt').datepicker('disable');
+						$('#fch1.checkers').prop('disabled', true);
+						$('#fch2.checkers').fadeTo(0, 0.5);
+						$('#fch1.checkers').prop('disabled', true);
+						$('#fch3.checkers').fadeTo(0, 0.5);
+					}
+*/					
+				}
+			}
+/*
+			else if ($('#checker_2').val() == 0 || $('#check_2_dt').val() == "" || $('#result_2').val() == 0) {
+				$('#check_2_dt, #check_3_dt').datepicker('disable');
+				$('#fch2.checkers').prop('disabled', true);
+				$('#fch2.checkers').fadeTo(0, 0.5);
+				$('#fch3.checkers').prop('disabled', true);
+				$('#fch3.checkers').fadeTo(0, 0.5);
+			} elseif ($('#checker_1').val() == 0 || $('#check_1_dt').val() == "" || $('#result_1').val() == 0) {
+				$('#check_2_dt, #check_3_dt').datepicker('disable');
+				$('#fch2.checkers').prop('disabled', true);
+				$('#fch2.checkers').fadeTo(0, 0.5);
+				$('#fch3.checkers').prop('disabled', true);
+				$('#fch3.checkers').fadeTo(0, 0.5);
+			} else
+*/			
+			//$('.checkers').prop('disabled', true);
+			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('disable');
+			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('enable');
+			//$('.checkers').fadeTo(0, 0.5);
+			$('.checkup-group').blur(function(event){
+				var that = this;
+				$(this).parent()[0];
+				//if ($(this).parent()[0].id.lastIndexOf('1') != -1)
+				
+				
+				$($(this).parent().find("select")[1]).val();
+				$($(this).parent().find("input")[0]).val();
+				
+				//if ($("input:checked").val() != undefined)
+				//	$("#buttOk").prop('disabled', false);
+					//$(".ui-dialog-buttonpane").find('button:contains("Ok")').prop('disabled', false);	// it works !!!!
+			});
+			
+/*			
+									note_1: $(this).find('#note_1').val(),
+									check_2_dt: $(this).find('#check_2_dt').val(),
+									checker_2: $(this).find('#checker_2').val(),
+									result_2: $(this).find('#result_2').val(),
+									note_2: $(this).find('#note_2').val(),
+									check_3_dt: $(this).find('#check_3_dt').val(),
+									checker_3: $(this).find('#checker_3').val(),
+									result_3: $(this).find('#result_3').val(),
+									note_3: $(this).find('#note_3').val(),			
+*/			
 /*			
 			var a = ["case", "result", "postponement", "unsatisfactory_case"];
 			a.forEach(function(name) {

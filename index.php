@@ -399,10 +399,10 @@ if ($idp == "SAML") {
 							<select id="checker_1" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_1_dt"><strong>Date of checkup</strong></label><br/>
-							<input type="text" name="check_1_dt" id="check_1_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+							<input type="text" name="check_1_dt" id="check_1_dt" style="width:100px" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_1"><strong>Result</strong></label><br/>
-							<select id="result_1" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
+							<select id="result_1" style="width:170px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="note_1"><strong>Note</strong></label><br/>
 							<textarea id="note_1" rows="1" class="checkup-group text ui-widget-content ui-corner-all" ></textarea>
@@ -416,10 +416,10 @@ if ($idp == "SAML") {
 							<select id="checker_2" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_2_dt"><strong>Date of checkup</strong></label><br/>
-							<input type="text" name="check_2_dt" id="check_2_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+							<input type="text" name="check_2_dt" id="check_2_dt" style="width:100px" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_2"><strong>Result</strong></label><br/>
-							<select id="result_2" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
+							<select id="result_2" style="width:170px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="note_2"><strong>Note</strong></label><br/>
 							<textarea id="note_2" rows="1" class="checkup-group text ui-widget-content ui-corner-all" ></textarea>
@@ -433,10 +433,10 @@ if ($idp == "SAML") {
 							<select id="checker_3" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_3_dt"><strong>Date of checkup</strong></label><br/>
-							<input type="text" name="check_3_dt" id="check_3_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+							<input type="text" name="check_3_dt" id="check_3_dt" style="width:100px" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_3"><strong>Result</strong></label><br/>
-							<select id="result_3" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
+							<select id="result_3" style="width:170px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="note_3"><strong>Note</strong></label><br/>
 							<textarea id="note_3" rows="1" class="checkup-group text ui-widget-content ui-corner-all" ></textarea>
