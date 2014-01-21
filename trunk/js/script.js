@@ -1977,6 +1977,38 @@ this.checkupFormDialog = function(that, action) {
 				); 
 			}
 			
+			
+			$('input[id="check_1_dt"], input[id="check_2_dt"], input[id="check_3_dt"]').change(function() {
+				var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
+				if (!$(this).val().match(regExpPattern)) {
+					$(this).addClass( "ui-state-error" );
+					$("#buttSave").attr('disabled', 'disabled');
+				} else {
+					$(this).removeClass( "ui-state-error" );
+					$("#buttSave").removeAttr("disabled");
+				}
+
+				if ($("#check_1_dt").val().match(regExpPattern) && $("#check_2_dt").val().match(regExpPattern)) {
+					if ($("#check_2_dt").datepicker("getDate") - $("#check_1_dt").datepicker("getDate") <= 0) {
+						$("#check_1_dt, #check_2_dt").addClass( "ui-state-error" );
+						$("#buttSave").attr('disabled', 'disabled');
+					} else {
+						$("#check_1_dt, #check_2_dt").removeClass( "ui-state-error" );
+						$("#buttSave").removeAttr("disabled");
+					}
+				}
+
+				if ($("#check_2_dt").val().match(regExpPattern) && $("#check_3_dt").val().match(regExpPattern)) {
+					if ($("#check_3_dt").datepicker("getDate") - $("#check_2_dt").datepicker("getDate") <= 0) {
+						$("#check_2_dt, #check_3_dt").addClass( "ui-state-error" );
+						$("#buttSave").attr('disabled', 'disabled');
+					} else {
+						$("#check_2_dt, #check_3_dt").removeClass( "ui-state-error" );
+						$("#buttSave").removeAttr("disabled");
+					}
+				}
+			});
+			
 			var onGoingCheckupResult;
 			
 			url = "json_db_crud_pdo.php";
@@ -2194,8 +2226,17 @@ this.checkupFormDialog = function(that, action) {
 			$('label[for="checkup_number"]').html('<strong>' + jQuery.i18n.prop('CheckupNumber') + '</strong>');
 			$('label[for="date_submission"]').html('<strong>' + jQuery.i18n.prop('DateOfSubmission') + '</strong>');
 			$('label[for="file_number_checkup"]').html('<strong>' + jQuery.i18n.prop('FileNumber') + '</strong>');
-			$('label[for="date_checkup"]').html('<strong>' + jQuery.i18n.prop('DateOfCheckup') + '</strong>');
+			//$('label[for="date_checkup"]').html('<strong>' + jQuery.i18n.prop('DateOfCheckup') + '</strong>');
 			$('label[for="address"]').html('<strong>' + jQuery.i18n.prop('Address') + '</strong>');
+			
+			$('#fch1 legend').html('<strong>' + jQuery.i18n.prop('Checkup') + ' 1</strong>');
+			$('#fch2 legend').html('<strong>' + jQuery.i18n.prop('Checkup') + ' 2</strong>');
+			$('#fch3 legend').html('<strong>' + jQuery.i18n.prop('Checkup') + ' 3</strong>');
+			$('label[for="checker_1"], label[for="checker_2"], label[for="checker_3"]').html('<strong>' + jQuery.i18n.prop('Checker') + '</strong>');
+			$('label[for="check_1_dt"], label[for="check_3_dt"], label[for="check_3_dt"]').html('<strong>' + jQuery.i18n.prop('DateOfCheckup') + '</strong>');
+			$('label[for="result_1"], label[for="result_2"], label[for="result_3"]').html('<strong>' + jQuery.i18n.prop('Result') + '</strong>');
+			$('label[for="note_1"], label[for="note_2"], label[for="note_3"]').html('<strong>' + jQuery.i18n.prop('Note') + '</strong>');
+			
 			$('label[for="case"]').html('<strong>' + jQuery.i18n.prop('Case') + '</strong>');
 			$('label[for="result"]').html('<strong>' + jQuery.i18n.prop('Result') + '</strong>');
 			$('label[for="postponement"]').html('<strong>' + jQuery.i18n.prop('Postponement') + '</strong>');

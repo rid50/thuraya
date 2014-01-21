@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once('c:/simplesaml/lib/_autoload.php');
-//require_once('/var/www/html/simplesamlphp/lib/_autoload.php');
+//require_once('c:/simplesaml/lib/_autoload.php');
+require_once('/var/www/html/simplesamlphp/lib/_autoload.php');
 
 //require_once('/home/y...../public_html/simplesamlphp/lib/_autoload.php');
 
@@ -393,7 +393,7 @@ if ($idp == "SAML") {
 				<tr>
 					<td>
 						<fieldset id="fch1" class="checkers">
-							<legend>Check 1</legend>
+							<legend>Checkup 1</legend>
 
 							<label for="checker_1"><strong>Checker</strong></label><br/>
 							<select id="checker_1" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
@@ -410,7 +410,7 @@ if ($idp == "SAML") {
 					</td>
 					<td>
 						<fieldset id="fch2" class="checkers">
-							<legend>Check 2</legend>
+							<legend>Checkup 2</legend>
 
 							<label for="checker_2"><strong>Checker</strong></label><br/>
 							<select id="checker_2" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
@@ -427,7 +427,7 @@ if ($idp == "SAML") {
 					</td>
 					<td>
 						<fieldset id="fch3" class="checkers">
-							<legend>Check 3</legend>
+							<legend>Checkup 3</legend>
 
 							<label for="checker_3"><strong>Checker</strong></label><br/>
 							<select id="checker_3" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
