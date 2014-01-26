@@ -70,6 +70,11 @@ CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
 CREATE TABLE ongoing_check (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `docFileNumber` VARCHAR( 24 ) NOT NULL,
+  `form_no` int(11) NOT NULL,
+  `year` varchar(4) COLLATE utf8_unicode_ci NOT NULL,  
+  `date_ins` timestamp NOT NULL,
+  `elc_load_new` float(11,3) DEFAULT NULL,
+  `elc_load_old` float(11,3) DEFAULT NULL,  
   `check_1_dt` date DEFAULT NULL,
   `checker_1` int(11) DEFAULT NULL,
   `result_1` int(11) DEFAULT NULL,

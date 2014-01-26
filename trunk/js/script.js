@@ -1941,6 +1941,10 @@ this.checkupFormDialog = function(that, action) {
 							var data = {"func":"createUpdateOngoingCheckup",
 								"param":{
 									docFileNumber:fileNumber,
+									form_no: $(this).find('#checkup_number').val(),
+									date_ins: $(this).find('#date_ins').val(),
+									elc_load_new: $(this).find('#elc_load_new').val(),
+									elc_load_old: $(this).find('#elc_load_old').val(),
 									check_1_dt: $(this).find('#check_1_dt').val(),
 									checker_1: $(this).find('#checker_1').val(),
 									result_1: $(this).find('#result_1').val(),
@@ -1977,6 +1981,17 @@ this.checkupFormDialog = function(that, action) {
 				); 
 			}
 			
+			
+			$('input[id="date_ins"]').change(function() {
+				var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
+				if (!$(this).val().match(regExpPattern)) {
+					$(this).addClass( "ui-state-error" );
+					$("#buttSave").attr('disabled', 'disabled');
+				} else {
+					$(this).removeClass( "ui-state-error" );
+					$("#buttSave").removeAttr("disabled");
+				}
+			});	
 			
 			$('input[id="check_1_dt"], input[id="check_2_dt"], input[id="check_3_dt"]').change(function() {
 				var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
@@ -2030,7 +2045,28 @@ this.checkupFormDialog = function(that, action) {
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				alert("getOngoingCheckup - error: " + errorThrown);
 			});
+
+			$(this).find("#file_number_checkup").val(fileNumber);
+			if (onGoingCheckupResult[0].length != 0) {
+				$(this).find("#checkup_number").val(onGoingCheckupResult[0][0].form_no);
+				$(this).find("#date_ins").val(onGoingCheckupResult[0][0].date_ins);
+				$(this).find("#elc_load_new").val(onGoingCheckupResult[0][0].elc_load_new);
+				$(this).find("#elc_load_old").val(onGoingCheckupResult[0][0].elc_load_old);
+				calculateLoadTotal();
+			} else {
+				$(this).find("#checkup_number").val("");
+				$(this).find("#date_ins").val("");
+				$(this).find("#elc_load_new").val("");
+				$(this).find("#elc_load_old").val("");
+				$(this).find("#load_total").val("");
+			}
 			
+			that = $(that).parent();
+			var address = that.find('.docAddress span').text();
+			$(this).find("#address").val(address);
+			//$(this).find("#address").prop("disabled", "true");
+			
+
 			var chNames;
 			$.get(url, {"func":"getCheckers", "param":{dbName:"ecabling"}})
 			.done(function( data ) {
@@ -2086,16 +2122,6 @@ this.checkupFormDialog = function(that, action) {
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				alert("getCheckers - error: " + errorThrown);
 			});
-			
-			$(this).find("#file_number_checkup").val(fileNumber);
-			//$(this).find("#file_number_checkup").prop("disabled", "true");
-
-			$(this).find("#date_checkup").val(selectOptionLabel.split(' ')[0].trim());
-			
-			that = $(that).parent();
-			var address = that.find('.docAddress span').text();
-			$(this).find("#address").val(address);
-			//$(this).find("#address").prop("disabled", "true");
 			
 			var selectTag;
 			var a = [["result_1","result"], ["result_2","result"], ["result_3","result"]];
@@ -2224,9 +2250,11 @@ this.checkupFormDialog = function(that, action) {
 			})
 */
 			$('label[for="checkup_number"]').html('<strong>' + jQuery.i18n.prop('CheckupNumber') + '</strong>');
-			$('label[for="date_submission"]').html('<strong>' + jQuery.i18n.prop('DateOfSubmission') + '</strong>');
+			$('label[for="date_ins"]').html('<strong>' + jQuery.i18n.prop('DateOfSubmission') + '</strong>');
+			$('label[for="load_new"]').html('<strong>' + jQuery.i18n.prop('load_new') + '</strong>');
+			$('label[for="load_old"]').html('<strong>' + jQuery.i18n.prop('load_old') + '</strong>');
+			$('label[for="load_total"]').html('<strong>' + jQuery.i18n.prop('load_total') + '</strong>');
 			$('label[for="file_number_checkup"]').html('<strong>' + jQuery.i18n.prop('FileNumber') + '</strong>');
-			//$('label[for="date_checkup"]').html('<strong>' + jQuery.i18n.prop('DateOfCheckup') + '</strong>');
 			$('label[for="address"]').html('<strong>' + jQuery.i18n.prop('Address') + '</strong>');
 			
 			$('#fch1 legend').html('<strong>' + jQuery.i18n.prop('Checkup') + ' 1</strong>');
@@ -2242,17 +2270,6 @@ this.checkupFormDialog = function(that, action) {
 			$('label[for="postponement"]').html('<strong>' + jQuery.i18n.prop('Postponement') + '</strong>');
 			$('label[for="unsatisfactory_case"]').html('<strong>' + jQuery.i18n.prop('UnsatisfactoryCase') + '</strong>');
 			
-			
-			$('input[id="date_submission"]').change(function() {
-				var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
-				if (!$(this).val().match(regExpPattern)) {
-					$(this).addClass( "ui-state-error" );
-					$("#buttSave").attr('disabled', 'disabled');
-				} else {
-					$(this).removeClass( "ui-state-error" );
-					$("#buttSave").removeAttr("disabled");
-				}
-			});
 			
 			//ui-dialog-buttonset
 			$(this).parent().find(".ui-button-text").each(function() {
@@ -2270,6 +2287,21 @@ this.checkupFormDialog = function(that, action) {
 		},
     });
 };
+
+function calculateLoadTotal()
+{
+	var newLoad = parseFloat($('#elc_load_new').val());
+	var oldLoad = parseFloat($('#elc_load_old').val());
+	
+	if (isNaN(newLoad) && isNaN(oldLoad))
+		$('#load_total').val("");
+	else {
+		newLoad = isNaN(newLoad) ? 0.0 : newLoad;
+		oldLoad = isNaN(oldLoad) ? 0.0 : oldLoad;
+		$('#load_total').val(newLoad + oldLoad);
+	}
+}
+
 
 this.commentDialog = function(that, action) {
     //$("#commentDialog").dialog( "destroy" );
