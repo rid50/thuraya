@@ -39,12 +39,12 @@ CheckupGrid = {
             colNames: [$.i18n.prop('FileNumber'), $.i18n.prop('CheckupNumber'), $.i18n.prop('Address'), $.i18n.prop('DateOfSubmission'), jQuery.i18n.prop('load_new'), jQuery.i18n.prop('load_old'), jQuery.i18n.prop('load_total'), $.i18n.prop('Checker'), $.i18n.prop('CheckDate'), $.i18n.prop('Result'), $.i18n.prop('Checker')+'2', $.i18n.prop('CheckDate')+'2', $.i18n.prop('Result')+'2', $.i18n.prop('Checker')+'3', $.i18n.prop('CheckDate')+'3', $.i18n.prop('Result')+'3'],
             colModel: [ //http://php.net/manual/en/function.date.php
                         {name: 'file_no', index: 'file_no', align: 'left', width: '80px', sortable: true, resizable: true, frozen: true },
-                        {name: 'form_no', index: 'form_no', align: 'right', width: '60px', sortable: true, editable: false, resizable: false },
-                        {name: 'address', index: 'address', align: 'right', width: '190px', sortable: true, editable: false, resizable: true, searchoptions: { sopt: ['bw']} },
+                        {name: 'form_no', index: 'form_no', align: 'right', width: '45px', sortable: true, editable: false, resizable: false },
+                        {name: 'address', index: 'address', align: 'right', width: '125px', sortable: true, editable: false, resizable: true, searchoptions: { sopt: ['bw']} },
             //{ name: 'DateEntry', index: 'DateEntry', align: 'left', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'M j Y h:i A', newformat: 'd-M-Y h:iA'} },  //DateEntry = "Dec 31 1999 12:00AM"
                         {name: 'date_ins', index: 'date_ins', align: 'center', width: '90px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
-                        {name: 'elc_load_new', index: 'elc_load_new', align: 'right', width: '80px', sortable: true, editable: false, resizable: false, formatter: 'number' },
-                        {name: 'elc_load_old', index: 'elc_load_old', align: 'right', width: '80px', sortable: true, editable: false, resizable: false, formatter: 'number' },
+                        {name: 'elc_load_new', index: 'elc_load_new', align: 'right', width: '75px', sortable: true, editable: false, resizable: false, formatter: 'number' },
+                        {name: 'elc_load_old', index: 'elc_load_old', align: 'right', width: '75px', sortable: true, editable: false, resizable: false, formatter: 'number' },
                         {name: 'elc_load_total', index: 'elc_load_total', align: 'right', width: '110px', sortable: true, editable: false, resizable: false, formatter: 'number' },
                         {name: 'ch_name', index: 'ch_name', align: 'right', width: '80px', sortable: true, editable: false, resizable: false },
                         {name: 'check_1_dt', index: 'check_1_dt', align: 'center', width: '90px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
@@ -80,6 +80,8 @@ CheckupGrid = {
             rownumbers: true,
             caption: $.i18n.prop('Checkup'),
             toppager: false,
+			footerrow:true,
+
 			/*
 			jsonReader: {
 				root: "Rows",
@@ -93,6 +95,7 @@ CheckupGrid = {
 			*/
 			gridComplete:  function() {
 				//jQuery("#grid").jqGrid('setFrozenColumns');
+				grid.jqGrid('footerData','set', {date_ins:jQuery.i18n.prop('load_total') + ':', elc_load_new:31458.50, elc_load_old:31254.0, elc_load_total:62712.5});
 			},
 			afterInsertRow: function(rowid, rowdata, rowelem) {
 				var i;
@@ -207,6 +210,13 @@ CheckupGrid = {
 							}  // search options
                             //{sopt: ["cn"]} // Search options. Some options can be set on column level        
         );
+		
+	   $('div.ui-jqgrid-sdiv').css({
+			"border-bottom-style":"solid",
+			"border-bottom-color":"#a6c9e2",
+			"border-bottom-width":"2px"
+		}).insertBefore($('div.ui-jqgrid-bdiv'));
+		
 /*				  
         myCustomSearch = search.filterGrid("#" + grid.attr("id"), {
             gridModel: false,
