@@ -378,7 +378,7 @@ class DatabaseRepository {
 		$dbh = $this->connect(isset($param['dbName']) ? $param['dbName'] : '');
 		
 		try {
-			$st = "SELECT check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_2, note_2, check_3_dt, checker_3, result_3, note_3";
+			$st = "SELECT form_no, date_ins, elc_load_new, elc_load_old, check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_2, note_2, check_3_dt, checker_3, result_3, note_3";
 			$st .= " FROM ongoing_check WHERE docFileNumber = '{$param['docFileNumber']}'";
 
 			//throw new Exception($st);
@@ -391,6 +391,12 @@ class DatabaseRepository {
 		$this->result = $result = array();
 		while($r = $ds->fetch(PDO::FETCH_ASSOC)) {
 			//throw new Exception(print_r($r));
+			$timestamp = strtotime($r['date_ins']);
+			$r['date_ins'] = date('d/m/Y', $timestamp);
+			//$r['date_ins'] = DateTime::createFromFormat('Y-m-d', $r['date_ins'])->format('d/m/Y');
+			if( DateTime::getLastErrors()['warning_count'] > 0 )
+				$r['date_ins'] = "";
+
 			$r['check_1_dt'] = DateTime::createFromFormat('Y-m-d', $r['check_1_dt'])->format('d/m/Y');
 			if( DateTime::getLastErrors()['warning_count'] > 0 )
 				$r['check_1_dt'] = "";
@@ -793,6 +799,8 @@ class DatabaseRepository {
 		$columnsToUpdate = "";
 		$ar = [];
 
+		if ($param['date_ins'] != "")
+			$param['date_ins'] = DateTime::createFromFormat('d/m/Y', $param['date_ins'])->format('Y-m-d');
 		if ($param['check_1_dt'] != "")
 			$param['check_1_dt'] = DateTime::createFromFormat('d/m/Y', $param['check_1_dt'])->format('Y-m-d');
 		if ($param['check_2_dt'] != "")
@@ -841,9 +849,16 @@ class DatabaseRepository {
 		} else {
 			$columnsToUpdate .= " docFileNumber = '{$param['docFileNumber']}'";
 		}
+
+		$time=strtotime($param['date_ins']);
 		
 		$ar = array(
 			'docFileNumber' => $param['docFileNumber'],
+			'form_no' => $param['form_no'],
+			'year' => date("Y", $time),
+			'date_ins' => $param['date_ins'],
+			'elc_load_new' => $param['elc_load_new'],
+			'elc_load_old' => $param['elc_load_old'],
 			'check_1_dt' => $param['check_1_dt'],
 			'checker_1' => $param['checker_1'],
 			'result_1' => $param['result_1'],
@@ -859,8 +874,8 @@ class DatabaseRepository {
 		);
 		
 		try {
-			$st = "INSERT INTO ongoing_check (docFileNumber, check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_2, note_2, check_3_dt, checker_3, result_3, note_3)
-					VALUES (:docFileNumber, :check_1_dt, :checker_1, :result_1, :note_1, :check_2_dt, :checker_2, :result_2, :note_2, :check_3_dt, :checker_3, :result_3, :note_3)
+			$st = "INSERT INTO ongoing_check (docFileNumber, form_no, year, date_ins, elc_load_new, elc_load_old, check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_2, note_2, check_3_dt, checker_3, result_3, note_3)
+					VALUES (:docFileNumber,  :form_no, :year, :date_ins, :elc_load_new, :elc_load_old, :check_1_dt, :checker_1, :result_1, :note_1, :check_2_dt, :checker_2, :result_2, :note_2, :check_3_dt, :checker_3, :result_3, :note_3)
 					ON DUPLICATE KEY UPDATE " . $columnsToUpdate;
 					//ON DUPLICATE KEY UPDATE check_1_dt = '{check_1_dt}'"; // . $columnsToUpdate;
 

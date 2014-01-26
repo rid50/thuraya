@@ -350,21 +350,48 @@ if ($idp == "SAML") {
 		<fieldset>
 			<table>
 				<tr>
-					<td>
-						<label for="checkup_number"><strong>Checkup#</strong></label>
+					<td colspan="3">
+						<div><label for="checkup_number"><strong>Checkup#</strong></label></div>
+						<div><label for="date_ins"><strong>Submit date</strong></label></div>
+						<div><label for="elc_load_new"><strong>Load new</strong></label></div>
+						<div><label for="elc_load_old"><strong>Load old</strong></label></div>
+						<div><label for="load_total"><strong>Load total</strong></label></div>
 					</td>
-					<td>
-						<label for="date_submission"><strong>Date of submittion</strong></label>
-					</td>
-				</tr>	
+				</tr>
 				<tr>
-					<td>
-						<input type="text" name="checkup_number" id="checkup_number" autofocus="autofocus" maxlength="24" class="text ui-widget-content ui-corner-all" />
+					<td colspan="3">
+						<div><input type="text" id="checkup_number" autofocus="autofocus" maxlength="3" class="text ui-widget-content ui-corner-all" /></div>
+						<div><input type="text" id="date_ins" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" /></div>
+						<div><input type="text" id="elc_load_new" autofocus="autofocus" class="text ui-widget-content ui-corner-all" onblur="calculateLoadTotal();" /></div>
+						<div><input type="text" id="elc_load_old" autofocus="autofocus" class="text ui-widget-content ui-corner-all" onblur="calculateLoadTotal();" /></div>
+						<div><input type="text" id="load_total" disabled="disabled" class="text ui-widget-content ui-corner-all" /></div>
 					</td>
-					<td>
-						<input type="text" name="date_submission" id="date_submission" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" />
-					</td>
+					<!--td>
+						<input type="text" name="date_ins" id="date_ins" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" />
+					</td-->
 				</tr>	
+<!--				<tr>
+					<td>
+						<label for="load_new"><strong>Load new</strong></label>
+					</td>
+					<td>
+						<label for="load_old"><strong>Load old</strong></label>
+					</td>
+					<td>
+						<label for="load_total"><strong>Load total</strong></label>
+					</td>
+				</tr>	-->
+				<!--tr>
+					<td>
+						<input type="text" name="load_new" id="load_new" autofocus="autofocus" class="text ui-widget-content ui-corner-all" />
+					</td>
+					<td>
+						<input type="text" name="load_old" id="load_old" autofocus="autofocus" class="text ui-widget-content ui-corner-all" />
+					</td>
+					<td>
+						<input type="text" disabled="disabled" class="text ui-widget-content ui-corner-all" />
+					</td>
+				</tr-->	
 				<tr>
 					<td>
 						<label for="file_number_checkup"><strong>File#</strong></label>
@@ -375,6 +402,7 @@ if ($idp == "SAML") {
 					<td>
 						<label for="address"><strong>Address</strong></label>
 					</td>
+					<td/>
 				</tr>	
 				<tr>
 					<td>
@@ -386,6 +414,7 @@ if ($idp == "SAML") {
 					<td>
 						<input type="text" name="address" id="address" disabled="disabled" class="text ui-widget-content ui-corner-all" />
 					</td>
+					<td/>
 				</tr>
 			</table>
 
@@ -399,7 +428,7 @@ if ($idp == "SAML") {
 							<select id="checker_1" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_1_dt"><strong>Date of checkup</strong></label><br/>
-							<input type="text" name="check_1_dt" id="check_1_dt" style="width:100px" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+							<input type="text" name="check_1_dt" id="check_1_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_1"><strong>Result</strong></label><br/>
 							<select id="result_1" style="width:170px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
@@ -416,7 +445,7 @@ if ($idp == "SAML") {
 							<select id="checker_2" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_2_dt"><strong>Date of checkup</strong></label><br/>
-							<input type="text" name="check_2_dt" id="check_2_dt" style="width:100px" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+							<input type="text" name="check_2_dt" id="check_2_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_2"><strong>Result</strong></label><br/>
 							<select id="result_2" style="width:170px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
@@ -433,7 +462,7 @@ if ($idp == "SAML") {
 							<select id="checker_3" style="width:150px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>
 
 							<label for="check_3_dt"><strong>Date of checkup</strong></label><br/>
-							<input type="text" name="check_3_dt" id="check_3_dt" style="width:100px" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
+							<input type="text" name="check_3_dt" id="check_3_dt" maxlength="10" class="checkup-group rid50-datepicker text ui-widget-content ui-corner-all" /><br/>
 
 							<label for="result_3"><strong>Result</strong></label><br/>
 							<select id="result_3" style="width:170px" class="checkup-group ui-widget-content ui-corner-all"></select><br/>

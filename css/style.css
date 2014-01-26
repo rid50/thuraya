@@ -96,19 +96,29 @@ fieldset.checkers {
 //#newForm label:after { content: ": " }
 #newForm label { display: block; }
 
-#file_number, #file_number_checkup, #checkup_number {width:240px;}
+#file_number, #file_number_checkup {width:240px;}
+#checkup_number {width:40px;}
+#elc_load_new, #elc_load_old, #load_total {width:80px;}
 #area {width:220px;}
 #block {width:70px;}
 #plot {width:70px;}
 #address {width:280px;}
-// input#building {width:70px;}
-// input#paci_number {width:20%}
 textarea#title {width: 500px;}
 
-#date_checkup, #date_submission, #check_1_dt, #check_2_dt, #check_3_dt {width:90px;}
+#date_ins, #check_1_dt, #check_2_dt, #check_3_dt {width:100px;}
 
-//#checkupForm  form{ width: 740px }
-#checkupForm table { width: 560px }
+#checkupForm table {width: 740px}
+
+#checkupForm table:first-child div {display: inline-block; width: 110px}
+#checkupForm table:first-child div:nth-child(1) {width: 100px}
+#checkupForm table:first-child div:nth-child(2) {width: 150px}
+
+#checkupForm table:first-child tr:nth-child(3) td {width: 270px}
+#checkupForm table:first-child tr:nth-child(4) td {width: 270px}
+
+
+//nth-child(1)
+//#checkup_first_row>div, #checkup_second_row>div {display: inline-block; width: 120px}
 
 .hiddenElement {display: none}
 
