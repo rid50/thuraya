@@ -2251,8 +2251,8 @@ this.checkupFormDialog = function(that, action) {
 */
 			$('label[for="checkup_number"]').html('<strong>' + jQuery.i18n.prop('CheckupNumber') + '</strong>');
 			$('label[for="date_ins"]').html('<strong>' + jQuery.i18n.prop('DateOfSubmission') + '</strong>');
-			$('label[for="load_new"]').html('<strong>' + jQuery.i18n.prop('load_new') + '</strong>');
-			$('label[for="load_old"]').html('<strong>' + jQuery.i18n.prop('load_old') + '</strong>');
+			$('label[for="elc_load_new"]').html('<strong>' + jQuery.i18n.prop('load_new') + '</strong>');
+			$('label[for="elc_load_old"]').html('<strong>' + jQuery.i18n.prop('load_old') + '</strong>');
 			$('label[for="load_total"]').html('<strong>' + jQuery.i18n.prop('load_total') + '</strong>');
 			$('label[for="file_number_checkup"]').html('<strong>' + jQuery.i18n.prop('FileNumber') + '</strong>');
 			$('label[for="address"]').html('<strong>' + jQuery.i18n.prop('Address') + '</strong>');
