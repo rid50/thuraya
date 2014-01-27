@@ -271,6 +271,18 @@ class DatabaseRepository {
 
 		//$dbh = $this->connect();
 		$dbh = $this->connect(isset($param['dbName']) ? $param['dbName'] : '');
+		
+		try {
+			$st = "SELECT SUM(IFNULL(elc_load_new, 0.0)) AS load_new, SUM(IFNULL(elc_load_old, 0.0)) AS load_old,
+					SUM(IFNULL(elc_load_new, 0.0) + IFNULL(elc_load_old, 0.0)) AS total	FROM check_form";
+
+			$ds = $dbh->query($st);
+		} catch (PDOException $e) {
+			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
+		}
+		$r = $ds->fetch(PDO::FETCH_ASSOC);
+		$userdata = array('total_new' => $r[load_new], 'total_old' => $r[load_old], 'total' => $r[total]);
+		
 		try {
 			$st = "SELECT COUNT(*) AS count";
 			
@@ -323,12 +335,13 @@ class DatabaseRepository {
 		} catch (PDOException $e) {
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
 		}
-
+		
 		//$this->result = array();
 		if (!isset($this->result)) $this->result = new stdClass();
 		$this->result->page = $page;
 		$this->result->total = $total_pages;
 		$this->result->records = $count;
+		$this->result->userdata = $userdata;
 		$i = 0;
 		while($r = $ds->fetch(PDO::FETCH_ASSOC)) {
 			$this->result->rows[$i]['cell'] = (object)$r;
