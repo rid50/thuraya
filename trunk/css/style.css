@@ -97,7 +97,7 @@ fieldset.checkers {
 #newForm label { display: block; }
 
 #file_number, #file_number_checkup {width:240px;}
-#checkup_number {width:40px;}
+#checkup_number {width:50px;}
 #elc_load_new, #elc_load_old, #load_total {width:80px;}
 #area {width:220px;}
 #block {width:70px;}

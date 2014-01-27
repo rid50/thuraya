@@ -40,12 +40,12 @@ CheckupGrid = {
             colModel: [ //http://php.net/manual/en/function.date.php
                         {name: 'file_no', index: 'file_no', align: 'left', width: '80px', sortable: true, resizable: true, frozen: true },
                         {name: 'form_no', index: 'form_no', align: 'right', width: '45px', sortable: true, editable: false, resizable: false },
-                        {name: 'address', index: 'address', align: 'right', width: '125px', sortable: true, editable: false, resizable: true, searchoptions: { sopt: ['bw']} },
+                        {name: 'address', index: 'address', align: 'right', width: '115px', sortable: true, editable: false, resizable: true, searchoptions: { sopt: ['bw']} },
             //{ name: 'DateEntry', index: 'DateEntry', align: 'left', sortable: true, hidden: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'M j Y h:i A', newformat: 'd-M-Y h:iA'} },  //DateEntry = "Dec 31 1999 12:00AM"
                         {name: 'date_ins', index: 'date_ins', align: 'center', width: '90px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d g:i:s', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
-                        {name: 'elc_load_new', index: 'elc_load_new', align: 'right', width: '75px', sortable: true, editable: false, resizable: false, formatter: 'number' },
-                        {name: 'elc_load_old', index: 'elc_load_old', align: 'right', width: '75px', sortable: true, editable: false, resizable: false, formatter: 'number' },
-                        {name: 'elc_load_total', index: 'elc_load_total', align: 'right', width: '110px', sortable: true, editable: false, resizable: false, formatter: 'number' },
+                        {name: 'elc_load_new', index: 'elc_load_new', align: 'right', width: '85px', sortable: true, editable: false, resizable: false, formatter: 'number' },
+                        {name: 'elc_load_old', index: 'elc_load_old', align: 'right', width: '85px', sortable: true, editable: false, resizable: false, formatter: 'number' },
+                        {name: 'elc_load_total', index: 'elc_load_total', align: 'right', width: '100px', sortable: true, editable: false, resizable: false, formatter: 'number' },
                         {name: 'ch_name', index: 'ch_name', align: 'right', width: '80px', sortable: true, editable: false, resizable: false },
                         {name: 'check_1_dt', index: 'check_1_dt', align: 'center', width: '90px', sortable: true, hidden: false, resizable: false, sorttype: 'date', formatter: 'date', formatoptions: { srcformat: 'Y m d', newformat: 'd-M-Y'} }, //DateEntry (src) = "12/31/1999 00:00:00"
                         {name: 'result_1', index: 'result_1', align: 'right', width: '60px', sortable: true, editable: false, resizable: true },
@@ -95,7 +95,6 @@ CheckupGrid = {
 			*/
 			gridComplete:  function() {
 				//jQuery("#grid").jqGrid('setFrozenColumns');
-				grid.jqGrid('footerData','set', {date_ins:jQuery.i18n.prop('load_total') + ':', elc_load_new:31458.50, elc_load_old:31254.0, elc_load_total:62712.5});
 			},
 			afterInsertRow: function(rowid, rowdata, rowelem) {
 				var i;
@@ -131,9 +130,14 @@ CheckupGrid = {
             },
             loadComplete: function (event) {
                 if (event && event[0] && event[0].error != "") {
-					if (window.console) window.console.log(event[0].error);
+					//if (window.console) window.console.log(event[0].error);
 					alert (event[0].error);
 				}
+				
+				//if (grid.getGridParam('datatype') === "json") {
+				var userdata = grid.jqGrid('getGridParam', 'userData');
+				grid.jqGrid('footerData','set', {date_ins:jQuery.i18n.prop('load_total') + ':', elc_load_new: userdata.total_new, elc_load_old: userdata.total_old, elc_load_total: userdata.total});
+				
 				
 				//var ur = jQuery("#grid").getGridParam("url");
 				//jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php", page: 1 });

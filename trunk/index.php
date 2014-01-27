@@ -360,7 +360,7 @@ if ($idp == "SAML") {
 				</tr>
 				<tr>
 					<td colspan="3">
-						<div><input type="text" id="checkup_number" autofocus="autofocus" maxlength="3" class="text ui-widget-content ui-corner-all" /></div>
+						<div><input type="text" id="checkup_number" autofocus="autofocus" maxlength="5" class="text ui-widget-content ui-corner-all" /></div>
 						<div><input type="text" id="date_ins" maxlength="10" class="rid50-datepicker text ui-widget-content ui-corner-all" /></div>
 						<div><input type="text" id="elc_load_new" autofocus="autofocus" class="text ui-widget-content ui-corner-all" onblur="calculateLoadTotal();" /></div>
 						<div><input type="text" id="elc_load_old" autofocus="autofocus" class="text ui-widget-content ui-corner-all" onblur="calculateLoadTotal();" /></div>
