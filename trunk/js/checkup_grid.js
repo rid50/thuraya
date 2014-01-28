@@ -326,41 +326,49 @@ CheckupGrid = {
                 timeoutHnd = setTimeout(gridReload, 500)
             }
         }
-        function gridReload() {
-            if (timeoutHnd) {
-                clearTimeout(timeoutHnd);
-				timeoutHnd = null;
-            }
+        function gridReload(customSearch) {
+			if (!customSearch) {
+				if (timeoutHnd) {
+					clearTimeout(timeoutHnd);
+					timeoutHnd = null;
+				}
 
-			if ($('#grid').jqGrid('getGridParam' ,'postData' ) != undefined) {
-				$('#grid').jqGrid('setGridParam',{postData:{'searchField':'file_no'} });
-				$('#grid').jqGrid('setGridParam',{postData:{'searchString':$('#grid_search_field').val()} });
-				$('#grid').jqGrid('setGridParam',{postData:{'searchOper':'bw'} });
+				if ($('#grid').jqGrid('getGridParam' ,'postData' ) != undefined) {
+					$('#grid').jqGrid('setGridParam',{postData:{'searchField':'file_no'} });
+					$('#grid').jqGrid('setGridParam',{postData:{'searchString':$('#grid_search_field').val()} });
+					$('#grid').jqGrid('setGridParam',{postData:{'searchOper':'bw'} });
+					
+					//$($("#grid").navGrid("#pager")[0]).prop('p').postData.searchField = "file_no";
+					//$($("#grid").navGrid("#pager")[0]).prop('p').postData.searchString = $('#grid_search_field').val();
+					//$($("#grid").navGrid("#pager")[0]).prop('p').postData.searchOper = "bw";
+					jQuery("#grid").trigger("reloadGrid");
+
+					delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchField'];
+					delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchString'];
+					delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchOper'];
+				}
+
+				//var searchField = "file_no";
+				//var searchString = $('#grid_search_field').val();
+				//var searchOper = "bw";
 				
-				//$($("#grid").navGrid("#pager")[0]).prop('p').postData.searchField = "file_no";
-				//$($("#grid").navGrid("#pager")[0]).prop('p').postData.searchString = $('#grid_search_field').val();
-				//$($("#grid").navGrid("#pager")[0]).prop('p').postData.searchOper = "bw";
-				jQuery("#grid").trigger("reloadGrid");
+				//myCustomSearch.triggerSearch();
+				
+				//jQuery("#grid").jqGrid('searchGrid', options );
 
-				delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchField'];
-				delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchString'];
-				delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['searchOper'];
+				
+				//jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php?searchField=" + searchField + "&searchString=" + searchString + "&searchOper=" + searchOper, page: 1 }).trigger("reloadGrid");
+				//jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php", page: 1 });
+
+				//$("#grid").jqGrid("setColProp", "file_no", { searchoptions: { sopt: ['cn']} }).trigger("reloadGrid");
+				//jQuery("#grid").setGridParam({ url: "Checkup/List?search=" + search, page: 1 }).trigger("reloadGrid");
+			} else {
+				if ($('#grid').jqGrid('getGridParam' ,'postData' ) != undefined) {
+					$('#grid').jqGrid('setGridParam',{postData:{'param':{filter:getSearchFilter()}} });
+					jQuery("#grid").trigger("reloadGrid");
+					delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['customSearchParam'];
+				}
 			}
-
-            //var searchField = "file_no";
-            //var searchString = $('#grid_search_field').val();
-			//var searchOper = "bw";
-			
-			//myCustomSearch.triggerSearch();
-			
-			//jQuery("#grid").jqGrid('searchGrid', options );
-
-			
-            //jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php?searchField=" + searchField + "&searchString=" + searchString + "&searchOper=" + searchOper, page: 1 }).trigger("reloadGrid");
-			//jQuery("#grid").setGridParam({ url: "json_db_crud_pdo.php", page: 1 });
-
-			//$("#grid").jqGrid("setColProp", "file_no", { searchoptions: { sopt: ['cn']} }).trigger("reloadGrid");
-            //jQuery("#grid").setGridParam({ url: "Checkup/List?search=" + search, page: 1 }).trigger("reloadGrid");
         }
 
         function enableAutosubmit(state) {

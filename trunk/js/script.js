@@ -340,11 +340,15 @@ $(document).ready(function () {
 							if ($("#plot_search").val() == 0) 
 								$(this).data( "search", 0 );		// refresh
 			}
-*/			
-			$(this).data( "search", 1 );
-			//$("#tabs").tabs( "option", "active", activeTab_enum.pending );
-			getDocs();
-			$(this).data( "search", 0 );
+*/
+			if ($("#tabs").tabs( "option", "active" ) != activeTab_enum.checkup) {
+				$(this).data( "search", 1 );
+				//$("#tabs").tabs( "option", "active", activeTab_enum.pending );
+				getDocs();
+				$(this).data( "search", 0 );
+			} else {
+				gridReload(true);	// custom search
+			}
 		//}
 		})
 
