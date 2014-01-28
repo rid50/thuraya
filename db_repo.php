@@ -179,6 +179,78 @@ class DatabaseRepository {
 		$limit = $_GET['rows']; // get how many rows we want to have into the grid
 		$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
 		$sord = $_GET['sord']; // get the direction
+/*		
+			if ($param['docFileNumber'] == null || $param['docFileNumber'] == "") {
+
+				//error_log($param['filter']['dateFrom'] . "---" . $param['filter'][dateTo], 3, "error.log");
+			
+				$dtFrom = date_create_from_format('d/m/Y', $param['filter']['dateFrom'])->format('Y-m-d');
+				$dtTo = DateTime::createFromFormat('d/m/Y', $param['filter']['dateTo'])->format('Y-m-d');
+
+				//error_log("---- \n ----", 3, "error.log");
+				
+				//error_log($dtFrom . "---" . $dtTo, 3, "error.log");
+
+				if ($param['filter']['fileNumber'] != null) {
+					$where = " doc.docFileNumber = '{$param['filter']['fileNumber']}'";
+					//if ($param['filter'][approver] != null)
+					//	$param['filter'][approver] = null;
+				} else {
+					$where = " doc.docDate BETWEEN '$dtFrom' AND '$dtTo'";
+					//if ($param['filter'][paciNumber] != null)
+					//	$where .= " AND doc.docPACINumber = '{$param['filter'][paciNumber]}'";
+					if ($param['filter']['areaId'] != null)
+						$where .= " AND doc.docAreaId = '{$param['filter']['areaId']}'";
+					if ($param['filter']['block'] != null)
+						$where .= " AND doc.docBlock = '{$param['filter']['block']}'";
+					if ($param['filter']['plot'] != null)
+						$where .= " AND doc.docPlot = '{$param['filter']['plot']}'";
+				}
+
+				if ($param['filter']['employeeId'] != null)
+					$where .= " AND doc.employeeId = '{$param['filter']['employeeId']}'";
+				
+				if ($param['filter']['sectionId'] != null) {
+					if ($param['filter']['sectionId'] == 123)
+						$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2 OR doc.sectionId = 3)";
+					else if ($param['filter']['sectionId'] == -10)
+						$where .= " AND (doc.sectionId < -9 AND doc.sectionId > -20)";
+					else if ($param['filter']['sectionId'] == -20)
+						$where .= " AND (doc.sectionId < -19 AND doc.sectionId > -30)";
+					else
+						$where .= " AND doc.sectionId = '{$param['filter']['sectionId']}'";
+				}
+				//else
+				//	throw new Exception($where);
+				
+				
+				//$st = "SELECT docFileNumber, docDate, docApprover, docAreaId, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc";
+				//$st = "SELECT docFileNumber, docDate, docApprover, area.area_name as docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc INNER JOIN area ON doc.docAreaId = area.id";
+				$st = "SELECT docFileNumber, docDate, docApprover, docAreaId, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc";
+				$st .= " WHERE " . $where . " ORDER BY docDate ASC, docFileNumber ASC ";
+
+				//error_log($st . "---", 3, "error.log");
+
+				//throw new Exception($st);
+				//throw new Exception((string)($param['filter'][paciNumber] != null));
+
+				//if ($param['filter'][approver] != null)
+				//	$where .= " AND (doc.docApprover = '{$param['filter'][approver]}' OR docHistory.docApprover = '{$param['filter'][approver]}')";
+
+				$st2 = "SELECT docHistory.docFileNumber, docHistory.docDate, docHistory.docApprover FROM docHistory INNER JOIN doc ON doc.docFileNumber = docHistory.docFileNumber";
+				$st2 .= " WHERE " . $where;
+
+				//throw new Exception($st2);
+				
+				$stDoc = $dbh->query($st);
+				$stHistory = $dbh->query($st2);
+			} else {
+*/		
+		
+		
+		
+		
+		
 		$searchField = null;
 		if (isset($_GET['searchField'])){ $searchField = $_GET['searchField']; }
 		$searchOper = null;		// eq, bw, bn, ew, en, cn, nc, ne, lt, le, gt, ge, in, ni
