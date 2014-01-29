@@ -179,165 +179,120 @@ class DatabaseRepository {
 		$limit = $_GET['rows']; // get how many rows we want to have into the grid
 		$sidx = $_GET['sidx']; // get index row - i.e. user click to sort
 		$sord = $_GET['sord']; // get the direction
-/*		
-			if ($param['docFileNumber'] == null || $param['docFileNumber'] == "") {
+		
+		if (isset($param['filter']['fileNumber'])) {
 
-				//error_log($param['filter']['dateFrom'] . "---" . $param['filter'][dateTo], 3, "error.log");
+			//error_log($param['filter']['dateFrom'] . "---" . $param['filter'][dateTo], 3, "error.log");
+		
+			$dtFrom = date_create_from_format('d/m/Y', $param['filter']['dateFrom'])->format('Y-m-d');
+			$dtTo = DateTime::createFromFormat('d/m/Y', $param['filter']['dateTo'])->format('Y-m-d');
+
+			//error_log("---- \n ----", 3, "error.log");
 			
-				$dtFrom = date_create_from_format('d/m/Y', $param['filter']['dateFrom'])->format('Y-m-d');
-				$dtTo = DateTime::createFromFormat('d/m/Y', $param['filter']['dateTo'])->format('Y-m-d');
+			//error_log($dtFrom . "---" . $dtTo, 3, "error.log");
 
-				//error_log("---- \n ----", 3, "error.log");
-				
-				//error_log($dtFrom . "---" . $dtTo, 3, "error.log");
-
-				if ($param['filter']['fileNumber'] != null) {
-					$where = " doc.docFileNumber = '{$param['filter']['fileNumber']}'";
-					//if ($param['filter'][approver] != null)
-					//	$param['filter'][approver] = null;
-				} else {
-					$where = " doc.docDate BETWEEN '$dtFrom' AND '$dtTo'";
-					//if ($param['filter'][paciNumber] != null)
-					//	$where .= " AND doc.docPACINumber = '{$param['filter'][paciNumber]}'";
-					if ($param['filter']['areaId'] != null)
-						$where .= " AND doc.docAreaId = '{$param['filter']['areaId']}'";
-					if ($param['filter']['block'] != null)
-						$where .= " AND doc.docBlock = '{$param['filter']['block']}'";
-					if ($param['filter']['plot'] != null)
-						$where .= " AND doc.docPlot = '{$param['filter']['plot']}'";
-				}
-
-				if ($param['filter']['employeeId'] != null)
-					$where .= " AND doc.employeeId = '{$param['filter']['employeeId']}'";
-				
-				if ($param['filter']['sectionId'] != null) {
-					if ($param['filter']['sectionId'] == 123)
-						$where .= " AND (doc.sectionId = 1 OR doc.sectionId = 2 OR doc.sectionId = 3)";
-					else if ($param['filter']['sectionId'] == -10)
-						$where .= " AND (doc.sectionId < -9 AND doc.sectionId > -20)";
-					else if ($param['filter']['sectionId'] == -20)
-						$where .= " AND (doc.sectionId < -19 AND doc.sectionId > -30)";
-					else
-						$where .= " AND doc.sectionId = '{$param['filter']['sectionId']}'";
-				}
-				//else
-				//	throw new Exception($where);
-				
-				
-				//$st = "SELECT docFileNumber, docDate, docApprover, docAreaId, docBlock, docStreet, docBuilding, docPACINumber, docTitle, docComment, sectionId, employeeId FROM doc";
-				//$st = "SELECT docFileNumber, docDate, docApprover, area.area_name as docArea, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc INNER JOIN area ON doc.docAreaId = area.id";
-				$st = "SELECT docFileNumber, docDate, docApprover, docAreaId, docBlock, docPlot, docTitle, docComment, sectionId, employeeId FROM doc";
-				$st .= " WHERE " . $where . " ORDER BY docDate ASC, docFileNumber ASC ";
-
-				//error_log($st . "---", 3, "error.log");
-
-				//throw new Exception($st);
-				//throw new Exception((string)($param['filter'][paciNumber] != null));
-
+			if ($param['filter']['fileNumber'] != null) {
+				$where = " file_no = '{$param['filter']['fileNumber']}'";
 				//if ($param['filter'][approver] != null)
-				//	$where .= " AND (doc.docApprover = '{$param['filter'][approver]}' OR docHistory.docApprover = '{$param['filter'][approver]}')";
-
-				$st2 = "SELECT docHistory.docFileNumber, docHistory.docDate, docHistory.docApprover FROM docHistory INNER JOIN doc ON doc.docFileNumber = docHistory.docFileNumber";
-				$st2 .= " WHERE " . $where;
-
-				//throw new Exception($st2);
-				
-				$stDoc = $dbh->query($st);
-				$stHistory = $dbh->query($st2);
+				//	$param['filter'][approver] = null;
 			} else {
-*/		
-		
-		
-		
-		
-		
-		$searchField = null;
-		if (isset($_GET['searchField'])){ $searchField = $_GET['searchField']; }
-		$searchOper = null;		// eq, bw, bn, ew, en, cn, nc, ne, lt, le, gt, ge, in, ni
-		if (isset($_GET['searchOper'])){ $searchOper = $_GET['searchOper']; }
+				$where = " date_ins BETWEEN '$dtFrom' AND '$dtTo'";
+				if ($param['filter']['areaId'] != null)
+					$where .= " AND area_id = '{$param['filter']['areaId']}'";
+				if ($param['filter']['block'] != null)
+					$where .= " AND sector_addrs = '{$param['filter']['block']}'";
+				if ($param['filter']['plot'] != null)
+					$where .= " AND qasimaa = '{$param['filter']['plot']}'";
+			}
+		} else {
+			$searchField = null;
+			if (isset($_GET['searchField'])){ $searchField = $_GET['searchField']; }
+			$searchOper = null;		// eq, bw, bn, ew, en, cn, nc, ne, lt, le, gt, ge, in, ni
+			if (isset($_GET['searchOper'])){ $searchOper = $_GET['searchOper']; }
 
-		//$searchOper = $_GET['searchOper'];	// eq, bw, bn, ew, en, cn, nc, ne, lt, le, gt, ge, in, ni
-		//$searchString = $_GET['searchString'];
-		
-		if (isset($_GET['searchString']))
-			$searchString = trim($_GET['searchString']);
-
-		//throw new Exception('searchString: ' . $searchString);
+			//$searchOper = $_GET['searchOper'];	// eq, bw, bn, ew, en, cn, nc, ne, lt, le, gt, ge, in, ni
+			//$searchString = $_GET['searchString'];
 			
-		if(!$sidx) $sidx = 1;
+			if (isset($_GET['searchString']))
+				$searchString = trim($_GET['searchString']);
 
-		//$addressPieces = null;
-		//if ($searchField == 'address') {
-		//	$addressPieces = explode("|", $searchString);
-		//}
-		
-		$where = "";
-		switch ($searchOper) {
-			case 'eq':
-				$where .= "$searchField = '$searchString'";
-				break;
-			case 'ne':
-				$where .= "$searchField <> '$searchString'";
-				break;
-			case 'bw':	//begin with
-				if ($searchField == 'address') {
-					$where .= " CONCAT(area.area_name, ' ', IF(sector_addrs = '-' AND qasimaa = '-', '', sector_addrs), ' ', IF(qasimaa = '-', '', qasimaa)) LIKE '$searchString%'";
-					//$where .= " CONCAT(file_no, form_no) LIKE '$searchString%'";
-					//$where .= " CONCAT(file_no, '', form_no) LIKE '1041/20085%'";
-					//$where .= " area.area_name LIKE '$searchString%'";
-					//if (isset($addressPieces[0]))
-					//	$where .= "area.area_name LIKE '$addressPieces[0]%'";
-					//if (isset($addressPieces[1]))
-					//	$where .= " AND sector_addrs == '$addressPieces[1]'";
-					//if (isset($addressPieces[2]))
-					//	$where .= " AND qasimaa == '$addressPieces[2]'";
-				} else
-					$where .= "$searchField LIKE '$searchString%'";
-				break;
-			case 'bn':	//doesn't begin with
-				$where .= "$searchField NOT LIKE '$searchString%'";
-				break;
-			case 'ew':	//ends with
-				$where .= "$searchField LIKE '%$searchString'";
-				break;
-			case 'en':	//doesn't end with
-				$where .= "$searchField NOT LIKE '%$searchString'";
-				break;
-			case 'cn':	//contains
-				if ($searchField == 'address') {
-					$where .= " CONCAT(area.area_name, ' ', IF(sector_addrs = '-' AND qasimaa = '-', '', sector_addrs), ' ', IF(qasimaa = '-', '', qasimaa)) LIKE '%$searchString%'";
-					//if (isset($addressPieces[0]))
-					//	$where .= "area.area_name LIKE '%$addressPieces[0]%'";
-					//if (isset($addressPieces[1]))
-					//	$where .= " AND sector_addrs == '$addressPieces[1]'";
-					//if (isset($addressPieces[2]))
-					//	$where .= " AND qasimaa == '$addressPieces[2]'";
-				} else
-					$where .= "$searchField LIKE '%$searchString%'";
-				break;
-			case 'nc':	//doesn't contain
-				$where .= "$searchField NOT LIKE '%$searchString%'";
-				break;
-			case 'lt':	// less then
-				$where .= "$searchField < '$searchString'";
-				break;
-			case 'le':	// less or equal
-				$where .= "$searchField <= '$searchString'";
-				break;
-			case 'gt':	//more then
-				$where .= "$searchField > '$searchString'";
-				break;
-			case 'ge':	//more or equal
-				$where .= "$searchField >= '$searchString'";
-				break;
-			case 'in':	//in
-				$where .= "$searchField IN($searchString)";
-				break;
-			case 'ni':	// not in
-				$where .= "$searchField NOT IN ($searchString)";
-				break;
+			//throw new Exception('searchString: ' . $searchString);
+				
+			if(!$sidx) $sidx = 1;
+
+			//$addressPieces = null;
+			//if ($searchField == 'address') {
+			//	$addressPieces = explode("|", $searchString);
+			//}
+			
+			$where = "";
+			switch ($searchOper) {
+				case 'eq':
+					$where .= "$searchField = '$searchString'";
+					break;
+				case 'ne':
+					$where .= "$searchField <> '$searchString'";
+					break;
+				case 'bw':	//begin with
+					if ($searchField == 'address') {
+						$where .= " CONCAT(area.area_name, ' ', IF(sector_addrs = '-' AND qasimaa = '-', '', sector_addrs), ' ', IF(qasimaa = '-', '', qasimaa)) LIKE '$searchString%'";
+						//$where .= " CONCAT(file_no, form_no) LIKE '$searchString%'";
+						//$where .= " CONCAT(file_no, '', form_no) LIKE '1041/20085%'";
+						//$where .= " area.area_name LIKE '$searchString%'";
+						//if (isset($addressPieces[0]))
+						//	$where .= "area.area_name LIKE '$addressPieces[0]%'";
+						//if (isset($addressPieces[1]))
+						//	$where .= " AND sector_addrs == '$addressPieces[1]'";
+						//if (isset($addressPieces[2]))
+						//	$where .= " AND qasimaa == '$addressPieces[2]'";
+					} else
+						$where .= "$searchField LIKE '$searchString%'";
+					break;
+				case 'bn':	//doesn't begin with
+					$where .= "$searchField NOT LIKE '$searchString%'";
+					break;
+				case 'ew':	//ends with
+					$where .= "$searchField LIKE '%$searchString'";
+					break;
+				case 'en':	//doesn't end with
+					$where .= "$searchField NOT LIKE '%$searchString'";
+					break;
+				case 'cn':	//contains
+					if ($searchField == 'address') {
+						$where .= " CONCAT(area.area_name, ' ', IF(sector_addrs = '-' AND qasimaa = '-', '', sector_addrs), ' ', IF(qasimaa = '-', '', qasimaa)) LIKE '%$searchString%'";
+						//if (isset($addressPieces[0]))
+						//	$where .= "area.area_name LIKE '%$addressPieces[0]%'";
+						//if (isset($addressPieces[1]))
+						//	$where .= " AND sector_addrs == '$addressPieces[1]'";
+						//if (isset($addressPieces[2]))
+						//	$where .= " AND qasimaa == '$addressPieces[2]'";
+					} else
+						$where .= "$searchField LIKE '%$searchString%'";
+					break;
+				case 'nc':	//doesn't contain
+					$where .= "$searchField NOT LIKE '%$searchString%'";
+					break;
+				case 'lt':	// less then
+					$where .= "$searchField < '$searchString'";
+					break;
+				case 'le':	// less or equal
+					$where .= "$searchField <= '$searchString'";
+					break;
+				case 'gt':	//more then
+					$where .= "$searchField > '$searchString'";
+					break;
+				case 'ge':	//more or equal
+					$where .= "$searchField >= '$searchString'";
+					break;
+				case 'in':	//in
+					$where .= "$searchField IN($searchString)";
+					break;
+				case 'ni':	// not in
+					$where .= "$searchField NOT IN ($searchString)";
+					break;
+			}
 		}
-
+		
 		//throw new Exception('Where: ' . ($where == ""));
 		//throw new Exception('Where: ' . $where);
 
@@ -346,8 +301,11 @@ class DatabaseRepository {
 		
 		try {
 			$st = "SELECT SUM(IFNULL(elc_load_new, 0.0)) AS load_new, SUM(IFNULL(elc_load_old, 0.0)) AS load_old,
-					SUM(IFNULL(elc_load_new, 0.0) + IFNULL(elc_load_old, 0.0)) AS total	FROM check_form";
+					SUM(IFNULL(elc_load_new, 0.0) + IFNULL(elc_load_old, 0.0)) AS total FROM check_form";
 
+			if ($where != "")
+				$st .= " WHERE " . $where;
+					
 			$ds = $dbh->query($st);
 		} catch (PDOException $e) {
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
@@ -356,8 +314,12 @@ class DatabaseRepository {
 		$userdata = array('total_new' => $r[load_new], 'total_old' => $r[load_old], 'total' => $r[total]);
 		
 		try {
-			$st = "SELECT COUNT(*) AS count";
+			$st = "SELECT COUNT(*) AS count FROM check_form";
 			
+			if ($where != "")
+				$st .= " WHERE " . $where;
+
+/*			
 			if ($where == "") {
 				$st .= " FROM check_form"; 
 			} else {
@@ -367,7 +329,7 @@ class DatabaseRepository {
 						LEFT JOIN checker AS checker_3 ON check_form.checker_3 = checker_3.id
 						WHERE " . $where;
 			}
-			
+*/			
 			//throw new Exception('Statement: ' . $st);
 //			الشويخ الصناعية 2 71
 			
@@ -883,9 +845,18 @@ class DatabaseRepository {
 
 		$columnsToUpdate = "";
 		$ar = [];
-
+		
 		if ($param['date_ins'] != "")
 			$param['date_ins'] = DateTime::createFromFormat('d/m/Y', $param['date_ins'])->format('Y-m-d');
+
+		$submmit_time=strtotime($param['date_ins']);
+
+		$ds = $dbh->query("SELECT 1 FROM ongoing_check 
+			WHERE form_no = '$param[form_no]' AND year = " . date("Y", $submmit_time) . " AND docFileNumber != '$param[docFileNumber]'");
+		if($ds->fetchColumn() == 1) {
+			throw new Exception('23000');
+		}
+		
 		if ($param['check_1_dt'] != "")
 			$param['check_1_dt'] = DateTime::createFromFormat('d/m/Y', $param['check_1_dt'])->format('Y-m-d');
 		if ($param['check_2_dt'] != "")
@@ -895,8 +866,22 @@ class DatabaseRepository {
 		
 		$ds = $dbh->query("SELECT 1 FROM ongoing_check WHERE docFileNumber = '$param[docFileNumber]'");
 		if($ds->fetchColumn() == 1) {
+			if ($param['form_no'] != "") {
+				$columnsToUpdate .= " form_no = '{$param['form_no']}'";
+			}
+			if ($param['date_ins'] != "") {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "date_ins = '{$param['date_ins']}'";
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "year = " . date("Y", $submmit_time);
+			}
+			
+			if ($param['elc_load_new'] != "") {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "elc_load_new = '{$param['elc_load_new']}'";
+			}
+			if ($param['elc_load_old'] != "") {
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "elc_load_old = '{$param['elc_load_old']}'";
+			}
 			if ($param['check_1_dt'] != "") {
-				$columnsToUpdate .= " check_1_dt = '{$param['check_1_dt']}'";
+				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "check_1_dt = '{$param['check_1_dt']}'";
 			}
 			if ($param['checker_1'] != 0) {
 				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "checker_1 = {$param['checker_1']}";
@@ -932,15 +917,13 @@ class DatabaseRepository {
 				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "note_3 = '{$param['note_3']}'";
 			}
 		} else {
-			$columnsToUpdate .= " docFileNumber = '{$param['docFileNumber']}'";
+			$columnsToUpdate .= " form_no = '{$param['form_no']}'";
 		}
 
-		$time=strtotime($param['date_ins']);
-		
 		$ar = array(
 			'docFileNumber' => $param['docFileNumber'],
 			'form_no' => $param['form_no'],
-			'year' => date("Y", $time),
+			'year' => date("Y", $submmit_time),
 			'date_ins' => $param['date_ins'],
 			'elc_load_new' => $param['elc_load_new'],
 			'elc_load_old' => $param['elc_load_old'],

@@ -326,8 +326,8 @@ CheckupGrid = {
                 timeoutHnd = setTimeout(gridReload, 500)
             }
         }
-        function gridReload(customSearch) {
-			if (!customSearch) {
+        function gridReload(customSearchReset) {
+			if (!customSearchReset) {
 				if (timeoutHnd) {
 					clearTimeout(timeoutHnd);
 					timeoutHnd = null;
@@ -362,11 +362,16 @@ CheckupGrid = {
 
 				//$("#grid").jqGrid("setColProp", "file_no", { searchoptions: { sopt: ['cn']} }).trigger("reloadGrid");
 				//jQuery("#grid").setGridParam({ url: "Checkup/List?search=" + search, page: 1 }).trigger("reloadGrid");
-			} else {
+			} else if (customSearchReset == 'customSearch') {
 				if ($('#grid').jqGrid('getGridParam' ,'postData' ) != undefined) {
 					$('#grid').jqGrid('setGridParam',{postData:{'param':{filter:getSearchFilter()}} });
 					jQuery("#grid").trigger("reloadGrid");
-					delete jQuery('#grid').jqGrid('getGridParam' ,'postData' )['customSearchParam'];
+				}
+			} else if (customSearchReset == 'customReset') {
+				if ($('#grid').jqGrid('getGridParam' ,'postData' ) != undefined) {
+					var par = jQuery('#grid').jqGrid('getGridParam' ,'postData');
+					delete par.param.filter;
+					jQuery("#grid").trigger("reloadGrid");
 				}
 			}
         }

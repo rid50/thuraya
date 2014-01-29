@@ -98,13 +98,15 @@ ALTER TABLE ongoing_check
 -- ALTER TABLE ongoing_check ADD  
 --	INDEX `file_number_ch_INDEX` (`docFileNumber` ASC) ;
 
- ALTER TABLE ongoing_check ADD 
+ALTER TABLE ongoing_check ADD 
     CONSTRAINT FK_file_number_ch
     FOREIGN    KEY (docFileNumber)
     REFERENCES doc(docFileNumber)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE;
 
+-- ALTER TABLE `ongoing_check` 
+--	ADD UNIQUE INDEX `form_no_year_UNIQUE` (`form_no` ASC, `year` ASC);
 -- ------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE `checker` (

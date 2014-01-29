@@ -341,14 +341,14 @@ $(document).ready(function () {
 								$(this).data( "search", 0 );		// refresh
 			}
 */
-			if ($("#tabs").tabs( "option", "active" ) != activeTab_enum.checkup) {
-				$(this).data( "search", 1 );
-				//$("#tabs").tabs( "option", "active", activeTab_enum.pending );
+
+			$(this).data( "search", 1 );
+			if ($("#tabs").tabs( "option", "active" ) != activeTab_enum.checkup)
 				getDocs();
-				$(this).data( "search", 0 );
-			} else {
-				gridReload(true);	// custom search
-			}
+			else
+				gridReload('customSearch');	// custom search
+			
+			$(this).data( "search", 0 );
 		//}
 		})
 
@@ -394,8 +394,11 @@ $(document).ready(function () {
 			$("#searchButton").removeAttr("disabled");
 
 			$("#searchButton").data("search", 2);
-			//$("#tabs").tabs( "option", "active", activeTab_enum.pending );
-			getDocs();
+			if ($("#tabs").tabs( "option", "active" ) != activeTab_enum.checkup)
+				getDocs();
+			else
+				gridReload('customReset');	// custom reset
+
 			$("#searchButton").data("search", 0);
 		});
 		
@@ -1969,9 +1972,10 @@ this.checkupFormDialog = function(that, action) {
 								//	alert("Data: " + data + "\nStatus: " + status);
 								//}
 								if (data && data.constructor == Array) {
-									if (data[0].error != undefined) {
+									if (data[0].error == "23000")
+										alert(jQuery.i18n.prop("form_number_already_exists"));
+									else
 										alert(data[0].error);
-									}
 								} else
 									that.dialog( "destroy" );
 							})
@@ -2159,7 +2163,7 @@ this.checkupFormDialog = function(that, action) {
 			$('.checkers').prop('disabled', false);
 			$('.checkers').fadeTo(0, 1);
 			$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('enable');
-			
+/*			
 			if (($('#checker_1').val() == 0 || $('#check_1_dt').val() == "" || $('#result_1').val() == 0) ||
 					$('#result_1').val() == result_enum.Satisfactory)
 			{
@@ -2183,38 +2187,9 @@ this.checkupFormDialog = function(that, action) {
 					$('#check_2_dt').datepicker('disable');
 					$('#fch2.checkers').prop('disabled', true);
 					$('#fch2.checkers').fadeTo(0, 0.5);
-/*				
-					if (($('#checker_3').val() == 0 || $('#check_3_dt').val() == "" || $('#result_3').val() == 0) ||
-							$('#result_3').val() == result_enum.Satisfactory)
-					{
-						$('#check_1_dt, #check_2_dt').datepicker('disable');
-						$('#fch1.checkers').prop('disabled', true);
-						$('#fch2.checkers').fadeTo(0, 0.5);
-						$('#fch1.checkers').prop('disabled', true);
-						$('#fch3.checkers').fadeTo(0, 0.5);
-					}
-*/					
 				}
 			}
-/*
-			else if ($('#checker_2').val() == 0 || $('#check_2_dt').val() == "" || $('#result_2').val() == 0) {
-				$('#check_2_dt, #check_3_dt').datepicker('disable');
-				$('#fch2.checkers').prop('disabled', true);
-				$('#fch2.checkers').fadeTo(0, 0.5);
-				$('#fch3.checkers').prop('disabled', true);
-				$('#fch3.checkers').fadeTo(0, 0.5);
-			} elseif ($('#checker_1').val() == 0 || $('#check_1_dt').val() == "" || $('#result_1').val() == 0) {
-				$('#check_2_dt, #check_3_dt').datepicker('disable');
-				$('#fch2.checkers').prop('disabled', true);
-				$('#fch2.checkers').fadeTo(0, 0.5);
-				$('#fch3.checkers').prop('disabled', true);
-				$('#fch3.checkers').fadeTo(0, 0.5);
-			} else
-*/			
-			//$('.checkers').prop('disabled', true);
-			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('disable');
-			//$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('enable');
-			//$('.checkers').fadeTo(0, 0.5);
+*/
 			$('.checkup-group').blur(function(event){
 				var that = this;
 				$(this).parent()[0];
@@ -2265,7 +2240,7 @@ this.checkupFormDialog = function(that, action) {
 			$('#fch2 legend').html('<strong>' + jQuery.i18n.prop('Checkup') + ' 2</strong>');
 			$('#fch3 legend').html('<strong>' + jQuery.i18n.prop('Checkup') + ' 3</strong>');
 			$('label[for="checker_1"], label[for="checker_2"], label[for="checker_3"]').html('<strong>' + jQuery.i18n.prop('Checker') + '</strong>');
-			$('label[for="check_1_dt"], label[for="check_3_dt"], label[for="check_3_dt"]').html('<strong>' + jQuery.i18n.prop('DateOfCheckup') + '</strong>');
+			$('label[for="check_1_dt"], label[for="check_2_dt"], label[for="check_3_dt"]').html('<strong>' + jQuery.i18n.prop('DateOfCheckup') + '</strong>');
 			$('label[for="result_1"], label[for="result_2"], label[for="result_3"]').html('<strong>' + jQuery.i18n.prop('Result') + '</strong>');
 			$('label[for="note_1"], label[for="note_2"], label[for="note_3"]').html('<strong>' + jQuery.i18n.prop('Note') + '</strong>');
 			
