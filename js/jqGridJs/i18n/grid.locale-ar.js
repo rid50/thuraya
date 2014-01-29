@@ -86,7 +86,7 @@ var locInfo = {
 	},
 	formatter : {
 		integer : {thousandsSeparator: ",", defaultValue: '0'},
-		number : {decimalSeparator:",", thousandsSeparator: " ", decimalPlaces: 2, defaultValue: '0,00'},
+		number : {decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, defaultValue: '0,00'},
 		currency : {decimalSeparator:",", thousandsSeparator: " ", decimalPlaces: 2, prefix: "", suffix:"", defaultValue: '0,00'},
 		date : {
 			dayNames:   [
