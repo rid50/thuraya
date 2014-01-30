@@ -58,6 +58,7 @@ if ($idp == "SAML") {
 	<script src="js/printThis.js" type="text/javascript"></script>
     <script src="js/script.js" type="text/javascript"></script>
     <script src="js/checkup_grid.js" type="text/javascript"></script>
+    <script src="js/my-helpers.js" type="text/javascript"></script>
 	
 	<style type="text/css">
 		.accessRejected {
@@ -346,6 +347,7 @@ if ($idp == "SAML") {
 <!--div id="dialog-form-comments"/-->
 
 <div id="checkupForm" style="display:none">
+	<p id="validationCheckupTip">&nbsp;</p>
 	<form>
 		<fieldset>
 			<table>
