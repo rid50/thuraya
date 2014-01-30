@@ -1914,6 +1914,25 @@ var unsatisfactory_case_enum = {
 
 //function checkupFormDialog(that) {
 this.checkupFormDialog = function(that, action) {
+
+	var checkup_number = $('#checkup_number'), date_ins = $('#date_ins'), tip = $('#validationCheckupTip');
+	var allFields = $([]).add(checkup_number).add(date_ins).add(tip);
+	tip.html("&nbsp;");
+	allFields.removeClass( "ui-state-error" );
+
+	function validate() {
+		var bValid = true;
+		allFields.removeClass( "ui-state-error" );
+		myHelper.setValidationTip(tip);
+
+		bValid = bValid && myHelper.checkLength(checkup_number, $.i18n.prop("CheckupNumber"), 1, 5);
+		bValid = bValid && myHelper.checkRegexp(checkup_number, /^([0-9])+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("CheckupNumber"), " : 0-9")); //Checkup Number field only allows : 0-9" 
+
+		bValid = bValid && myHelper.checkRegexp(date_ins, /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/, $.i18n.prop("InvalidDate")); // Invalid date
+		
+		return bValid;
+	}
+	
 	var fileNumber = $(that).closest("div").find(".docFileNumber span").text();
 	var selectTag = $(that).siblings('select');
 	//var l = selectTag.children().length;
@@ -1944,6 +1963,25 @@ this.checkupFormDialog = function(that, action) {
 					[{	text: "Save",
 						id: "buttSave",
 						click: function() {
+						/*
+							myHelper.setValidationTip($("#validationCheckupTip"));
+							var bValid = true;
+
+							var checkup_number = $(this).find('#checkup_number');
+							checkup_number.removeClass( "ui-state-error" );
+							//bValid = bValid && myHelper.isRequired(checkup_number, $.i18n.prop("CheckupNumber"));
+							bValid = bValid && myHelper.checkLength(checkup_number, $.i18n.prop("CheckupNumber"), 1, 5);
+							bValid = bValid && myHelper.checkRegexp(checkup_number, /^([0-9])+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("CheckupNumber"), " : 0-9")); //Checkup Number field only allows : 0-9" 
+							
+							var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
+							if (!$(this).find('#date_ins').val().match(regExpPattern)) {
+								$(this).find('#date_ins').addClass( "ui-state-error" );
+								bValid = bValid && false;
+							}
+*/
+							if (!validate())
+								return;
+						
 							var url = "json_db_crud_pdo.php";
 							var data = {"func":"createUpdateOngoingCheckup",
 								"param":{
@@ -1989,7 +2027,7 @@ this.checkupFormDialog = function(that, action) {
 				); 
 			}
 			
-			
+			/*
 			$('input[id="date_ins"]').change(function() {
 				var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
 				if (!$(this).val().match(regExpPattern)) {
@@ -2000,7 +2038,7 @@ this.checkupFormDialog = function(that, action) {
 					$("#buttSave").removeAttr("disabled");
 				}
 			});	
-			
+			*/
 			$('input[id="check_1_dt"], input[id="check_2_dt"], input[id="check_3_dt"]').change(function() {
 				var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
 				if (!$(this).val().match(regExpPattern)) {
@@ -2189,7 +2227,7 @@ this.checkupFormDialog = function(that, action) {
 					$('#fch2.checkers').fadeTo(0, 0.5);
 				}
 			}
-*/
+
 			$('.checkup-group').blur(function(event){
 				var that = this;
 				$(this).parent()[0];
@@ -2204,7 +2242,7 @@ this.checkupFormDialog = function(that, action) {
 					//$(".ui-dialog-buttonpane").find('button:contains("Ok")').prop('disabled', false);	// it works !!!!
 			});
 			
-/*			
+			
 									note_1: $(this).find('#note_1').val(),
 									check_2_dt: $(this).find('#check_2_dt').val(),
 									checker_2: $(this).find('#checker_2').val(),
@@ -2853,7 +2891,50 @@ function resetForm() {
 //	i = 0;
 //}
 
+/*
+function isRequired( o, n ) {
+	if ( o.val().length == 0 ) {
+		o.addClass( "ui-state-error" );
+		//updateTips( "Field " + n + " cannot be empty." );
+		updateTips( $.i18n.prop("Field") + " " + n + " " + $.i18n.prop("CannotBeEmpty"));
+		o.focus();
+		return false;
+	} else {
+		return true;
+	}
+}
 
+function checkLength( o, n, min, max ) {
+	if ( o.val().length > max || o.val().length < min ) {
+		o.addClass( "ui-state-error" );
+		//updateTips( "Length of " + n + " must be between " + min + " and " + max + "." );
+		updateTips( $.i18n.prop("LengthOf") + " " + n + " " + $.i18n.prop("MustBeBetween") + " " + min + " & " + max);
+		o.focus();
+		return false;
+	} else {
+		return true;
+	}
+}
+function checkRegexp( o, regexp, n ) {
+	if ( o.val().length == 0 )
+		return true;
+		
+	if ( !( regexp.test( o.val() ) ) ) {
+		o.addClass( "ui-state-error" );
+		updateTips( n );
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function updateTips( t ) {
+	tips.text( t ).addClass( "ui-state-highlight" );
+	setTimeout(function() {
+		tips.removeClass( "ui-state-highlight", 1500 );
+	}, 500 );
+}
+*/
 $(function() {
 	$("button")
 		.button()
