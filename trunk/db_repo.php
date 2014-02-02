@@ -196,7 +196,7 @@ class DatabaseRepository {
 				//if ($param['filter'][approver] != null)
 				//	$param['filter'][approver] = null;
 			} else {
-				$where = " date_ins BETWEEN '$dtFrom' AND '$dtTo'";
+				$where = " date(date_ins) BETWEEN '$dtFrom' AND '$dtTo'";
 				if ($param['filter']['areaId'] != null)
 					$where .= " AND area_id = '{$param['filter']['areaId']}'";
 				if ($param['filter']['block'] != null)
@@ -849,6 +849,11 @@ class DatabaseRepository {
 		if ($param['date_ins'] != "")
 			$param['date_ins'] = DateTime::createFromFormat('d/m/Y', $param['date_ins'])->format('Y-m-d');
 
+		//throw new Exception($param['elc_load_new'] == "");
+		
+			
+		//throw new Exception($param['elc_load_new'] == 0.0);
+			
 		$submmit_time=strtotime($param['date_ins']);
 
 		$ds = $dbh->query("SELECT 1 FROM ongoing_check 
@@ -874,12 +879,17 @@ class DatabaseRepository {
 				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "year = " . date("Y", $submmit_time);
 			}
 			
-			if ($param['elc_load_new'] != "") {
+			if (!isset($param['elc_load_new']) || $param['elc_load_new'] == "")
+				$param['elc_load_new'] = 0.0;
+			if (!isset($param['elc_load_old']) || $param['elc_load_old'] == "")
+				$param['elc_load_old'] = 0.0;
+
+			//if ($param['elc_load_new'] != "") {
 				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "elc_load_new = '{$param['elc_load_new']}'";
-			}
-			if ($param['elc_load_old'] != "") {
+			//}			
+			//if ($param['elc_load_old'] != "") {
 				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "elc_load_old = '{$param['elc_load_old']}'";
-			}
+			//}
 			if ($param['check_1_dt'] != "") {
 				$columnsToUpdate .= ($columnsToUpdate == "" ? '' : ',') . "check_1_dt = '{$param['check_1_dt']}'";
 			}

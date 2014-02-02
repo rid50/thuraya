@@ -307,7 +307,7 @@ $(document).ready(function () {
 			}
 
 			if ($("#datepicker").val().match(regExpPattern) && $("#datepicker2").val().match(regExpPattern)) {
-				if ($("#datepicker2").datepicker("getDate") - $("#datepicker").datepicker("getDate") <= 0) {
+				if ($("#datepicker2").datepicker("getDate") - $("#datepicker").datepicker("getDate") < 0) {
 					$("#datepicker, #datepicker2").addClass( "ui-state-error" );
 					$("#searchButton").attr('disabled', 'disabled');
 				} else {
@@ -830,7 +830,7 @@ function getSearchFilter() {
 	var dt, dt2;
 	var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
 	if ($("#datepicker").val().match(regExpPattern) && $("#datepicker2").val().match(regExpPattern)) {
-		if ($("#datepicker2").datepicker("getDate") - $("#datepicker").datepicker("getDate") <= 0) {
+		if ($("#datepicker2").datepicker("getDate") - $("#datepicker").datepicker("getDate") < 0) {
 			dt = getFromDate();
 			dt2 = getToDate();
 		} else {
@@ -1915,8 +1915,8 @@ var unsatisfactory_case_enum = {
 //function checkupFormDialog(that) {
 this.checkupFormDialog = function(that, action) {
 
-	var checkup_number = $('#checkup_number'), date_ins = $('#date_ins'), tip = $('#validationCheckupTip');
-	var allFields = $([]).add(checkup_number).add(date_ins).add(tip);
+	var checkup_number = $('#checkup_number'), date_ins = $('#date_ins'), load_new = $('#elc_load_new'), load_old = $('#elc_load_old'), tip = $('#validationCheckupTip');
+	var allFields = $([]).add(checkup_number).add(date_ins).add(load_new).add(load_old).add(tip);
 	tip.html("&nbsp;");
 	allFields.removeClass( "ui-state-error" );
 
@@ -1928,8 +1928,11 @@ this.checkupFormDialog = function(that, action) {
 		bValid = bValid && myHelper.checkLength(checkup_number, $.i18n.prop("CheckupNumber"), 1, 5);
 		bValid = bValid && myHelper.checkRegexp(checkup_number, /^([0-9])+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("CheckupNumber"), " : 0-9")); //Checkup Number field only allows : 0-9" 
 
+		bValid = bValid && myHelper.isRequired(date_ins, $.i18n.prop("DateOfSubmission"));
 		bValid = bValid && myHelper.checkRegexp(date_ins, /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/, $.i18n.prop("InvalidDate")); // Invalid date
 		
+		bValid = bValid && myHelper.checkRegexp(load_new, /^[-+]?[0-9]*\.?[0-9]+$/, $.i18n.prop("WrongNumber"));
+		bValid = bValid && myHelper.checkRegexp(load_old, /^[-+]?[0-9]*\.?[0-9]+$/, $.i18n.prop("WrongNumber"));
 		return bValid;
 	}
 	
@@ -1960,7 +1963,13 @@ this.checkupFormDialog = function(that, action) {
 				); 
 			} else {
 				$(this).dialog( "option", "buttons",
-					[{	text: "Save",
+					[{	text: "Finish",
+						id: "buttFinish",
+						click: function() {
+							$( this ).dialog( "destroy" )
+						}
+					},
+					{	text: "Save",
 						id: "buttSave",
 						click: function() {
 						/*
@@ -2027,6 +2036,9 @@ this.checkupFormDialog = function(that, action) {
 				); 
 			}
 			
+			$('#buttFinish').hide();
+
+
 			/*
 			$('input[id="date_ins"]').change(function() {
 				var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
@@ -2039,6 +2051,7 @@ this.checkupFormDialog = function(that, action) {
 				}
 			});	
 			*/
+			
 			$('input[id="check_1_dt"], input[id="check_2_dt"], input[id="check_3_dt"]').change(function() {
 				var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
 				if (!$(this).val().match(regExpPattern)) {
@@ -2050,7 +2063,7 @@ this.checkupFormDialog = function(that, action) {
 				}
 
 				if ($("#check_1_dt").val().match(regExpPattern) && $("#check_2_dt").val().match(regExpPattern)) {
-					if ($("#check_2_dt").datepicker("getDate") - $("#check_1_dt").datepicker("getDate") <= 0) {
+					if ($("#check_2_dt").datepicker("getDate") - $("#check_1_dt").datepicker("getDate") < 0) {
 						$("#check_1_dt, #check_2_dt").addClass( "ui-state-error" );
 						$("#buttSave").attr('disabled', 'disabled');
 					} else {
@@ -2060,7 +2073,7 @@ this.checkupFormDialog = function(that, action) {
 				}
 
 				if ($("#check_2_dt").val().match(regExpPattern) && $("#check_3_dt").val().match(regExpPattern)) {
-					if ($("#check_3_dt").datepicker("getDate") - $("#check_2_dt").datepicker("getDate") <= 0) {
+					if ($("#check_3_dt").datepicker("getDate") - $("#check_2_dt").datepicker("getDate") < 0) {
 						$("#check_2_dt, #check_3_dt").addClass( "ui-state-error" );
 						$("#buttSave").attr('disabled', 'disabled');
 					} else {
@@ -2190,6 +2203,27 @@ this.checkupFormDialog = function(that, action) {
 				}
 			})
 			
+			var checkup_result = $('.checkup-result');
+			checkup_result.each(function() {
+				if ($(this).val() == result_enum.Satisfactory) {
+					$('#buttFinish').show();
+					return false;
+				}
+			})
+
+//			if ($('#result_1').val() == result_enum.Satisfactory || $('#result_2').val() == result_enum.Satisfactory || $('#result_2').val() == result_enum.Satisfactory)
+	//			$('#buttFinish').show();
+
+			checkup_result.change(function() {
+				$('#buttFinish').hide();
+				checkup_result.each(function() {
+					if ($(this).val() == result_enum.Satisfactory) {
+						$('#buttFinish').show();
+						return false;
+					}
+				})
+			})
+
 			var a = ['check_1_dt', 'note_1', 'check_2_dt', 'note_2', 'check_3_dt', 'note_3'];
 			a.forEach(function(name) {
 				if (onGoingCheckupResult[0].length != 0)
@@ -2201,6 +2235,8 @@ this.checkupFormDialog = function(that, action) {
 			$('.checkers').prop('disabled', false);
 			$('.checkers').fadeTo(0, 1);
 			$('#check_1_dt, #check_2_dt, #check_3_dt').datepicker('enable');
+			
+			
 /*			
 			if (($('#checker_1').val() == 0 || $('#check_1_dt').val() == "" || $('#result_1').val() == 0) ||
 					$('#result_1').val() == result_enum.Satisfactory)
@@ -2297,6 +2333,8 @@ this.checkupFormDialog = function(that, action) {
 					that.text(jQuery.i18n.prop('Cancel'));
 				else if (that.text() == "Close")
 					that.text(jQuery.i18n.prop('Close'));
+				else if (that.text() == "Finish")
+					that.text(jQuery.i18n.prop('Finish'));
 			});
 			
 		},
