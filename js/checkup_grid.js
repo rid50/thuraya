@@ -33,7 +33,8 @@ CheckupGrid = {
         grid.jqGrid({
 			direction: direction,
             url: "json_db_crud_pdo.php",
-			postData:{"func": "getCheckups", "param":{dbName:"ecabling"}},
+			postData:{"func": "getCheckups", "param":{dbName:"tamdidat"}},
+			//postData:{"func": "getCheckups", "param":{dbName:"ecabling"}},
             mtype: "get",
             datatype: "json",
             colNames: [$.i18n.prop('FileNumber'), $.i18n.prop('CheckupNumber'), $.i18n.prop('Address'), $.i18n.prop('DateOfSubmission'), jQuery.i18n.prop('load_new'), jQuery.i18n.prop('load_old'), jQuery.i18n.prop('load_total'), $.i18n.prop('Checker'), $.i18n.prop('CheckDate'), $.i18n.prop('Result'), $.i18n.prop('Checker')+'2', $.i18n.prop('CheckDate')+'2', $.i18n.prop('Result')+'2', $.i18n.prop('Checker')+'3', $.i18n.prop('CheckDate')+'3', $.i18n.prop('Result')+'3'],
