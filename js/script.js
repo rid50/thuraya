@@ -1936,6 +1936,30 @@ this.checkupFormDialog = function(that, action) {
 		return bValid;
 	}
 	
+	
+	function getData(func) {
+		return {"func":func,
+			"param":{
+				file_no:fileNumber,
+				form_no: $('#checkup_number').val(),
+				date_ins: $('#date_ins').val(),
+				elc_load_new: $('#elc_load_new').val(),
+				elc_load_old: $('#elc_load_old').val(),
+				check_1_dt: $('#check_1_dt').val(),
+				checker_1: $('#checker_1').val(),
+				result_1: $('#result_1').val(),
+				note_1: $('#note_1').val(),
+				check_2_dt: $('#check_2_dt').val(),
+				checker_2: $('#checker_2').val(),
+				result_2: $('#result_2').val(),
+				note_2: $('#note_2').val(),
+				check_3_dt: $('#check_3_dt').val(),
+				checker_3: $('#checker_3').val(),
+				result_3: $('#result_3').val(),
+				note_3: $('#note_3').val(),
+			}};
+	}
+	
 	var fileNumber = $(that).closest("div").find(".docFileNumber span").text();
 	var selectTag = $(that).siblings('select');
 	//var l = selectTag.children().length;
@@ -1945,13 +1969,13 @@ this.checkupFormDialog = function(that, action) {
     form.prop('fileNumber', fileNumber);
     form.dialog({
 		title:jQuery.i18n.prop('FileNumber') + ": " + fileNumber,
-		//dialogClass: "no-close",
+		dialogClass: "no-close",
         height: 'auto',
         width: 'auto',
         modal: true,
 		autoOpen: true,
 		resizable: false,
-		closeOnEscape: false,
+		closeOnEscape: true,
 		open: function( event, ui ) {
 			if (action == status_enum.readonly) {
 				$(this).dialog( "option", "buttons",
@@ -1962,37 +1986,63 @@ this.checkupFormDialog = function(that, action) {
 					}]
 				); 
 			} else {
+			/*
+				var url = "json_db_crud_pdo.php";
+				var func = "";
+				var data = {"func":func,
+					"param":{
+						docFileNumber:fileNumber,
+						form_no: $(this).find('#checkup_number').val(),
+						date_ins: $(this).find('#date_ins').val(),
+						elc_load_new: $(this).find('#elc_load_new').val(),
+						elc_load_old: $(this).find('#elc_load_old').val(),
+						check_1_dt: $(this).find('#check_1_dt').val(),
+						checker_1: $(this).find('#checker_1').val(),
+						result_1: $(this).find('#result_1').val(),
+						note_1: $(this).find('#note_1').val(),
+						check_2_dt: $(this).find('#check_2_dt').val(),
+						checker_2: $(this).find('#checker_2').val(),
+						result_2: $(this).find('#result_2').val(),
+						note_2: $(this).find('#note_2').val(),
+						check_3_dt: $(this).find('#check_3_dt').val(),
+						checker_3: $(this).find('#checker_3').val(),
+						result_3: $(this).find('#result_3').val(),
+						note_3: $(this).find('#note_3').val(),
+					}};
+			*/
+				var url = "json_db_crud_pdo.php";
+
 				$(this).dialog( "option", "buttons",
 					[{	text: "Finish",
 						id: "buttFinish",
 						click: function() {
-							$( this ).dialog( "destroy" )
+							if (!validate())
+								return;
+
+							//func = "insertIntoCheckups";
+							var that = $( this );
+							$.post(url, getData("insertIntoCheckups"))
+							.done(function(data) {
+								if (data && data.constructor == Array) {
+									alert(data[0].error);
+								} else
+									that.dialog( "destroy" );
+							})
 						}
 					},
 					{	text: "Save",
 						id: "buttSave",
 						click: function() {
-						/*
-							myHelper.setValidationTip($("#validationCheckupTip"));
-							var bValid = true;
 
-							var checkup_number = $(this).find('#checkup_number');
-							checkup_number.removeClass( "ui-state-error" );
-							//bValid = bValid && myHelper.isRequired(checkup_number, $.i18n.prop("CheckupNumber"));
-							bValid = bValid && myHelper.checkLength(checkup_number, $.i18n.prop("CheckupNumber"), 1, 5);
-							bValid = bValid && myHelper.checkRegexp(checkup_number, /^([0-9])+$/, ($.i18n.prop("FieldOnlyAllows")).format($.i18n.prop("CheckupNumber"), " : 0-9")); //Checkup Number field only allows : 0-9" 
-							
-							var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;
-							if (!$(this).find('#date_ins').val().match(regExpPattern)) {
-								$(this).find('#date_ins').addClass( "ui-state-error" );
-								bValid = bValid && false;
-							}
-*/
 							if (!validate())
 								return;
-						
-							var url = "json_db_crud_pdo.php";
-							var data = {"func":"createUpdateOngoingCheckup",
+
+							//func = "createUpdateOngoingCheckup";
+								
+							//var url = "json_db_crud_pdo.php";
+							/*
+							var func = "createUpdateOngoingCheckup";
+							var data = {"func":func,
 								"param":{
 									docFileNumber:fileNumber,
 									form_no: $(this).find('#checkup_number').val(),
@@ -2012,12 +2062,10 @@ this.checkupFormDialog = function(that, action) {
 									result_3: $(this).find('#result_3').val(),
 									note_3: $(this).find('#note_3').val(),
 								}};
+							*/
 							var that = $( this );
-							$.post(url, data)
+							$.post(url, getData("createUpdateOngoingCheckup"))
 							.done(function(data) {
-								//if (data.error) {
-								//	alert("Data: " + data + "\nStatus: " + status);
-								//}
 								if (data && data.constructor == Array) {
 									if (data[0].error == "23000")
 										alert(jQuery.i18n.prop("form_number_already_exists"));
@@ -2087,7 +2135,7 @@ this.checkupFormDialog = function(that, action) {
 			
 			url = "json_db_crud_pdo.php";
 			
-			$.get(url, {"func":"getOngoingCheckup", "param":{dbName:"tamdidat", docFileNumber:fileNumber}})
+			$.get(url, {"func":"getOngoingCheckup", "param":{dbName:"tamdidat", file_no:fileNumber}})
 			.done(function( data ) {
 				if (data && data.constructor == Array) {
 					if (data[0].error != undefined) {
