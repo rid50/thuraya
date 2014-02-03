@@ -69,7 +69,7 @@ CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
 
 CREATE TABLE ongoing_check (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `docFileNumber` VARCHAR( 24 ) NOT NULL,
+  `file_no` VARCHAR( 20 ) NOT NULL,
   `form_no` int(11) NOT NULL,
   `year` varchar(4) COLLATE utf8_unicode_ci NOT NULL,  
   `date_ins` timestamp NOT NULL,
@@ -93,14 +93,11 @@ CREATE TABLE ongoing_check (
 CHARACTER SET = utf8, COLLATE = utf8_unicode_ci;
 
 ALTER TABLE ongoing_check
-	ADD UNIQUE INDEX `docFileNumber_UNIQUE` (`docFileNumber` ASC);
-
--- ALTER TABLE ongoing_check ADD  
---	INDEX `file_number_ch_INDEX` (`docFileNumber` ASC) ;
+	ADD UNIQUE INDEX `file_no_UNIQUE` (`file_no` ASC);
 
 ALTER TABLE ongoing_check ADD 
-    CONSTRAINT FK_file_number_ch
-    FOREIGN    KEY (docFileNumber)
+    CONSTRAINT FK_file_no_ch
+    FOREIGN    KEY (file_no)
     REFERENCES doc(docFileNumber)
 	ON DELETE CASCADE
 	ON UPDATE CASCADE;

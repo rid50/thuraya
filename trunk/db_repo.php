@@ -426,7 +426,7 @@ class DatabaseRepository {
 		
 		try {
 			$st = "SELECT form_no, date_ins, elc_load_new, elc_load_old, check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_2, note_2, check_3_dt, checker_3, result_3, note_3";
-			$st .= " FROM ongoing_check WHERE docFileNumber = '{$param['docFileNumber']}'";
+			$st .= " FROM ongoing_check WHERE file_no = '{$param['file_no']}'";
 
 			//throw new Exception($st);
 			
@@ -857,7 +857,7 @@ class DatabaseRepository {
 		$submmit_time=strtotime($param['date_ins']);
 
 		$ds = $dbh->query("SELECT 1 FROM ongoing_check 
-			WHERE form_no = '$param[form_no]' AND year = " . date("Y", $submmit_time) . " AND docFileNumber != '$param[docFileNumber]'");
+			WHERE form_no = '$param[form_no]' AND year = " . date("Y", $submmit_time) . " AND file_no != '$param[file_no]'");
 		if($ds->fetchColumn() == 1) {
 			throw new Exception('23000');
 		}
@@ -869,7 +869,7 @@ class DatabaseRepository {
 		if ($param['check_3_dt'] != "")
 			$param['check_3_dt'] = DateTime::createFromFormat('d/m/Y', $param['check_3_dt'])->format('Y-m-d');
 		
-		$ds = $dbh->query("SELECT 1 FROM ongoing_check WHERE docFileNumber = '$param[docFileNumber]'");
+		$ds = $dbh->query("SELECT 1 FROM ongoing_check WHERE file_no = '$param[file_no]'");
 		if($ds->fetchColumn() == 1) {
 			if ($param['form_no'] != "") {
 				$columnsToUpdate .= " form_no = '{$param['form_no']}'";
@@ -931,7 +931,7 @@ class DatabaseRepository {
 		}
 
 		$ar = array(
-			'docFileNumber' => $param['docFileNumber'],
+			'file_no' => $param['file_no'],
 			'form_no' => $param['form_no'],
 			'year' => date("Y", $submmit_time),
 			'date_ins' => $param['date_ins'],
@@ -952,8 +952,8 @@ class DatabaseRepository {
 		);
 		
 		try {
-			$st = "INSERT INTO ongoing_check (docFileNumber, form_no, year, date_ins, elc_load_new, elc_load_old, check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_2, note_2, check_3_dt, checker_3, result_3, note_3)
-					VALUES (:docFileNumber,  :form_no, :year, :date_ins, :elc_load_new, :elc_load_old, :check_1_dt, :checker_1, :result_1, :note_1, :check_2_dt, :checker_2, :result_2, :note_2, :check_3_dt, :checker_3, :result_3, :note_3)
+			$st = "INSERT INTO ongoing_check (file_no, form_no, year, date_ins, elc_load_new, elc_load_old, check_1_dt, checker_1, result_1, note_1, check_2_dt, checker_2, result_2, note_2, check_3_dt, checker_3, result_3, note_3)
+					VALUES (:file_no,  :form_no, :year, :date_ins, :elc_load_new, :elc_load_old, :check_1_dt, :checker_1, :result_1, :note_1, :check_2_dt, :checker_2, :result_2, :note_2, :check_3_dt, :checker_3, :result_3, :note_3)
 					ON DUPLICATE KEY UPDATE " . $columnsToUpdate;
 					//ON DUPLICATE KEY UPDATE check_1_dt = '{check_1_dt}'"; // . $columnsToUpdate;
 
@@ -962,6 +962,58 @@ class DatabaseRepository {
 			$stp = $dbh->prepare($st);
 			$stp->execute($ar);
 		} catch (PDOException $e) {
+			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
+		}
+	}
+	
+	public function insertIntoCheckups($param) {
+		$dbh = $this->connect();
+
+		if ($param['date_ins'] != "")
+			$param['date_ins'] = DateTime::createFromFormat('d/m/Y', $param['date_ins'])->format('Y-m-d');
+		
+		if ($param['check_1_dt'] != "")
+			$param['check_1_dt'] = DateTime::createFromFormat('d/m/Y', $param['check_1_dt'])->format('Y-m-d');
+		if ($param['check_2_dt'] != "")
+			$param['check_2_dt'] = DateTime::createFromFormat('d/m/Y', $param['check_2_dt'])->format('Y-m-d');
+		if ($param['check_3_dt'] != "")
+			$param['check_3_dt'] = DateTime::createFromFormat('d/m/Y', $param['check_3_dt'])->format('Y-m-d');
+		
+		$ar = [];
+		$ar = array(
+			'file_no' => $param['file_no'],
+			'form_no' => $param['form_no'],
+			'year' => date("Y", $submmit_time),
+			'date_ins' => $param['date_ins'],
+			'elc_load_new' => $param['elc_load_new'],
+			'elc_load_old' => $param['elc_load_old'],
+			'check_1_dt' => $param['check_1_dt'],
+			'checker' => $param['checker_1'],
+			'result_1' => $param['result_1'],
+			'notes_1' => $param['note_1'],
+			'check_2_dt' => $param['check_2_dt'],
+			'checker_2' => $param['checker_2'],
+			'result_2' => $param['result_2'],
+			'notes_2' => $param['note_2'],
+			'check_3_dt' => $param['check_3_dt'],
+			'checker_3' => $param['checker_3'],
+			'result_3' => $param['result_3'],
+			'notes_3' => $param['note_3'],
+		);
+		
+		try {
+			$dbh->beginTransaction();
+		
+			$st = "INSERT INTO check_form (file_no, form_no, year, date_ins, elc_load_new, elc_load_old, check_1_dt, checker, result_1, notes_1, check_2_dt, checker_2, result_2, notes_2, check_3_dt, checker_3, result_3, notes_3)
+					VALUES (:file_no, :form_no, :year, :date_ins, :elc_load_new, :elc_load_old, :check_1_dt, :checker, :result_1, :notes_1, :check_2_dt, :checker_2, :result_2, :notes_2, :check_3_dt, :checker_3, :result_3, :notes_3)";
+
+			//throw new Exception($st);
+
+			$stp = $dbh->prepare($st);
+			$stp->execute($ar);
+			$dbh->commit();
+		} catch (PDOException $e) {
+			$dbh->rollBack();
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
 		}
 	}
