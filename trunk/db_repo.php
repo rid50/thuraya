@@ -6,8 +6,8 @@ class DatabaseRepository {
 	private $result;
 	
 	public function __construct() {
-		//date_default_timezone_set('Asia/Kuwait');
-		date_default_timezone_set('UTC');
+		date_default_timezone_set('Asia/Kuwait');
+		//date_default_timezone_set('UTC');
 		$domain = 'mew';
 		if ($_SERVER["USERDOMAIN"] != null && (strtolower($_SERVER["USERDOMAIN"]) == "mew" || strtolower($_SERVER["USERDOMAIN"]) == "adeliya"))
 			$domain = strtolower($_SERVER["USERDOMAIN"]);
@@ -848,16 +848,19 @@ class DatabaseRepository {
 		
 		if ($param['date_ins'] != "")
 			$param['date_ins'] = DateTime::createFromFormat('d/m/Y', $param['date_ins'])->format('Y-m-d');
-
-		//throw new Exception($param['elc_load_new'] == "");
+		else
+			$param['date_ins'] =  (new DateTime())->format('Y-m-d-H-i-s');
+			//$param['date_ins'] = (new DateTime("now", new DateTimeZone('Asia/Kuwait')))->format('Y-m-d-H-i-s');
 		
-			
+		//throw new Exception($param['date_ins']);
 		//throw new Exception($param['elc_load_new'] == 0.0);
 			
+		//$param['date_ins'] = "";
 		$submmit_time=strtotime($param['date_ins']);
+		//throw new Exception(date("Y", $submmit_time));
 
 		$ds = $dbh->query("SELECT 1 FROM ongoing_check 
-			WHERE form_no = '$param[form_no]' AND year = " . date("Y", $submmit_time) . " AND file_no != '$param[file_no]'");
+							WHERE form_no = '$param[form_no]' AND year = " . date("Y", $submmit_time) . " AND file_no != '$param[file_no]'");
 		if($ds->fetchColumn() == 1) {
 			throw new Exception('23000');
 		}
@@ -971,6 +974,11 @@ class DatabaseRepository {
 
 		if ($param['date_ins'] != "")
 			$param['date_ins'] = DateTime::createFromFormat('d/m/Y', $param['date_ins'])->format('Y-m-d');
+		else
+			$param['date_ins'] =  (new DateTime())->format('Y-m-d-H-i-s');
+			//$param['date_ins'] = (new DateTime("now", new DateTimeZone('Asia/Kuwait')))->format('Y-m-d-H-i-s');
+		
+		$submmit_time=strtotime($param['date_ins']);
 		
 		if ($param['check_1_dt'] != "")
 			$param['check_1_dt'] = DateTime::createFromFormat('d/m/Y', $param['check_1_dt'])->format('Y-m-d');
@@ -987,6 +995,10 @@ class DatabaseRepository {
 			'date_ins' => $param['date_ins'],
 			'elc_load_new' => $param['elc_load_new'],
 			'elc_load_old' => $param['elc_load_old'],
+			'area_id' => $param['area_id'],
+			'sector_addrs' => $param['sector_addrs'],
+			'qasimaa' => $param['qasimaa'],
+			'usr_ins' => $param['user_name'],
 			'check_1_dt' => $param['check_1_dt'],
 			'checker' => $param['checker_1'],
 			'result_1' => $param['result_1'],
@@ -1004,13 +1016,22 @@ class DatabaseRepository {
 		try {
 			$dbh->beginTransaction();
 		
-			$st = "INSERT INTO check_form (file_no, form_no, year, date_ins, elc_load_new, elc_load_old, check_1_dt, checker, result_1, notes_1, check_2_dt, checker_2, result_2, notes_2, check_3_dt, checker_3, result_3, notes_3)
-					VALUES (:file_no, :form_no, :year, :date_ins, :elc_load_new, :elc_load_old, :check_1_dt, :checker, :result_1, :notes_1, :check_2_dt, :checker_2, :result_2, :notes_2, :check_3_dt, :checker_3, :result_3, :notes_3)";
+			$st = "INSERT INTO check_form (file_no, form_no, year, date_ins, elc_load_new, elc_load_old, area_id, sector_addrs, qasimaa, usr_ins, check_1_dt, checker, result_1, notes_1, check_2_dt, checker_2, result_2, notes_2, check_3_dt, checker_3, result_3, notes_3)
+					VALUES (:file_no, :form_no, :year, :date_ins, :elc_load_new, :elc_load_old, :area_id, :sector_addrs, :qasimaa, :usr_ins, :check_1_dt, :checker, :result_1, :notes_1, :check_2_dt, :checker_2, :result_2, :notes_2, :check_3_dt, :checker_3, :result_3, :notes_3)";
 
 			//throw new Exception($st);
 
 			$stp = $dbh->prepare($st);
 			$stp->execute($ar);
+			
+			$st = "UPDATE doc SET sectionId = {$param['sectionId']} WHERE docFileNumber = {$param['file_no']}";
+			$stp = $dbh->prepare($st);
+			$stp->execute();
+
+			$st = "DELETE FROM ongoing_check WHERE file_no = {$param['file_no']}";
+			$stp = $dbh->prepare($st);
+			$stp->execute();
+
 			$dbh->commit();
 		} catch (PDOException $e) {
 			$dbh->rollBack();
