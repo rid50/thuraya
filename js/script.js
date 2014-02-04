@@ -19,6 +19,7 @@ var sectionId_enum = {
 	electricity: "2",
 	checkup: "3",
 	edafat: "4",
+	archive: "39",
 };
 
 var activeTab_enum = {
@@ -1920,6 +1921,7 @@ this.checkupFormDialog = function(that, action) {
 	tip.html("&nbsp;");
 	allFields.removeClass( "ui-state-error" );
 
+	
 	function validate() {
 		var bValid = true;
 		allFields.removeClass( "ui-state-error" );
@@ -1936,15 +1938,19 @@ this.checkupFormDialog = function(that, action) {
 		return bValid;
 	}
 	
-	
 	function getData(func) {
 		return {"func":func,
 			"param":{
+				sectionId: sectionId_enum.archive,
 				file_no:fileNumber,
 				form_no: $('#checkup_number').val(),
 				date_ins: $('#date_ins').val(),
 				elc_load_new: $('#elc_load_new').val(),
 				elc_load_old: $('#elc_load_old').val(),
+				area_id: areaId,
+				sector_addrs: block,
+				qasimaa: plot,
+				user_name: userInfo[0].loginName,
 				check_1_dt: $('#check_1_dt').val(),
 				checker_1: $('#checker_1').val(),
 				result_1: $('#result_1').val(),
@@ -1961,9 +1967,20 @@ this.checkupFormDialog = function(that, action) {
 	}
 	
 	var fileNumber = $(that).closest("div").find(".docFileNumber span").text();
-	var selectTag = $(that).siblings('select');
-	//var l = selectTag.children().length;
-	var selectOptionLabel = $(selectTag.children()[selectTag.children().length - 1]).prop('label')
+	//var selectTag = $(that).siblings('select');
+	////var l = selectTag.children().length;
+	//var selectOptionLabel = $(selectTag.children()[selectTag.children().length - 1]).prop('label')
+	
+	var areaId, block, plot;
+	rootDoc[0].docs.some(function(key, index) {
+		if (key.doc.docFileNumber == fileNumber) {
+			areaId = key.doc.docAreaId;
+			block = key.doc.docBlock;
+			plot = key.doc.docPlot;				
+			//newDoc = false;
+			return true;
+		}
+	});
 	
 	var form = $("#checkupForm");
     form.prop('fileNumber', fileNumber);
@@ -1986,32 +2003,7 @@ this.checkupFormDialog = function(that, action) {
 					}]
 				); 
 			} else {
-			/*
 				var url = "json_db_crud_pdo.php";
-				var func = "";
-				var data = {"func":func,
-					"param":{
-						docFileNumber:fileNumber,
-						form_no: $(this).find('#checkup_number').val(),
-						date_ins: $(this).find('#date_ins').val(),
-						elc_load_new: $(this).find('#elc_load_new').val(),
-						elc_load_old: $(this).find('#elc_load_old').val(),
-						check_1_dt: $(this).find('#check_1_dt').val(),
-						checker_1: $(this).find('#checker_1').val(),
-						result_1: $(this).find('#result_1').val(),
-						note_1: $(this).find('#note_1').val(),
-						check_2_dt: $(this).find('#check_2_dt').val(),
-						checker_2: $(this).find('#checker_2').val(),
-						result_2: $(this).find('#result_2').val(),
-						note_2: $(this).find('#note_2').val(),
-						check_3_dt: $(this).find('#check_3_dt').val(),
-						checker_3: $(this).find('#checker_3').val(),
-						result_3: $(this).find('#result_3').val(),
-						note_3: $(this).find('#note_3').val(),
-					}};
-			*/
-				var url = "json_db_crud_pdo.php";
-
 				$(this).dialog( "option", "buttons",
 					[{	text: "Finish",
 						id: "buttFinish",
@@ -2019,50 +2011,24 @@ this.checkupFormDialog = function(that, action) {
 							if (!validate())
 								return;
 
-							//func = "insertIntoCheckups";
 							var that = $( this );
 							$.post(url, getData("insertIntoCheckups"))
 							.done(function(data) {
 								if (data && data.constructor == Array) {
 									alert(data[0].error);
-								} else
+								} else {
+									getDocs();
 									that.dialog( "destroy" );
+								}
 							})
 						}
 					},
 					{	text: "Save",
 						id: "buttSave",
 						click: function() {
-
 							if (!validate())
 								return;
 
-							//func = "createUpdateOngoingCheckup";
-								
-							//var url = "json_db_crud_pdo.php";
-							/*
-							var func = "createUpdateOngoingCheckup";
-							var data = {"func":func,
-								"param":{
-									docFileNumber:fileNumber,
-									form_no: $(this).find('#checkup_number').val(),
-									date_ins: $(this).find('#date_ins').val(),
-									elc_load_new: $(this).find('#elc_load_new').val(),
-									elc_load_old: $(this).find('#elc_load_old').val(),
-									check_1_dt: $(this).find('#check_1_dt').val(),
-									checker_1: $(this).find('#checker_1').val(),
-									result_1: $(this).find('#result_1').val(),
-									note_1: $(this).find('#note_1').val(),
-									check_2_dt: $(this).find('#check_2_dt').val(),
-									checker_2: $(this).find('#checker_2').val(),
-									result_2: $(this).find('#result_2').val(),
-									note_2: $(this).find('#note_2').val(),
-									check_3_dt: $(this).find('#check_3_dt').val(),
-									checker_3: $(this).find('#checker_3').val(),
-									result_3: $(this).find('#result_3').val(),
-									note_3: $(this).find('#note_3').val(),
-								}};
-							*/
 							var that = $( this );
 							$.post(url, getData("createUpdateOngoingCheckup"))
 							.done(function(data) {
@@ -2071,8 +2037,9 @@ this.checkupFormDialog = function(that, action) {
 										alert(jQuery.i18n.prop("form_number_already_exists"));
 									else
 										alert(data[0].error);
-								} else
+								} else {
 									that.dialog( "destroy" );
+								}
 							})
 						}
 					},
@@ -2168,12 +2135,22 @@ this.checkupFormDialog = function(that, action) {
 				$(this).find("#load_total").val("");
 			}
 			
-			that = $(that).parent();
-			var address = that.find('.docAddress span').text();
+			//that = $(that).parent();
+			var address = $(that).parent().find('.docAddress span').text();
 			$(this).find("#address").val(address);
 			//$(this).find("#address").prop("disabled", "true");
-			
-
+/*			
+			var areaId, block, plot;
+			rootDoc[0].docs.some(function(key, index) {
+				if (key.doc.docFileNumber == fileNumber) {
+					areaId = key.doc.docAreaId;
+					block = key.doc.docBlock;
+					plot = key.doc.docPlot;				
+					//newDoc = false;
+					return true;
+				}
+			});
+*/				
 			var chNames;
 			$.get(url, {"func":"getCheckers", "param":{dbName:"ecabling"}})
 			.done(function( data ) {
