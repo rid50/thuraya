@@ -14,6 +14,9 @@ class DatabaseRepository {
 			
 		$ini = parse_ini_file("config.ini", true);
 		$this->dsn = $ini[$domain]["dsn"];
+		if (!preg_match('/;$/', $this->dsn))
+			$this->dsn .= ';';
+			
 		$this->username = $ini[$domain]["username"];
 		$this->password = $ini[$domain]["password"];
 

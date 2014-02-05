@@ -11,6 +11,13 @@ $ini = parse_ini_file("config.ini");
 $idp = $ini["IdP"];
 $idpSource = $ini["IdPSource"];
 
+$_SESSION['ini_lang'] = $ini["lang"];
+
+//throw new Exception(http_negotiate_language(array('en-US', 'ar-KW')));
+//throw new Exception($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+
+//throw new Exception((preg_match('/^ar/', $_SERVER['HTTP_ACCEPT_LANGUAGE'])) == true);
+
 if ($idp == "SAML") {
 	if ($idpSource == "DB")
 		$as = new SimpleSAML_Auth_Simple('mewSQLAuth');
