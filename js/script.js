@@ -195,6 +195,8 @@ $(document).ready(function () {
 			idpSource = data.IdPSource;
 			documentSource = data.documentSource;
 			lang = data.lang;
+			if (lang == 'browser')
+				lang = data.accepted_language;
 			searchInterval = data.searchInterval;
 		});
 
