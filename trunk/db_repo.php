@@ -88,6 +88,9 @@ class DatabaseRepository {
 		$dbh = $this->connect();
 		
 		try {
+		
+			//$ds = $dbh->query("SELECT loginName FROM userRepository WHERE loginName = :loginName'); 
+		
 			$sth = $dbh->prepare('SELECT loginName, upn, displayName FROM userRepository WHERE loginName = :loginName');
 		} catch (PDOException $e) {
 			throw new Exception('Failed to prepare query: ' . $e->getMessage());
@@ -99,7 +102,9 @@ class DatabaseRepository {
 		//	$assoc_ar = json_decode($_GET['loginNames'], true);
 
 		$assoc_ar = json_decode($param['loginNames'], true);
-			
+		
+		$this->result = array();
+		
 		foreach ($assoc_ar as $key => $value) {
 			foreach ($value as $key2 => $value2) {
 				if ($value2 == "") {
@@ -133,7 +138,9 @@ class DatabaseRepository {
 				}
 			}
 		}
-		
+		if (count($this->result) == 0)
+			throw new Exception("1008"); 	// The user  does not exist in user repository (AD or userRepository table)
+
 		return $this->result;
 		
 /*
