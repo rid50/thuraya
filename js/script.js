@@ -738,9 +738,12 @@ function getUserIdentities(url, json, func) {
 			//data.d.Data[0].Groups.length;
 			//loginName = data.d.Data[0].LoginName;
 			//displayName = data.d.Data[0].DisplayName;
-			if (data.constructor == Array) {
+			if (data && data.constructor == Array) {
 				if (data[0].error != undefined) {
-					alert (data[0].error);
+					if (data[0].error == "1008")
+						alert((jQuery.i18n.prop("UserDoesNotExist")).format(json[0].loginName));
+					else
+						alert(data[0].error);
 					return;
 				}
 			}
