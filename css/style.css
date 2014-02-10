@@ -171,8 +171,12 @@ a:hover {
 }
 
 .customBody {
-	background-image: url(../images/bg.png);
-	background-repeat:no-repeat;
+	//background: url(../images/bg.png) no-repeat left bottom fixed; 
+	//-webkit-background-size: cover;
+	//-moz-background-size: cover;
+	//-o-background-size: cover;
+	//background-size: cover;	
+	
 	height: 550px;
 	min-height: 550px;
 	border-color:#bbbbbb;

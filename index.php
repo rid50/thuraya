@@ -261,6 +261,7 @@ if ($idp == "SAML") {
 	<!--div class="customBottom"></div-->
 </div>
 </form>
+</body>
 
 <ul class='hiddenTemplate' style="display:none">
 	<li id="TemplateListItems">
