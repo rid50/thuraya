@@ -36,6 +36,7 @@ var activeTab_enum = {
 var idp, idpSource;
 var documentSource;
 var lang;
+var searchInterval;
 
 var userInfo;
 
@@ -51,7 +52,6 @@ var asyncSuccess;
 var areaNames;
 //var selectedAreaId = null;
 //var filter;
-var searchInterval;
 
 //first, checks if it isn't implemented yet
 if (!String.prototype.format) {
