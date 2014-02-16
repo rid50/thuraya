@@ -91,6 +91,10 @@ fieldset.checkers {
 	font-size:1.1em
 }
 
+.gridAltRows {
+	background: #eee;
+}
+
 //#newForm  { z-index: 80; }
 #newForm table { width: 540px }
 #newForm { padding: 20px}
@@ -663,10 +667,6 @@ background: url('result.png');
 	margin-top:8px;
 	margin-left:20px;
 	width:2px;
-}
-
-.gridAltRows {
-	background: #eee;
 }
 
 /*
