@@ -35,7 +35,7 @@ if ($idp == "SAML") {
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=9" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	
     <title>Ministry of Electricity and Water</title>
     
@@ -46,6 +46,7 @@ if ($idp == "SAML") {
 	<link rel="stylesheet" media="all" href="css/ui.jqgrid.css" />	
     <link rel="stylesheet" media="screen" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" media="print" type="text/css" href="css/style.css"/>
+	
     <!--script src="js/jquery-1.9.1.min.js" type="text/javascript"></script-->
     <script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
     
