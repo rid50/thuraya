@@ -371,7 +371,8 @@ CheckupGrid = {
 			} else if (customSearchReset == 'customReset') {
 				if ($('#grid').jqGrid('getGridParam' ,'postData' ) != undefined) {
 					var par = jQuery('#grid').jqGrid('getGridParam' ,'postData');
-					delete par.param.filter;
+					if (par.param != undefined && par.param.filter != undefined)
+						delete par.param.filter;
 					jQuery("#grid").trigger("reloadGrid");
 				}
 			}
