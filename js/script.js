@@ -2186,6 +2186,7 @@ this.checkupFormDialog = function(that, action) {
 
 					var i = 1;
 					result.forEach(function(r) {
+						//$("<option>").val(r.id).text(r.ch_name).appendTo(selectTag);
 						selectTag.append('<option value="' + r.id + '">' + r.ch_name + '</option>');
 						if (onGoingCheckupResult[0].length != 0 && r.id == onGoingCheckupResult[0][0][name])
 							selectTag.prop('selectedIndex', i);
