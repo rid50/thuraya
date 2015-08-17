@@ -8,7 +8,8 @@ class DatabaseRepository {
 	public function __construct() {
 		date_default_timezone_set('Asia/Kuwait');
 		//date_default_timezone_set('UTC');
-		$domain = 'mew';
+		$ini = parse_ini_file("config.ini", true);
+		$domain = $ini["defaultDomain"];		
 		if ($_SERVER["USERDOMAIN"] != null && (strtolower($_SERVER["USERDOMAIN"]) == "mew" || strtolower($_SERVER["USERDOMAIN"]) == "adeliya"))
 			$domain = strtolower($_SERVER["USERDOMAIN"]);
 			
