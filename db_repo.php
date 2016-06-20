@@ -9,7 +9,8 @@ class DatabaseRepository {
 		date_default_timezone_set('Asia/Kuwait');
 		//date_default_timezone_set('UTC');
 		$ini = parse_ini_file("config.ini", true);
-		$domain = $ini["defaultDomain"];		
+		$domain = $ini["defaultDomain"];
+		//$domain = 'mew';		
 		if ($_SERVER["USERDOMAIN"] != null && (strtolower($_SERVER["USERDOMAIN"]) == "mew" || strtolower($_SERVER["USERDOMAIN"]) == "adeliya"))
 			$domain = strtolower($_SERVER["USERDOMAIN"]);
 			
@@ -207,7 +208,8 @@ class DatabaseRepository {
 				//if ($param['filter'][approver] != null)
 				//	$param['filter'][approver] = null;
 			} else {
-				$where = " date(date_ins) BETWEEN '$dtFrom' AND '$dtTo'";
+				//$where = " date(date_ins) BETWEEN '$dtFrom' AND '$dtTo'";
+				$where = " (date(check_3_dt) BETWEEN '$dtFrom' AND '$dtTo' AND result_3 = 1) OR (date(check_2_dt) BETWEEN '$dtFrom' AND '$dtTo' AND result_2 = 1) OR (date(check_1_dt) BETWEEN '$dtFrom' AND '$dtTo' AND result_1 = 1)";
 				if ($param['filter']['areaId'] != null)
 					$where .= " AND area_id = '{$param['filter']['areaId']}'";
 				if ($param['filter']['block'] != null)
