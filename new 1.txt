@@ -1,0 +1,15 @@
+Dim FlagTable As System.Collections.Hashtable
+Dim Flag AS Integer
+Function MyFunc(ByVal NewValue As Object) As Integer
+	If (FlagTable Is Nothing) Then
+		FlagTable = New System.Collections.Hashtable
+	End If
+	If (NewValue Is Nothing) Then
+		NewValue = "-"
+	End If
+	If (Not FlagTable .Contains(NewValue )) Then
+		Flag =Flag + 1
+		FlagTable.Add(NewValue, nothing)
+	End If
+	MyFunc = Flag
+End Function

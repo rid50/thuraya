@@ -1,6 +1,14 @@
 <?php
-session_start();
-require_once('c:/simplesaml/lib/_autoload.php');
+if(!isset($_SESSION['ini_lang']) || empty($_SESSION['ini_lang'])) {
+	session_start();
+}
+
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+	require_once('c:/simplesaml/lib/_autoload.php');
+else
+	require_once('/var/www/simplesamlphp/lib/_autoload.php');
+
+//require_once('c:/simplesaml/lib/_autoload.php');
 //require_once('/var/www/html/simplesamlphp/lib/_autoload.php');
 
 //require_once('/home/y...../public_html/simplesamlphp/lib/_autoload.php');
@@ -11,7 +19,9 @@ $ini = parse_ini_file("config.ini");
 $idp = $ini["IdP"];
 $idpSource = $ini["IdPSource"];
 
-$_SESSION['ini_lang'] = $ini["lang"];
+//SimpleSAML\Logger::info('SESSION_1:' . print_r($_SESSION, TRUE));
+
+//$_SESSION['ini_lang'] = $ini["lang"];
 
 //throw new Exception(http_negotiate_language(array('en-US', 'ar-KW')));
 //throw new Exception($_SERVER['HTTP_ACCEPT_LANGUAGE']);
@@ -20,12 +30,20 @@ $_SESSION['ini_lang'] = $ini["lang"];
 
 if ($idp == "SAML") {
 	if ($idpSource == "DB")
-		$as = new SimpleSAML_Auth_Simple('mewSQLAuth');
+		$as = new SimpleSAML\Auth\Simple('mewSQLAuth');
 	else
-		$as = new SimpleSAML_Auth_Simple('mewADAuth');
+		$as = new SimpleSAML\Auth\Simple('mewADAuth');
 		
-	$as->requireAuth();
-	$attributes = $as->getAttributes();
+	if (!$as->isAuthenticated ()) {  // Replaces current session with the SimpleSAMLphp one
+		$_SESSION['ini_lang'] = $ini["lang"];
+		//SimpleSAML\Logger::info('SESSION_2:' . print_r($_SESSION, TRUE));
+		$as->requireAuth();
+		//$attributes = $as->getAttributes();
+		//$url = $url . '?loginName=' . $attributes["LoginName"];
+		//$_SESSION['loginName'] = $attributes["LoginName"];
+	}
+
+	//$attributes = $as->getAttributes();
 	//$url = $url . '?loginName=' . $attributes["LoginName"];
 	//$_SESSION['loginName'] = $attributes["LoginName"];
 }

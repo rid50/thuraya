@@ -1,0 +1,7 @@
+31.220.17.215 
+212.1.208.183
+
+I have the added user to my database
+it is yarussor_rid50
+but phpMyAdmin operates on behalf of yarussor@localhost
+how can I login to phpMyadmin with yarussor_rid50?

@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 class DatabaseRepository {
 	private $dsn;
 	private $username;
@@ -324,7 +326,7 @@ class DatabaseRepository {
 			throw new Exception('Failed to execute/prepare query: ' . $e->getMessage());
 		}
 		$r = $ds->fetch(PDO::FETCH_ASSOC);
-		$userdata = array('total_new' => $r[load_new], 'total_old' => $r[load_old], 'total' => $r[total]);
+		$userdata = array('total_new' => $r['load_new'], 'total_old' => $r['load_old'], 'total' => $r['total']);
 		
 		try {
 			$st = "SELECT COUNT(*) AS count FROM check_form";
@@ -434,6 +436,10 @@ class DatabaseRepository {
 		return $this->result;
 	}
 
+	function DateTimeGetLastErrors() {
+		return is_array(DateTime::getLastErrors()) ? DateTime::getLastErrors()['warning_count'] > 0 : false;
+	}
+
 	public function getOngoingCheckup($param) {
 		$dbh = $this->connect(isset($param['dbName']) ? $param['dbName'] : '');
 		
@@ -454,19 +460,19 @@ class DatabaseRepository {
 			$timestamp = strtotime($r['date_ins']);
 			$r['date_ins'] = date('d/m/Y', $timestamp);
 			//$r['date_ins'] = DateTime::createFromFormat('Y-m-d', $r['date_ins'])->format('d/m/Y');
-			if( DateTime::getLastErrors()['warning_count'] > 0 )
+			if( $this->DateTimeGetLastErrors() )
 				$r['date_ins'] = "";
 
 			$r['check_1_dt'] = DateTime::createFromFormat('Y-m-d', $r['check_1_dt'])->format('d/m/Y');
-			if( DateTime::getLastErrors()['warning_count'] > 0 )
+			if( $this->DateTimeGetLastErrors() )
 				$r['check_1_dt'] = "";
 				
 			$r['check_2_dt'] = DateTime::createFromFormat('Y-m-d', $r['check_2_dt'])->format('d/m/Y');
-			if( DateTime::getLastErrors()['warning_count'] > 0 )
+			if( $this->DateTimeGetLastErrors() )
 				$r['check_2_dt'] = "";
 
 			$r['check_3_dt'] = DateTime::createFromFormat('Y-m-d', $r['check_3_dt'])->format('d/m/Y');
-			if( DateTime::getLastErrors()['warning_count'] > 0 )
+			if( $this->DateTimeGetLastErrors() )
 				$r['check_3_dt'] = "";
 
 			$result[] = (object)$r;

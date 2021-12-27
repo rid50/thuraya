@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [{
+        "label": "Php",
+        "command": "C:/php/php.exe",
+        "args": [
+            "-S", "127.0.0.1:8080",
+            "-t", "${workspaceRoot}"
+        ]
+    }]
+}

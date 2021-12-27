@@ -1,6 +1,6 @@
 <?php
 require('db_repo.php');
-session_start();
+//session_start();
 
 $param = null;
 if (isset($_POST['func'])) {

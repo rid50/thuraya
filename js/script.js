@@ -288,16 +288,19 @@ $(document).ready(function () {
 		//$("#date_submission").datepicker( "option", "dateFormat", "dd/mm/yy" );
 
 		//$("#datepicker").datepicker( "setDate", "25/04/2013" );
-		
-		if (localStorage.getItem("dateFrom") == null)
-			$("#datepicker").datepicker( "setDate", "-" + searchInterval + "m" );
-		else
-			$("#datepicker").datepicker( "setDate", localStorage.getItem("dateFrom") );
 
-		if (localStorage.getItem("dateTo") == null)
-			$("#datepicker2").datepicker( "setDate", "now" );
-		else
-			$("#datepicker2").datepicker( "setDate", localStorage.getItem("dateTo") );
+		$("#datepicker").datepicker( "setDate", "04/05/2009" );
+		$("#datepicker2").datepicker( "setDate", "04/05/2014" );
+
+		// if (localStorage.getItem("dateFrom") == null)
+		// 	$("#datepicker").datepicker( "setDate", "-" + searchInterval + "y" );
+		// else
+		// 	$("#datepicker").datepicker( "setDate", localStorage.getItem("dateFrom") );
+
+		// if (localStorage.getItem("dateTo") == null)
+		// 	$("#datepicker2").datepicker( "setDate", "now" );
+		// else
+		// 	$("#datepicker2").datepicker( "setDate", localStorage.getItem("dateTo") );
 			
 		$('input[id="datepicker"], input[id="datepicker2"]').change(function() {
 			var regExpPattern = /^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\d\d$/;

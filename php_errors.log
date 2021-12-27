@@ -1,0 +1,16 @@
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP Warning:  Undefined array key "filter" in C:\tamdidat\db_repo.php on line 499
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP Stack trace:
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP   1. {main}() C:\tamdidat\print_doc.php:0
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP   2. DatabaseRepository->byFileNumber($param = ['docFileNumber' => '']) C:\tamdidat\print_doc.php:15
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP   3. DatabaseRepository->get($param = ['docFileNumber' => '']) C:\tamdidat\db_repo.php:693
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP Warning:  Trying to access array offset on value of type null in C:\tamdidat\db_repo.php on line 499
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP Stack trace:
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP   1. {main}() C:\tamdidat\print_doc.php:0
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP   2. DatabaseRepository->byFileNumber($param = ['docFileNumber' => '']) C:\tamdidat\print_doc.php:15
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP   3. DatabaseRepository->get($param = ['docFileNumber' => '']) C:\tamdidat\db_repo.php:693
+[27-Dec-2021 17:02:30 Asia/Kuwait] PHP Fatal error:  Uncaught Error: Call to a member function format() on bool in C:\tamdidat\db_repo.php:499
+Stack trace:
+#0 C:\tamdidat\db_repo.php(693): DatabaseRepository->get(Array)
+#1 C:\tamdidat\print_doc.php(15): DatabaseRepository->byFileNumber(Array)
+#2 {main}
+  thrown in C:\tamdidat\db_repo.php on line 499
